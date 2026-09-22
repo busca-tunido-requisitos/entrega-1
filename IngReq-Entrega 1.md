@@ -1,10 +1,13 @@
 # Ingeniería de Requisitos — Entrega 1
 
 ## Equipo
-- José Ignacio Leiva — Responsable Ev1: [01-proceso-as-is.md](./01-proceso-as-is.md) y [02-rediseno-to-be.md](./02-rediseno-to-be.md) (`JoseIgnacioGC`)
-- Martín León Pizarro — Responsable Ev1: [03-requisitos.md](./03-requisitos.md) (`PugconBeer`)
-- Vicente Arancibia Araya — Responsable Ev1: [04-historias-usuario.md](./04-historias-usuario.md) (`Vicente-Arancibia-Araya`)
-- Integrante 4 — Responsable Ev1: [05-elicitacion.md](./05-elicitacion.md) y [06-atributos-calidad.md](./06-atributos-calidad.md) (`Ginger110`)
+| Integrante | Usuario GitHub | Entregable asignado (Responsabilidad Ev1) |
+|---|---|---|
+| José Ignacio Leiva | [`JoseIgnacioGC`](https://github.com/JoseIgnacioGC) | [01-proceso-as-is.md](./01-proceso-as-is.md) y [02-rediseno-to-be.md](./02-rediseno-to-be.md) |
+| Martín León Pizarro | [`PugconBeer`](https://github.com/PugconBeer) | [03-requisitos.md](./03-requisitos.md) |
+| Vicente Arancibia Araya | [`Vicente-Arancibia-Araya`](https://github.com/Vicente-Arancibia-Araya) | [04-historias-usuario.md](./04-historias-usuario.md) |
+| Jason Monroy | [`Ginger110`](https://github.com/Ginger110) | [05-elicitacion.md](./05-elicitacion.md) |
+| Matías Henríquez | [`MatiasHBkn`](https://github.com/MatiasHBkn) | [06-atributos-calidad.md](./06-atributos-calidad.md) |
 
 ## Proyecto
 BuscaTuNido es una plataforma web universitaria orientada a resolver la informalidad y dispersión en la búsqueda y gestión de pensiones para estudiantes de educación superior. El sistema permite a los propietarios publicar ofertas estandarizadas con información transparente de precios, servicios básicos incluidos y normas de convivencia, mientras que los estudiantes foráneos pueden explorar, filtrar por cercanía a su facultad y formalizar solicitudes de reserva confiables.
