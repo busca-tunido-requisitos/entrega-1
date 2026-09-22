@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_AS_IS"
+                  targetNamespace="http://bpmn.io/schema/bpmn"
+                  exporter="Camunda Modeler"
+                  exporterVersion="5.0.0">
+  <bpmn:collaboration id="Collaboration_AS_IS">
+    <bpmn:participant id="Participant_ArriendoTradicional" name="Proceso de Arriendo Tradicional de Pensión Universitaria (AS-IS)" processRef="Process_ArriendoTradicional" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_ArriendoTradicional" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_AS_IS">
+      <bpmn:lane id="Lane_Estudiante" name="Estudiante Universitario">
+        <bpmn:flowNodeRef>StartEvent_NecesidadAlojamiento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BuscarAfiches</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ContactarDueno</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EvaluarFotos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_InteresaOpcion</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CoordinarVisita</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PagarGarantia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_DescarteEstudiante</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Dueno" name="Dueño de Pensión (Arrendador)">
+        <bpmn:flowNodeRef>Task_ResponderMensaje</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AnotarCitaCuaderno</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_MostrarHabitacion</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AcuerdoMutuo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistrarReservaManual</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SinAcuerdo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_ArriendoConcretado</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="StartEvent_NecesidadAlojamiento" name="Necesidad de alojamiento universitario">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:manualTask id="Task_BuscarAfiches" name="Buscar afiches y avisos en inmediaciones universitarias">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:userTask id="Task_ContactarDueno" name="Contactar al dueño por mensajería (WhatsApp)">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="Task_ResponderMensaje" name="Responder mensaje y enviar fotografías del inmueble">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="Task_EvaluarFotos" name="Evaluar fotografías y condiciones informales">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="Gateway_InteresaOpcion" name="¿Interesa la pensión?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_Interesa_Si</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Interesa_No</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_DescarteEstudiante" name="Opción descartada">
+      <bpmn:incoming>Flow_Interesa_No</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:manualTask id="Task_CoordinarVisita" name="Coordinar visita presencial al inmueble">
+      <bpmn:incoming>Flow_Interesa_Si</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:manualTask id="Task_AnotarCitaCuaderno" name="Anotar cita de visita en cuaderno de postulantes">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:manualTask id="Task_MostrarHabitacion" name="Mostrar habitación y explicar normas de convivencia">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:exclusiveGateway id="Gateway_AcuerdoMutuo" name="¿Hay acuerdo mutuo de arriendo?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_Acuerdo_Si</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Acuerdo_No</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_SinAcuerdo" name="Sin acuerdo de arriendo">
+      <bpmn:incoming>Flow_Acuerdo_No</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:manualTask id="Task_PagarGarantia" name="Efectuar pago en efectivo o transferencia de garantía">
+      <bpmn:incoming>Flow_Acuerdo_Si</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:manualTask id="Task_RegistrarReservaManual" name="Registrar reserva manual y entregar llaves">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:manualTask>
+
+    <bpmn:endEvent id="EndEvent_ArriendoConcretado" name="Habitación arrendada tradicionalmente">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_NecesidadAlojamiento" targetRef="Task_BuscarAfiches" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_BuscarAfiches" targetRef="Task_ContactarDueno" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_ContactarDueno" targetRef="Task_ResponderMensaje" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_ResponderMensaje" targetRef="Task_EvaluarFotos" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_EvaluarFotos" targetRef="Gateway_InteresaOpcion" />
+    <bpmn:sequenceFlow id="Flow_Interesa_Si" name="Sí" sourceRef="Gateway_InteresaOpcion" targetRef="Task_CoordinarVisita" />
+    <bpmn:sequenceFlow id="Flow_Interesa_No" name="No" sourceRef="Gateway_InteresaOpcion" targetRef="EndEvent_DescarteEstudiante" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_CoordinarVisita" targetRef="Task_AnotarCitaCuaderno" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_AnotarCitaCuaderno" targetRef="Task_MostrarHabitacion" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_MostrarHabitacion" targetRef="Gateway_AcuerdoMutuo" />
+    <bpmn:sequenceFlow id="Flow_Acuerdo_Si" name="Sí" sourceRef="Gateway_AcuerdoMutuo" targetRef="Task_PagarGarantia" />
+    <bpmn:sequenceFlow id="Flow_Acuerdo_No" name="No" sourceRef="Gateway_AcuerdoMutuo" targetRef="EndEvent_SinAcuerdo" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_PagarGarantia" targetRef="Task_RegistrarReservaManual" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_RegistrarReservaManual" targetRef="EndEvent_ArriendoConcretado" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_AS_IS">
+    <bpmndi:BPMNPlane id="BPMNPlane_AS_IS" bpmnElement="Collaboration_AS_IS">
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_ArriendoTradicional" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1380" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Estudiante" bpmnElement="Lane_Estudiante" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1350" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Dueno" bpmnElement="Lane_Dueno" isHorizontal="true">
+        <dc:Bounds x="190" y="290" width="1350" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartEvent" bpmnElement="StartEvent_NecesidadAlojamiento">
+        <dc:Bounds x="230" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_BuscarAfiches" bpmnElement="Task_BuscarAfiches">
+        <dc:Bounds x="300" y="130" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ContactarDueno" bpmnElement="Task_ContactarDueno">
+        <dc:Bounds x="440" y="130" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ResponderMensaje" bpmnElement="Task_ResponderMensaje">
+        <dc:Bounds x="440" y="340" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EvaluarFotos" bpmnElement="Task_EvaluarFotos">
+        <dc:Bounds x="580" y="130" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_GatewayInteresa" bpmnElement="Gateway_InteresaOpcion" isMarkerVisible="true">
+        <dc:Bounds x="725" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndDescarte" bpmnElement="EndEvent_DescarteEstudiante">
+        <dc:Bounds x="732" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CoordinarVisita" bpmnElement="Task_CoordinarVisita">
+        <dc:Bounds x="820" y="130" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AnotarCitaCuaderno" bpmnElement="Task_AnotarCitaCuaderno">
+        <dc:Bounds x="820" y="340" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MostrarHabitacion" bpmnElement="Task_MostrarHabitacion">
+        <dc:Bounds x="960" y="340" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_GatewayAcuerdo" bpmnElement="Gateway_AcuerdoMutuo" isMarkerVisible="true">
+        <dc:Bounds x="1105" y="355" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndSinAcuerdo" bpmnElement="EndEvent_SinAcuerdo">
+        <dc:Bounds x="1112" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PagarGarantia" bpmnElement="Task_PagarGarantia">
+        <dc:Bounds x="1190" y="130" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RegistrarReserva" bpmnElement="Task_RegistrarReservaManual">
+        <dc:Bounds x="1330" y="340" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndConcretado" bpmnElement="EndEvent_ArriendoConcretado">
+        <dc:Bounds x="1472" y="362" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
