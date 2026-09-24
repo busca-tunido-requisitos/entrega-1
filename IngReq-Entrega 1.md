@@ -12,7 +12,7 @@
 
 ## Proyecto
 
-**BuscaTuNido** es una plataforma colaborativa y mobile-first diseñada para transformar y transparentar el arriendo de habitaciones en pensiones universitarias en Chile. Permite a los estudiantes explorar alojamientos filtrando por cercanía geodésica a sus facultades, rangos de precio con histograma dinámico, normas de convivencia y reseñas auditadas por pares con correo institucional. Asimismo, empodera a los dueños de pensiones con un panel móvil para controlar la ocupación de sus habitaciones en tiempo real, configurar reglas claras y gestionar colaborativamente los datos de sus propiedades.
+**BuscaTuNido** es una plataforma colaborativa y mobile-first diseñada para transformar y transparentar la búsqueda y reserva de habitaciones en pensiones universitarias en Chile. Permite a los estudiantes explorar alojamientos filtrando por cercanía geodésica a sus facultades, rangos de precio, normas de convivencia y enviar solicitudes formales de reserva con sugerencia automática de alternativas en caso de no disponibilidad. Asimismo, empodera a los dueños de pensiones con una aplicación móvil para gestionar solicitudes con notificaciones push en tiempo real, resolver postulaciones con un toque, bloquear cupos automáticamente y coordinar la llegada de los residentes por chat directo.
 
 ## Índice de documentos
 
