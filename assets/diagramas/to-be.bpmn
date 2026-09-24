@@ -3,6 +3,7 @@
                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   id="Definitions_TO_BE"
                   targetNamespace="http://bpmn.io/schema/bpmn"
                   exporter="Camunda Modeler"
@@ -29,11 +30,6 @@
       </bpmn:lane>
     </bpmn:laneSet>
     
-    <bpmn:startEvent id="Start_Dueno_TOBE" name="Vacancia o cambio" />
-    <bpmn:userTask id="ACT_TOBE_01" name="ACT-TOBE-01: Conmutar disponibilidad de habitación en app móvil" />
-    <bpmn:serviceTask id="ACT_TOBE_02" name="ACT-TOBE-02: Actualizar catálogo y recalcular ocupación" />
-    <bpmn:endEvent id="End_Dueno_TOBE" name="Oferta actualizada" />
-    
     <bpmn:startEvent id="Start_Estudiante_TOBE" name="Busca pensión" />
     <bpmn:userTask id="ACT_TOBE_03" name="ACT-TOBE-03: Filtrar catálogo por campus, precio y normas" />
     <bpmn:userTask id="ACT_TOBE_04" name="ACT-TOBE-04: Consultar ficha con fotos, reglas y WhatsApp directo" />
@@ -41,5 +37,115 @@
     <bpmn:userTask id="ACT_TOBE_06" name="ACT-TOBE-06: Publicar reseña comunitaria post-estadía" />
     <bpmn:serviceTask id="ACT_TOBE_07" name="ACT-TOBE-07: Validar correo institucional y actualizar calificación" />
     <bpmn:endEvent id="End_Estudiante_TOBE" name="Estadía evaluada" />
+    
+    <bpmn:startEvent id="Start_Dueno_TOBE" name="Vacancia o cambio" />
+    <bpmn:userTask id="ACT_TOBE_01" name="ACT-TOBE-01: Conmutar disponibilidad de habitación en app móvil" />
+    <bpmn:serviceTask id="ACT_TOBE_02" name="ACT-TOBE-02: Actualizar catálogo y recalcular ocupación" />
+    <bpmn:endEvent id="End_Dueno_TOBE" name="Oferta actualizada" />
+    
+    <bpmn:sequenceFlow id="f_e1" sourceRef="Start_Estudiante_TOBE" targetRef="ACT_TOBE_03" />
+    <bpmn:sequenceFlow id="f_e2" sourceRef="ACT_TOBE_03" targetRef="ACT_TOBE_04" />
+    <bpmn:sequenceFlow id="f_e3" sourceRef="ACT_TOBE_04" targetRef="ACT_TOBE_05" />
+    <bpmn:sequenceFlow id="f_e4" sourceRef="ACT_TOBE_05" targetRef="ACT_TOBE_06" />
+    <bpmn:sequenceFlow id="f_e5" sourceRef="ACT_TOBE_06" targetRef="ACT_TOBE_07" />
+    <bpmn:sequenceFlow id="f_e6" sourceRef="ACT_TOBE_07" targetRef="End_Estudiante_TOBE" />
+    
+    <bpmn:sequenceFlow id="f_d1" sourceRef="Start_Dueno_TOBE" targetRef="ACT_TOBE_01" />
+    <bpmn:sequenceFlow id="f_d2" sourceRef="ACT_TOBE_01" targetRef="ACT_TOBE_02" />
+    <bpmn:sequenceFlow id="f_d3" sourceRef="ACT_TOBE_02" targetRef="End_Dueno_TOBE" />
   </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_TO_BE">
+      <bpmndi:BPMNShape id="Participant_TO_BE_di" bpmnElement="Participant_TO_BE" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1120" height="440" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Estudiante_TOBE_di" bpmnElement="Lane_Estudiante_TOBE" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1090" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Dueno_TOBE_di" bpmnElement="Lane_Dueno_TOBE" isHorizontal="true">
+        <dc:Bounds x="190" y="300" width="1090" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Estudiante_TOBE_di" bpmnElement="Start_Estudiante_TOBE">
+        <dc:Bounds x="230" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="212" y="215" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_03_di" bpmnElement="ACT_TOBE_03">
+        <dc:Bounds x="310" y="150" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_04_di" bpmnElement="ACT_TOBE_04">
+        <dc:Bounds x="480" y="150" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_05_di" bpmnElement="ACT_TOBE_05">
+        <dc:Bounds x="650" y="150" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_06_di" bpmnElement="ACT_TOBE_06">
+        <dc:Bounds x="820" y="150" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_07_di" bpmnElement="ACT_TOBE_07">
+        <dc:Bounds x="990" y="150" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Estudiante_TOBE_di" bpmnElement="End_Estudiante_TOBE">
+        <dc:Bounds x="1160" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1136" y="215" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Dueno_TOBE_di" bpmnElement="Start_Dueno_TOBE">
+        <dc:Bounds x="230" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="220" y="435" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_01_di" bpmnElement="ACT_TOBE_01">
+        <dc:Bounds x="310" y="370" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ACT_TOBE_02_di" bpmnElement="ACT_TOBE_02">
+        <dc:Bounds x="480" y="370" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Dueno_TOBE_di" bpmnElement="End_Dueno_TOBE">
+        <dc:Bounds x="650" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="640" y="435" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f_e1_di" bpmnElement="f_e1">
+        <di:waypoint x="266" y="190" />
+        <di:waypoint x="310" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_e2_di" bpmnElement="f_e2">
+        <di:waypoint x="430" y="190" />
+        <di:waypoint x="480" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_e3_di" bpmnElement="f_e3">
+        <di:waypoint x="600" y="190" />
+        <di:waypoint x="650" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_e4_di" bpmnElement="f_e4">
+        <di:waypoint x="770" y="190" />
+        <di:waypoint x="820" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_e5_di" bpmnElement="f_e5">
+        <di:waypoint x="940" y="190" />
+        <di:waypoint x="990" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_e6_di" bpmnElement="f_e6">
+        <di:waypoint x="1110" y="190" />
+        <di:waypoint x="1160" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_d1_di" bpmnElement="f_d1">
+        <di:waypoint x="266" y="410" />
+        <di:waypoint x="310" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_d2_di" bpmnElement="f_d2">
+        <di:waypoint x="430" y="410" />
+        <di:waypoint x="480" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_d3_di" bpmnElement="f_d3">
+        <di:waypoint x="600" y="410" />
+        <di:waypoint x="650" y="410" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </bpmn:definitions>
