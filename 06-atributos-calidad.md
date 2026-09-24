@@ -1,43 +1,69 @@
-# Atributos de calidad (ISO 25010)
+# Atributos de calidad (ISO/IEC 25010:2023)
 
 ## Priorización de los 9 atributos de primer nivel
-1. **Usabilidad (Usability)**: Máxima prioridad. La plataforma debe ser accesible e intuitiva tanto para estudiantes universitarios como para dueños de pensión (muchos de ellos adultos mayores con distintas competencias tecnológicas), asegurando que la publicación y búsqueda de alojamientos no requieran capacitación previa.
-2. **Adecuación Funcional (Functional Suitability)**: Segunda prioridad. Garantiza que el conjunto de funciones provistas (filtros de distancia a sedes, desglose obligatorio de servicios básicos, flujo de postulación y emisión de comprobantes) satisfaga de manera completa y correcta las necesidades declaradas por los usuarios.
-3. **Seguridad (Security)**: Tercera prioridad. Protección estricta de datos personales de contacto, mitigación de suplantación de identidad mediante verificación de correos institucionales universitarios y prevención de estafas en ofertas habitacionales.
-4. **Rendimiento y Eficiencia de Desempeño (Performance Efficiency)**: Capacidad de respuesta veloz en la carga del catálogo geolocalizado y optimización en la entrega de galerías fotográficas bajo conexiones móviles.
-5. **Fiabilidad (Reliability)**: Alta disponibilidad operativa y tolerancia a fallos, particularmente crítica durante los meses peak de matrícula universitaria y búsqueda de arriendo (enero a marzo).
-6. **Mantenibilidad (Maintainability)**: Modularidad y claridad arquitectónica del código para facilitar la incorporación de futuras capacidades (como sistema de reputación o firmas digitales) sin degradar el núcleo.
-7. **Compatibilidad (Compatibility)**: Coexistencia adecuada con múltiples navegadores y capacidad de interoperar con servicios externos de geocodificación y cartografía digital.
-8. **Portabilidad (Portability)**: Diseño responsive adaptable a dispositivos móviles (smartphones de distintas resoluciones) y ordenadores de escritorio.
-9. **Flexibilidad e Inclusividad (Flexibility)**: Adaptabilidad del sistema ante variaciones en normativas de convivencia o modalidades de arriendo (año corrido vs. arriendo marzo-diciembre).
+
+De acuerdo con la edición vigente del estándar **ISO/IEC 25010:2023**, se priorizan las nueve características de calidad de producto según las necesidades del contexto operativo de **BuscaTuNido** (estudiantes universitarios móviles y arrendadores particulares):
+
+1. **Capacidad de interacción (Interaction Capability):**  
+   *Justificación de máxima prioridad:* Es el factor determinante para el éxito de la plataforma. La mayoría de los dueños de pensiones son adultos mayores sin formación técnica avanzada que requieren una interfaz extremadamente simple y accesible desde el smartphone para cambiar estados de habitaciones, mientras que los estudiantes universitarios acceden en un 95% desde dispositivos móviles en movimiento.
+2. **Seguridad (Security):**  
+   *Justificación:* El sistema gestiona identidades de estudiantes, números de WhatsApp y control de propiedades privadas. Es imperativo asegurar el control de acceso estricto basado en roles (RBAC) para impedir que un usuario no autorizado manipule habitaciones o apruebe propuestas de pensiones ajenas, así como proteger la integridad del sello de residente verificado.
+3. **Eficiencia de desempeño (Performance Efficiency):**  
+   *Justificación:* La experiencia de búsqueda depende de la fluidez del mapa, la interactividad del histograma de precios de 28 barras y la inmediatez del filtrado geodésico. Si la respuesta de la API o el renderizado móvil tardan más de un par de segundos, el estudiante abandonará la plataforma.
+4. **Fiabilidad (Reliability):**  
+   *Justificación:* La plataforma experimenta picos críticos de demanda durante las semanas previas al inicio de cada semestre académico (febrero-marzo y julio-agosto). Debe garantizar alta disponibilidad y tolerancia a fallos en esos periodos de alta concurrencia.
+5. **Adecuación funcional (Functional Suitability):**  
+   *Justificación:* El software debe cumplir con exactitud las funciones comprometidas: filtrado multicriterio, conmutación de cupos de piezas, publicación de opiniones y tramitación de propuestas de corrección.
+6. **Mantenibilidad (Maintainability):**  
+   *Justificación:* La arquitectura modular (NestJS en backend y Next.js en frontend) debe permitir incorporar nuevas funcionalidades futuras (ej. postulaciones de pensiones comunitarias) con mínimo impacto en el código existente.
+7. **Flexibilidad (Flexibility):**  
+   *Justificación:* Capacidad de la interfaz web para operar de forma responsiva en diversas resoluciones de pantallas (desde teléfonos compactos de 360 px hasta monitores de escritorio).
+8. **Compatibilidad (Compatibility):**  
+   *Justificación:* Capacidad de interoperar transparentemente con servicios cartográficos, navegadores estándar y esquemas de apertura externa (ej. deep links a WhatsApp).
+9. **Inocuidad (Safety):**  
+   *Justificación:* Ocupa la menor prioridad relativa en este dominio de negocio, dado que una falla o indisponibilidad en la aplicación web no compromete directamente la integridad física de las personas, vidas humanas ni instalaciones industriales críticas.
 
 ---
 
-## Métricas de los 3 atributos más importantes
+## Métricas de los 3 atributos más importantes (ISO/IEC 25023)
 
-### 1. Usabilidad
-- **Métrica: Tasa de Éxito en la Realización de Tareas Clave (Task Completion Rate - TCR)**
-  - **Definición**: Porcentaje de usuarios que logran completar de forma autónoma y sin errores críticos los flujos principales del sistema (publicar una pensión completa o enviar una solicitud formal de reserva).
-  - **Fórmula de cálculo**:  
-    $$\text{TCR} = \left( \frac{\text{Número de tareas completadas exitosamente}}{\text{Número total de intentos de tarea}} \right) \times 100$$
-  - **Unidad de medida**: Porcentaje (%).
-  - **Método de medición**: Pruebas de usabilidad con muestra de 10 usuarios representativos (5 estudiantes foráneos y 5 arrendadores de pensión) cronometrando el flujo guiado.
-  - **Umbral de aceptación**: $\ge 90\%$ de éxito en el primer intento sin asistencia externa.
+Para cuantificar las tres características principales, se definen medidas verificables basadas en el estándar complementario **ISO/IEC 25023**:
 
-### 2. Adecuación Funcional
-- **Métrica: Ratio de Completitud Funcional y Exactitud de Filtrado (Functional Completeness & Accuracy Ratio - FCAR)**
-  - **Definición**: Proporción de requisitos funcionales críticos especificados que se encuentran implementados y operando sin discrepancias contra los casos de prueba de aceptación.
-  - **Fórmula de cálculo**:  
-    $$\text{FCAR} = \left( \frac{\text{Requisitos funcionales verificados conformes}}{\text{Total de requisitos funcionales especificados}} \right) \times 100$$
-  - **Unidad de medida**: Porcentaje (%).
-  - **Método de medición**: Ejecución de la matriz de trazabilidad y suites de pruebas de aceptación (historias de usuario HU-01 a HU-05 y RP-01 a RP-08).
-  - **Umbral de aceptación**: $100\%$ de los requisitos funcionales calificados como obligatorios deben estar completamente operativos.
+### 1. Capacidad de interacción — Subcaracterística: Operabilidad y Facilidad de Aprendizaje (Learnability)
 
-### 3. Seguridad
-- **Métrica: Índice de Exposición No Autorizada de Datos Personales (Unauthorized Data Exposure Rate - UDER)**
-  - **Definición**: Frecuencia de incidentes o peticiones en las que datos personales sensibles de contacto (teléfono celular, correo personal o dirección exacta de la habitación) se revelen a usuarios no autenticados o que no cuenten con una solicitud formal aceptada.
-  - **Fórmula de cálculo**:  
-    $$\text{UDER} = \left( \frac{\text{Peticiones con fuga de datos de contacto no autorizada}}{\text{Total de consultas a endpoints de pensión}} \right) \times 100$$
-  - **Unidad de medida**: Porcentaje (%).
-  - **Método de medición**: Auditoría de seguridad y pruebas de penetración automáticas sobre las respuestas de la API pública y vistas del catálogo.
-  - **Umbral de aceptación**: $0\%$ (cero tolerancia a filtración de información de contacto privado sin autorización explícita).
+- **Identificador de Métrica:** `MET-INT-01` (Tasa de éxito en la gestión de disponibilidad al primer intento).
+- **Descripción:** Mide la proporción de dueños de pensión que logran conmutar correctamente el estado de una habitación (de disponible a ocupada o viceversa) en la interfaz móvil sin requerir asistencia externa ni cometer errores operativos en su primera sesión.
+- **Función de medición (Fórmula):**  
+  $$X = \frac{A}{B}$$  
+  - $A$ = Número de usuarios propietarios que completan la tarea de conmutar disponibilidad satisfactoriamente al primer intento.  
+  - $B$ = Total de usuarios propietarios evaluados en la muestra de prueba.
+- **Unidad y rango:** Proporción entre $0.0$ y $1.0$ (o porcentaje de $0\%$ a $100\%$).
+- **Valor meta / Criterio de aceptación:**  
+  $$X \ge 0.95 \quad (95\% \text{ de éxito sin capacitación previa}).$$
+
+---
+
+### 2. Seguridad — Subcaracterística: Controlabilidad del Acceso (Access Controllability)
+
+- **Identificador de Métrica:** `MET-SEC-01` (Efectividad del control de acceso a operaciones de propiedad).
+- **Descripción:** Evalúa la capacidad del sistema para bloquear intentos no autorizados de lectura o mutación sobre recursos protegidos (ej. un arrendador intentando editar habitaciones o aprobar propuestas de una pensión que no le pertenece, o un estudiante intentando crear una pensión directamente mediante la API).
+- **Función de medición (Fórmula):**  
+  $$X = 1 - \frac{A}{B}$$  
+  - $A$ = Número de solicitudes no autorizadas que consiguieron vulnerar el control de acceso en auditorías o pruebas de penetración (IDOR / escalamiento de privilegios).  
+  - $B$ = Total de pruebas automatizadas de acceso cruzado indebido ejecutadas sobre los endpoints protegidos.
+- **Unidad y rango:** Proporción entre $0.0$ y $1.0$ (donde $1.0$ representa seguridad perfecta ante los vectores evaluados).
+- **Valor meta / Criterio de aceptación:**  
+  $$X = 1.00 \quad (0\text{ accesos indebidos tolerados; 100\% de bloqueos con código HTTP 403 Forbidden}).$$
+
+---
+
+### 3. Eficiencia de desempeño — Subcaracterística: Comportamiento Temporal (Time Behaviour)
+
+- **Identificador de Métrica:** `MET-PERF-01` (Tiempo de respuesta de la API en búsqueda geolocalizada).
+- **Descripción:** Tiempo transcurrido desde que el cliente móvil envía una solicitud de catálogo con filtros espaciales y de precio (`GET /pensions?latitude=...&longitude=...&radiusKm=30`) hasta que el backend entrega la respuesta completa serializada.
+- **Función de medición (Fórmula):**  
+  $$X = P_{95}(T_{\text{respuesta}})$$  
+  Donde $P_{95}$ es el percentil 95 del tiempo de respuesta (en milisegundos) medido sobre una ventana de 1.000 peticiones bajo una carga simultánea de 50 usuarios concurrentes simulados.
+- **Unidad y rango:** Tiempo en milisegundos (ms).
+- **Valor meta / Criterio de aceptación:**  
+  $$X \le 300\text{ ms} \quad (\text{Percentil 95 inferior o igual a 300 milisegundos}).$$
