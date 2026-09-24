@@ -39,7 +39,7 @@ El dueño revisa su libreta de anotaciones para verificar si alguna de sus habit
 ### ACT-AS-04 — Realizar visita presencial para ver inmueble y reglas
 Si hay cupo disponible, el estudiante visita físicamente la pensión, conoce la habitación y negocia verbalmente las normas de convivencia y servicios incluidos.
 
-### ACT-AS-05 — Pago de mes/garantía y entrega de llaves
+### ACT-AS-05 — Pago de mes, garantía y entrega de llaves
 Ambas partes acuerdan el arriendo, el estudiante entrega el dinero en efectivo o transferencia, y el dueño le entrega las llaves de la habitación.
 
 ---
