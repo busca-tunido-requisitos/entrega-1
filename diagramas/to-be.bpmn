@@ -8,144 +8,131 @@
                   exporter="Camunda Modeler"
                   exporterVersion="5.0.0">
   <bpmn:collaboration id="Collaboration_TO_BE">
-    <bpmn:participant id="Participant_BuscaTuNido" name="Plataforma BuscaTuNido — Gestión y Reserva de Pensiones Universitarias (TO-BE)" processRef="Process_BuscaTuNido" />
+    <bpmn:participant id="Participant_TO_BE" name="Proceso TO-BE: Búsqueda y Reserva" processRef="Process_TO_BE" />
   </bpmn:collaboration>
 
-  <bpmn:process id="Process_BuscaTuNido" isExecutable="false">
+  <bpmn:process id="Process_TO_BE" isExecutable="false">
     <bpmn:laneSet id="LaneSet_TO_BE">
-      <bpmn:lane id="Lane_Estudiante_TOBE" name="Estudiante Universitario">
-        <bpmn:flowNodeRef>StartEvent_BusquedaPensions</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_FiltrarPensiones</bpmn:flowNodeRef>
+      <bpmn:lane id="Lane_Usuario" name="Usuario (Foráneo)">
+        <bpmn:flowNodeRef>StartEvent_Inicio</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BuscarPension</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CargarCatalogo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_EnviarSolicitud</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_SolicitudRechazada</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_CheckInPresencial</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_ArriendoFinalizado</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_VerOpciones</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecibirConfirmacion</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SinCupo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_ReservaCoordinada</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="Lane_Sistema_TOBE" name="Sistema BuscaTuNido">
-        <bpmn:flowNodeRef>Task_ValidarDatosPension</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_PublicarCatalogo</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_CalcularDistancias</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_VerificarEstudiante</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_NotificarRechazo</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_ConfirmarReserva</bpmn:flowNodeRef>
-      </bpmn:lane>
-      <bpmn:lane id="Lane_Dueno_TOBE" name="Dueño de Pensión (Arrendador)">
-        <bpmn:flowNodeRef>StartEvent_PublicarInmueble</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_IngresarDatosPension</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_EvaluarSolicitud</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_DecisionDueno</bpmn:flowNodeRef>
+      <bpmn:lane id="Lane_Dueno" name="Dueño (Arrendador)">
+        <bpmn:flowNodeRef>Task_NotificacionPush</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RevisarSolicitud</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Disponible</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RechazarSolicitud</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ActualizarEstado</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AprobarSolicitud</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BloquearFechas</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
 
-    <bpmn:startEvent id="StartEvent_PublicarInmueble" name="Disponibilidad de habitación">
-      <bpmn:outgoing>Flow_P1</bpmn:outgoing>
+    <bpmn:startEvent id="StartEvent_Inicio" name="Inicio">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
     </bpmn:startEvent>
 
-    <bpmn:userTask id="Task_IngresarDatosPension" name="Ingresar datos de la pensión y cargar fotografías">
-      <bpmn:incoming>Flow_P1</bpmn:incoming>
-      <bpmn:outgoing>Flow_P2</bpmn:outgoing>
+    <bpmn:userTask id="Task_BuscarPension" name="Buscar pensión y aplicar filtros">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:userTask>
 
-    <bpmn:serviceTask id="Task_ValidarDatosPension" name="Validar consistencia de datos y georreferenciar dirección">
-      <bpmn:incoming>Flow_P2</bpmn:incoming>
-      <bpmn:outgoing>Flow_P3</bpmn:outgoing>
+    <bpmn:serviceTask id="Task_CargarCatalogo" name="Consultar y cargar catálogo en tiempo real">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
     </bpmn:serviceTask>
 
-    <bpmn:serviceTask id="Task_PublicarCatalogo" name="Publicar oferta en catálogo y mapa interactivo">
-      <bpmn:incoming>Flow_P3</bpmn:incoming>
-      <bpmn:outgoing>Flow_P4</bpmn:outgoing>
-    </bpmn:serviceTask>
-
-    <bpmn:startEvent id="StartEvent_BusquedaPensions" name="Necesidad de alojamiento">
-      <bpmn:outgoing>Flow_B1</bpmn:outgoing>
-    </bpmn:startEvent>
-
-    <bpmn:userTask id="Task_FiltrarPensiones" name="Filtrar pensiones por universidad, precio y servicios">
-      <bpmn:incoming>Flow_B1</bpmn:incoming>
-      <bpmn:outgoing>Flow_B2</bpmn:outgoing>
+    <bpmn:userTask id="Task_EnviarSolicitud" name="Enviar solicitud de reserva">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
     </bpmn:userTask>
 
-    <bpmn:serviceTask id="Task_CalcularDistancias" name="Calcular distancias peatonales y presentar opciones">
-      <bpmn:incoming>Flow_B2</bpmn:incoming>
-      <bpmn:incoming>Flow_P4</bpmn:incoming>
-      <bpmn:outgoing>Flow_B3</bpmn:outgoing>
+    <bpmn:serviceTask id="Task_NotificacionPush" name="Generar notificación push de solicitud">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
     </bpmn:serviceTask>
 
-    <bpmn:userTask id="Task_EnviarSolicitud" name="Completar y enviar solicitud formal de reserva">
-      <bpmn:incoming>Flow_B3</bpmn:incoming>
-      <bpmn:outgoing>Flow_B4</bpmn:outgoing>
+    <bpmn:userTask id="Task_RevisarSolicitud" name="Revisar solicitud y perfil en la app">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
     </bpmn:userTask>
 
-    <bpmn:serviceTask id="Task_VerificarEstudiante" name="Verificar perfil estudiantil y despachar notificación al dueño">
-      <bpmn:incoming>Flow_B4</bpmn:incoming>
-      <bpmn:outgoing>Flow_B5</bpmn:outgoing>
-    </bpmn:serviceTask>
-
-    <bpmn:userTask id="Task_EvaluarSolicitud" name="Evaluar perfil del postulante y responder solicitud">
-      <bpmn:incoming>Flow_B5</bpmn:incoming>
-      <bpmn:outgoing>Flow_B6</bpmn:outgoing>
-    </bpmn:userTask>
-
-    <bpmn:exclusiveGateway id="Gateway_DecisionDueno" name="¿Acepta la postulación?">
-      <bpmn:incoming>Flow_B6</bpmn:incoming>
-      <bpmn:outgoing>Flow_Aceptada_Si</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Aceptada_No</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_Disponible" name="¿Disponible y acepta?">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_No</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Si</bpmn:outgoing>
     </bpmn:exclusiveGateway>
 
-    <bpmn:serviceTask id="Task_NotificarRechazo" name="Notificar rechazo con motivo al estudiante">
-      <bpmn:incoming>Flow_Aceptada_No</bpmn:incoming>
-      <bpmn:outgoing>Flow_Rechazo_Fin</bpmn:outgoing>
+    <bpmn:userTask id="Task_RechazarSolicitud" name="Rechazar solicitud">
+      <bpmn:incoming>Flow_No</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:serviceTask id="Task_ActualizarEstado" name="Actualizar estado y disparar alerta">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
     </bpmn:serviceTask>
 
-    <bpmn:endEvent id="EndEvent_SolicitudRechazada" name="Solicitud rechazada">
-      <bpmn:incoming>Flow_Rechazo_Fin</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:userTask id="Task_AprobarSolicitud" name="Aprobar solicitud de reserva">
+      <bpmn:incoming>Flow_Si</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
 
-    <bpmn:serviceTask id="Task_ConfirmarReserva" name="Confirmar reserva y emitir comprobante digital">
-      <bpmn:incoming>Flow_Aceptada_Si</bpmn:incoming>
-      <bpmn:outgoing>Flow_Confirmada</bpmn:outgoing>
+    <bpmn:serviceTask id="Task_BloquearFechas" name="Bloquear fechas y emitir ficha de confirmación">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
     </bpmn:serviceTask>
 
-    <bpmn:manualTask id="Task_CheckInPresencial" name="Realizar check-in presencial y entrega de llaves">
-      <bpmn:incoming>Flow_Confirmada</bpmn:incoming>
-      <bpmn:outgoing>Flow_Final</bpmn:outgoing>
-    </bpmn:manualTask>
+    <bpmn:userTask id="Task_VerOpciones" name="Ver opciones alternativas sugeridas">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
 
-    <bpmn:endEvent id="EndEvent_ArriendoFinalizado" name="Arriendo concretado en plataforma">
-      <bpmn:incoming>Flow_Final</bpmn:incoming>
+    <bpmn:endEvent id="EndEvent_SinCupo" name="Fin: Sin cupo">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
     </bpmn:endEvent>
 
-    <bpmn:sequenceFlow id="Flow_P1" sourceRef="StartEvent_PublicarInmueble" targetRef="Task_IngresarDatosPension" />
-    <bpmn:sequenceFlow id="Flow_P2" sourceRef="Task_IngresarDatosPension" targetRef="Task_ValidarDatosPension" />
-    <bpmn:sequenceFlow id="Flow_P3" sourceRef="Task_ValidarDatosPension" targetRef="Task_PublicarCatalogo" />
-    <bpmn:sequenceFlow id="Flow_P4" sourceRef="Task_PublicarCatalogo" targetRef="Task_CalcularDistancias" />
+    <bpmn:userTask id="Task_RecibirConfirmacion" name="Recibir confirmación y coordinar llegada por chat">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
 
-    <bpmn:sequenceFlow id="Flow_B1" sourceRef="StartEvent_BusquedaPensions" targetRef="Task_FiltrarPensiones" />
-    <bpmn:sequenceFlow id="Flow_B2" sourceRef="Task_FiltrarPensiones" targetRef="Task_CalcularDistancias" />
-    <bpmn:sequenceFlow id="Flow_B3" sourceRef="Task_CalcularDistancias" targetRef="Task_EnviarSolicitud" />
-    <bpmn:sequenceFlow id="Flow_B4" sourceRef="Task_EnviarSolicitud" targetRef="Task_VerificarEstudiante" />
-    <bpmn:sequenceFlow id="Flow_B5" sourceRef="Task_VerificarEstudiante" targetRef="Task_EvaluarSolicitud" />
-    <bpmn:sequenceFlow id="Flow_B6" sourceRef="Task_EvaluarSolicitud" targetRef="Gateway_DecisionDueno" />
-    <bpmn:sequenceFlow id="Flow_Aceptada_Si" name="Sí" sourceRef="Gateway_DecisionDueno" targetRef="Task_ConfirmarReserva" />
-    <bpmn:sequenceFlow id="Flow_Aceptada_No" name="No" sourceRef="Gateway_DecisionDueno" targetRef="Task_NotificarRechazo" />
-    <bpmn:sequenceFlow id="Flow_Rechazo_Fin" sourceRef="Task_NotificarRechazo" targetRef="EndEvent_SolicitudRechazada" />
-    <bpmn:sequenceFlow id="Flow_Confirmada" sourceRef="Task_ConfirmarReserva" targetRef="Task_CheckInPresencial" />
-    <bpmn:sequenceFlow id="Flow_Final" sourceRef="Task_CheckInPresencial" targetRef="EndEvent_ArriendoFinalizado" />
+    <bpmn:endEvent id="EndEvent_ReservaCoordinada" name="Fin: Reserva coordinada">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_Inicio" targetRef="Task_BuscarPension" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_BuscarPension" targetRef="Task_CargarCatalogo" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_CargarCatalogo" targetRef="Task_EnviarSolicitud" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_EnviarSolicitud" targetRef="Task_NotificacionPush" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_NotificacionPush" targetRef="Task_RevisarSolicitud" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_RevisarSolicitud" targetRef="Gateway_Disponible" />
+    <bpmn:sequenceFlow id="Flow_No" name="No" sourceRef="Gateway_Disponible" targetRef="Task_RechazarSolicitud" />
+    <bpmn:sequenceFlow id="Flow_Si" name="Sí" sourceRef="Gateway_Disponible" targetRef="Task_AprobarSolicitud" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_RechazarSolicitud" targetRef="Task_ActualizarEstado" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_ActualizarEstado" targetRef="Task_VerOpciones" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_AprobarSolicitud" targetRef="Task_BloquearFechas" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_BloquearFechas" targetRef="Task_RecibirConfirmacion" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_VerOpciones" targetRef="EndEvent_SinCupo" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_RecibirConfirmacion" targetRef="EndEvent_ReservaCoordinada" />
   </bpmn:process>
 
   <bpmndi:BPMNDiagram id="BPMNDiagram_TO_BE">
     <bpmndi:BPMNPlane id="BPMNPlane_TO_BE" bpmnElement="Collaboration_TO_BE">
-      <bpmndi:BPMNShape id="Shape_Participant_TOBE" bpmnElement="Participant_BuscaTuNido" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1480" height="600" />
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_TO_BE" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1440" height="520" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_Estudiante_TOBE" bpmnElement="Lane_Estudiante_TOBE" isHorizontal="true">
-        <dc:Bounds x="190" y="80" width="1450" height="200" />
+      <bpmndi:BPMNShape id="Shape_Lane_Usuario" bpmnElement="Lane_Usuario" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1410" height="260" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_Sistema_TOBE" bpmnElement="Lane_Sistema_TOBE" isHorizontal="true">
-        <dc:Bounds x="190" y="280" width="1450" height="200" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_Dueno_TOBE" bpmnElement="Lane_Dueno_TOBE" isHorizontal="true">
-        <dc:Bounds x="190" y="480" width="1450" height="200" />
+      <bpmndi:BPMNShape id="Shape_Lane_Dueno" bpmnElement="Lane_Dueno" isHorizontal="true">
+        <dc:Bounds x="190" y="340" width="1410" height="260" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

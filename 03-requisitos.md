@@ -3,15 +3,15 @@
 ## Requisitos de producto
 | ID | Requisito | Tipo (funcional/no funcional) | Actividad TO-BE asociada |
 |---|---|---|---|
-| RP-01 | El sistema debe permitir a los usuarios estudiantes filtrar ofertas de pensiones según universidad de destino, presupuesto mensual máximo y servicios incluidos (agua, luz, gas, internet). | Funcional | Filtrar pensiones por universidad, precio y servicios |
-| RP-02 | El sistema debe responder a las consultas de filtrado y búsqueda de pensiones en un tiempo máximo de 1.5 segundos bajo condiciones normales de carga de red. | No funcional | Filtrar pensiones por universidad, precio y servicios |
-| RP-03 | El sistema debe permitir a los propietarios registrar una pensión ingresando título, descripción, dirección física, precio mensual, monto de garantía y fotografías obligatorias (mínimo 3). | Funcional | Publicar oferta en catálogo y mapa interactivo |
-| RP-04 | El sistema debe calcular automáticamente y mostrar la distancia peatonal estimada (en metros y minutos a pie) entre la pensión seleccionada y el campus universitario de referencia. | Funcional | Calcular distancias peatonales y presentar opciones |
-| RP-05 | El sistema debe permitir a los estudiantes autenticados enviar una solicitud formal de arriendo adjuntando mensaje de presentación y seleccionando la habitación de interés. | Funcional | Completar y enviar solicitud formal de reserva |
-| RP-06 | El sistema debe validar que el solicitante cuente con un correo institucional activo (`.edu` o dominio universitario reconocido) antes de remitir la solicitud al dueño. | Funcional | Verificar perfil estudiantil y despachar notificación al dueño |
-| RP-07 | El sistema debe disponer de una bandeja de gestión para el arrendador donde pueda visualizar las solicitudes recibidas y marcar su estado como "Aceptada" o "Rechazada" junto a un comentario opcional. | Funcional | Evaluar perfil del postulante y responder solicitud |
-| RP-08 | El sistema debe generar y almacenar un comprobante digital en formato descargable con identificador único de reserva cuando una solicitud sea aprobada por el arrendador. | Funcional | Confirmar reserva y emitir comprobante digital |
-| RP-09 | El sistema debe proteger los datos personales de contacto de ambas partes (teléfono y correo personal), haciéndolos visibles únicamente tras la aprobación de la solicitud de arriendo. | No funcional | Confirmar reserva y emitir comprobante digital |
+| RP-01 | El sistema debe permitir a los usuarios estudiantes filtrar ofertas de pensiones según universidad de destino, presupuesto mensual máximo y servicios incluidos (agua, luz, gas, internet). | Funcional | Buscar pensión y aplicar filtros |
+| RP-02 | El sistema debe responder a las consultas de filtrado y búsqueda de pensiones en un tiempo máximo de 1.5 segundos bajo condiciones normales de carga de red. | No funcional | Buscar pensión y aplicar filtros |
+| RP-03 | El sistema debe consultar la base de datos y cargar en tiempo real el catálogo de pensiones disponibles junto con la distancia calculada al campus de estudio. | Funcional | Consultar y cargar catálogo en tiempo real |
+| RP-04 | El sistema debe calcular automáticamente y mostrar la distancia peatonal estimada (en metros y minutos a pie) entre la pensión seleccionada y el campus universitario de referencia. | Funcional | Consultar y cargar catálogo en tiempo real |
+| RP-05 | El sistema debe permitir a los estudiantes autenticados enviar una solicitud formal de reserva adjuntando mensaje de presentación y seleccionando la habitación de interés. | Funcional | Enviar solicitud de reserva |
+| RP-06 | El sistema debe generar y despachar una notificación push automática al arrendador cuando un estudiante envíe una solicitud de reserva. | Funcional | Generar notificación push de solicitud |
+| RP-07 | El sistema debe disponer de una bandeja de gestión para el arrendador donde pueda revisar la solicitud y el perfil del postulante, permitiendo aprobar o rechazar con un motivo. | Funcional | Revisar solicitud y perfil en la app |
+| RP-08 | El sistema debe bloquear automáticamente las fechas de la habitación seleccionada y emitir una ficha de confirmación de reserva descargable al ser aprobada. | Funcional | Bloquear fechas y emitir ficha de confirmación |
+| RP-09 | El sistema debe proteger los datos personales de contacto de ambas partes (teléfono y correo personal), haciéndolos visibles únicamente tras la aprobación de la solicitud de reserva. | No funcional | Bloquear fechas y emitir ficha de confirmación |
 
 ## Requisitos de proyecto
 | ID | Requisito |

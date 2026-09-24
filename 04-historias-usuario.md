@@ -3,7 +3,7 @@
 ## HU-01
 Como estudiante universitario foráneo, quiero filtrar las pensiones disponibles según el campus donde estudio y los servicios básicos incluidos (agua, luz, gas, internet), para encontrar rápidamente opciones habitacionales que se ajusten a mis necesidades sin tener que consultar aviso por aviso.
 
-**Actividad TO-BE asociada:** Filtrar pensiones por universidad, precio y servicios
+**Actividad TO-BE asociada:** Buscar pensión y aplicar filtros
 
 **Criterios de aceptación:**
 - CA1: El usuario puede seleccionar su institución y sede desde un selector desplegable o barra de búsqueda predictiva.
@@ -14,7 +14,7 @@ Como estudiante universitario foráneo, quiero filtrar las pensiones disponibles
 ## HU-02
 Como dueño de una pensión universitaria, quiero publicar el perfil de mi inmueble especificando precios, normas de convivencia y galería de fotos, para dar a conocer mi oferta de forma transparente a estudiantes interesados sin tener que enviar información manualmente por mensajes privados.
 
-**Actividad TO-BE asociada:** Publicar oferta en catálogo y mapa interactivo
+**Actividad TO-BE asociada:** Consultar y cargar catálogo en tiempo real
 
 **Criterios de aceptación:**
 - CA1: El formulario de publicación exige el ingreso de campos obligatorios: título, dirección exacta, precio mensual, monto de garantía y al menos 3 fotografías en formato PNG o JPG.
@@ -25,7 +25,7 @@ Como dueño de una pensión universitaria, quiero publicar el perfil de mi inmue
 ## HU-03
 Como estudiante universitario, quiero visualizar la distancia y el tiempo estimado de caminata desde la pensión hasta mi facultad, para tomar una decisión informada respecto a mi traslado diario y presupuesto de transporte.
 
-**Actividad TO-BE asociada:** Calcular distancias peatonales y presentar opciones
+**Actividad TO-BE asociada:** Consultar y cargar catálogo en tiempo real
 
 **Criterios de aceptación:**
 - CA1: La ficha detallada de la pensión exhibe un indicador destacado con la distancia en metros (o kilómetros) hacia la sede universitaria seleccionada.
@@ -35,7 +35,7 @@ Como estudiante universitario, quiero visualizar la distancia y el tiempo estima
 ## HU-04
 Como estudiante universitario postulante, quiero enviar una solicitud formal de reserva a través de la plataforma acreditando mi condición de alumno regular, para asegurar prioridad y seriedad en mi postulación frente al arrendador.
 
-**Actividad TO-BE asociada:** Completar y enviar solicitud formal de reserva
+**Actividad TO-BE asociada:** Enviar solicitud de reserva
 
 **Criterios de aceptación:**
 - CA1: La solicitud solo puede ser enviada por usuarios cuya cuenta haya sido validada previamente con correo institucional universitario activo.
@@ -46,7 +46,7 @@ Como estudiante universitario postulante, quiero enviar una solicitud formal de 
 ## HU-05
 Como dueño de pensión, quiero revisar en mi panel las solicitudes de los estudiantes postulantes y responder aceptando o rechazando cada caso con un motivo, para administrar de manera organizada y oportuna las vacantes de mis habitaciones.
 
-**Actividad TO-BE asociada:** Evaluar perfil del postulante y responder solicitud
+**Actividad TO-BE asociada:** Revisar solicitud y perfil en la app
 
 **Criterios de aceptación:**
 - CA1: La bandeja del dueño muestra un listado de solicitudes pendientes con nombre del estudiante, carrera, universidad y fecha de postulación.

@@ -32,18 +32,16 @@
 ![Proceso TO-BE](./diagramas/to-be.png)
 Archivo fuente: [`./diagramas/to-be.bpmn`](./diagramas/to-be.bpmn)
 
-*Nota: Las tareas del proceso TO-BE distinguen rigurosamente los tres tipos de marcadores BPMN 2.0:*
-- **User Task (Tarea de Usuario)**: *Ingresar datos de la pensión y cargar fotografías*, *Filtrar pensiones por universidad, precio y servicios*, *Completar y enviar solicitud formal de reserva*, *Evaluar perfil del postulante y responder solicitud*.
-- **Service Task (Tarea de Servicio)**: *Validar consistencia de datos y georreferenciar dirección*, *Publicar oferta en catálogo y mapa interactivo*, *Calcular distancias peatonales y presentar opciones*, *Verificar perfil estudiantil y despachar notificación al dueño*, *Notificar rechazo con motivo al estudiante*, *Confirmar reserva y emitir comprobante digital*.
-- **Manual Task (Tarea Manual)**: *Realizar check-in presencial y entrega de llaves*.
+*Nota: Las tareas del proceso TO-BE distinguen rigurosamente los marcadores estándar BPMN 2.0 (estilo Camunda / bpmn-js en blanco y negro):*
+- **User Task (Tarea de Usuario — ícono de persona)**: *Buscar pensión y aplicar filtros*, *Enviar solicitud de reserva*, *Revisar solicitud y perfil en la app*, *Rechazar solicitud*, *Aprobar solicitud de reserva*, *Ver opciones alternativas sugeridas*, *Recibir confirmación y coordinar llegada por chat*.
+- **Service Task (Tarea de Servicio — ícono de engranajes)**: *Consultar y cargar catálogo en tiempo real*, *Generar notificación push de solicitud*, *Actualizar estado y disparar alerta*, *Bloquear fechas y emitir ficha de confirmación*.
 
 ## Actividades que cambian del AS-IS al TO-BE
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |
 |---|---|---|
-| Buscar afiches y avisos en inmediaciones universitarias | Filtrar pensiones por universidad, precio y servicios | Se sustituye la búsqueda física aleatoria por un motor de búsqueda digital centralizado con filtros de distancia a campus, rango de precio y servicios. |
-| Contactar al dueño por mensajería (WhatsApp) | Publicar oferta en catálogo y mapa interactivo | El arrendador no responde individualmente por chat a cada postulante; publica una oferta visible globalmente en un catálogo geolocalizado. |
-| Evaluar fotografías y condiciones informales | Calcular distancias peatonales y presentar opciones | El sistema calcula automáticamente la cercanía real y tiempos de traslado hacia la facultad del estudiante, eliminando la ambigüedad geográfica. |
-| Coordinar visita presencial al inmueble | Completar y enviar solicitud formal de reserva | El estudiante postula formalmente mediante un formulario estructurado con sus antecedentes universitarios en lugar de coordinaciones informales de palabra. |
-| Anotar cita de visita en cuaderno de postulantes | Verificar perfil estudiantil y despachar notificación al dueño | Se reemplaza la anotación manual en cuaderno por una validación de datos del alumno y una notificación automatizada directa al propietario. |
-| Mostrar habitación y explicar normas de convivencia | Evaluar perfil del postulante y responder solicitud | El dueño visualiza la información de los postulantes en su bandeja de entrada y aprueba o rechaza antes de concretar la visita final, evitando pérdidas de tiempo. |
-| Efectuar pago en efectivo o transferencia de garantía | Confirmar reserva y emitir comprobante digital | La formalización de la reserva genera un comprobante digital auditable en la plataforma, evitando pagos informales en efectivo sin respaldo legal. |
+| Buscar afiches y avisos en calle y postes | Buscar pensión y aplicar filtros | Se sustituye la búsqueda física informal por una consulta parametrizada con filtros por universidad, precio y servicios. |
+| Contactar al dueño por chat (WhatsApp) | Consultar y cargar catálogo en tiempo real | El estudiante visualiza al instante el catálogo digital actualizado en vez de preguntar disponibilidad por mensaje privado. |
+| Coordinar visita presencial al inmueble | Enviar solicitud de reserva | La postulación se formaliza mediante una solicitud digital estructurada con datos de alumno regular en lugar de citas informales. |
+| Anotar cita en cuaderno de postulantes | Generar notificación push de solicitud | El sistema notifica de forma inmediata y automática al dueño en su dispositivo cuando ingresa una postulación. |
+| Mostrar pieza y explicar normas de convivencia | Revisar solicitud y perfil en la app | El arrendador revisa previamente los antecedentes del estudiante en la plataforma antes de comprometer cupos. |
+| Efectuar pago en efectivo o transferencia de garantía | Bloquear fechas y emitir ficha de confirmación | El sistema bloquea automáticamente la habitación y emite un comprobante digital auditable para ambas partes. |
