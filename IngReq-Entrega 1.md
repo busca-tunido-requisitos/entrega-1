@@ -6,9 +6,9 @@
 | ----------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | José Ignacio Leiva      | [`JoseIgnacioGC`](https://github.com/JoseIgnacioGC)                     | [`01-proceso-as-is.md`](./01-proceso-as-is.md) y [`02-rediseno-to-be.md`](./02-rediseno-to-be.md) |
 | Martín León Pizarro     | [`PugconBeer`](https://github.com/PugconBeer)                           | [`03-requisitos.md`](./03-requisitos.md)                                                          |
-| Vicente Arancibia Araya | [`Vicente-Arancibia-Araya`](https://github.com/Vicente-Arancibia-Araya) | [`04-historias-usuario.md`](./04-historias-usuario.md)                                            |
+| Vicente Arancibia Araya | [`Vicente-Arancibia-Araya`](https://github.com/Vicente-Arancibia-Araya) | [`05-elicitacion.md`](./05-elicitacion.md)                                                        |
 | Jason Monroy            | [`Ginger110`](https://github.com/Ginger110)                             | [`06-atributos-calidad.md`](./06-atributos-calidad.md)                                            |
-| Matías Henríquez        | [`MatiasHBkn`](https://github.com/MatiasHBkn)                           | [`05-elicitacion.md`](./05-elicitacion.md)                                                        |
+| Matías Henríquez        | [`MatiasHBkn`](https://github.com/MatiasHBkn)                           | [`04-historias-usuario.md`](./04-historias-usuario.md)                                            |
 
 ## Proyecto
 
