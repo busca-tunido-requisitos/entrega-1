@@ -4,24 +4,30 @@
 
 | Participante | Objetivo | Problema | Mejora deseada |
 |--------------|----------|----------|-----------------|
-| **Estudiante Universitario** | Encontrar alojamiento accesible, cercano y con normas claras. | Pérdida de tiempo llamando a avisos obsoletos, sin saber si hay piezas libres ni las reglas reales de la casa. | Consultar en tiempo real un catálogo georreferenciado por universidad con filtros de precio, servicios incluidos, normas de convivencia y reseñas auditadas. |
-| **Dueño de Pensión** | Mantener habitaciones ocupadas y administrar eficientemente los cupos. | Descontrol con cuadernos físicos y saturación telefónica por consultas de piezas ya arrendadas. | Conmutar la disponibilidad de habitaciones (libre/ocupada) con un solo toque desde su celular y recibir contacto directo solo de interesados calificados. |
+| **Usuario (Foráneo / Estudiante)** | Encontrar y asegurar alojamiento universitario con filtros precisos y confirmación formal. | Pérdida de tiempo llamando a avisos obsoletos, llamadas infructuosas y falta de alternativas si la pensión está ocupada. | Filtrar catálogo georreferenciado en tiempo real, enviar solicitud formal de reserva, recibir alternativas inteligentes si se rechaza, y coordinar llegada por chat integrado. |
+| **Dueño (Arrendador)** | Administrar eficientemente las postulaciones y mantener habitaciones ocupadas sin saturación telefónica. | Sobrecarga de llamadas a deshoras, libretas manuales de disponibilidad y descontrol en la recepción de interesados. | Recibir solicitudes estructuradas con notificación push móvil, evaluar perfil del postulante con un toque (aprobar/rechazar) y bloquear fechas automáticamente. |
 
 ---
 
 ## Iniciativas de rediseño
 
-### Iniciativa 1 — Búsqueda y Filtrado de Pensiones con Autoservicio
-- **Actividad(es) del AS-IS que afecta:** [`ACT-AS-01`](./01-proceso-as-is.md#act-as-01) y [`ACT-AS-02`](./01-proceso-as-is.md#act-as-02) (Estudiante).
+### Iniciativa 1 — Búsqueda con Filtros Multicriterio y Catálogo en Tiempo Real
+- **Actividad(es) del AS-IS que afecta:** [`ACT-AS-01`](./01-proceso-as-is.md#act-as-01), [`ACT-AS-02`](./01-proceso-as-is.md#act-as-02) y [`ACT-AS-03`](./01-proceso-as-is.md#act-as-03) (Estudiante).
 - **Heurística aplicada:** **Empoderamiento (Autoservicio)** + **Tecnología Integral** *(Reijers & Liman Mansar, 2005)*.
-- **Objetivo o mejora que resuelve:** Otorga autonomía al estudiante para filtrar directamente por sede universitaria, distancia y precio, eliminando la necesidad de llamar al dueño para consultar disponibilidad básica.
-- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** Reduce el tiempo de búsqueda de días a minutos; disminuye el costo de llamadas telefónicas; eleva la calidad de la información mostrada y flexibiliza la comparación desde dispositivos móviles.
+- **Objetivo o mejora que resuelve:** El estudiante foráneo filtra de forma autónoma por sede universitaria, precio y normas de convivencia, cargando ofertas con disponibilidad confirmada en tiempo real.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** Reduce el tiempo de búsqueda de días a minutos; suprime llamadas telefónicas ciegas y maximiza la calidad y exactitud de los datos visualizados.
 
-### Iniciativa 2 — Conmutación de Disponibilidad Móvil y Reseñas Verificadas
-- **Actividad(es) del AS-IS que afecta:** [`ACT-AS-03`](./01-proceso-as-is.md#act-as-03) y [`ACT-AS-04`](./01-proceso-as-is.md#act-as-04) (Dueño / Estudiante).
+### Iniciativa 2 — Solicitud Digital de Reserva y Gestión Móvil con Notificaciones Push
+- **Actividad(es) del AS-IS que afecta:** [`ACT-AS-04`](./01-proceso-as-is.md#act-as-04) y [`ACT-AS-05`](./01-proceso-as-is.md#act-as-05) (Dueño).
 - **Heurística aplicada:** **Automatización de tareas** + **Adición de control** *(Reijers & Liman Mansar, 2005)*.
-- **Objetivo o mejora que resuelve:** El dueño cambia el estado de cada habitación (disponible/ocupada) en su app móvil, actualizando el catálogo automáticamente; además, el sistema valida el correo institucional del estudiante para emitir reseñas verificadas, suprimiendo la asimetría de información.
-- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** Ahorra tiempo al dueño evitando llamadas infructuosas; garantiza un inventario actualizado en tiempo real; incrementa la calidad y veracidad de las opiniones, con mínimo costo operativo.
+- **Objetivo o mejora que resuelve:** El estudiante envía una solicitud digital de reserva estructurada; el sistema envía de inmediato una notificación push al celular del arrendador, quien evalúa el perfil del estudiante y decide con un solo toque.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** Elimina interrupciones por llamadas telefónicas imprevistas; agiliza la toma de decisiones y erradica el uso de cuadernos de notas físicos.
+
+### Iniciativa 3 — Bloqueo Automatizado, Sugerencia de Alternativas y Coordinación por Chat
+- **Actividad(es) del AS-IS que afecta:** [`ACT-AS-06`](./01-proceso-as-is.md#act-as-06), [`ACT-AS-07`](./01-proceso-as-is.md#act-as-07), [`ACT-AS-08`](./01-proceso-as-is.md#act-as-08) y [`ACT-AS-11`](./01-proceso-as-is.md#act-as-11).
+- **Heurística aplicada:** **Integración de casos** + **Contacto directo al cliente** *(Reijers & Liman Mansar, 2005)*.
+- **Objetivo o mejora que resuelve:** En caso de rechazo, el sistema alerta al postulante y sugiere automáticamente pensiones similares disponibles (evitando que el estudiante quede a la deriva). En caso de aprobación, el sistema bloquea fechas, emite comprobante oficial y habilita chat directo para coordinar la llegada.
+- **Efecto esperado (tiempo/costo/calidad/flexibilidad):** Brinda certidumbre total a ambas partes; garantiza respaldo formal y reduce drásticamente la tasa de abandono de búsqueda.
 
 ---
 
@@ -31,49 +37,32 @@
 
 Archivo fuente: [`./assets/diagramas/to-be.bpmn`](./assets/diagramas/to-be.bpmn)
 
-> **Nota de notación BPMN 2.0:** El diagrama distingue explícitamente los tres tipos de tareas según la norma:
-> - **Tareas de Usuario (`User Task`):** Ícono de silueta de persona (ejecutadas por el estudiante o dueño apoyados por la aplicación).
-> - **Tareas de Servicio (`Service Task`):** Ícono de engranaje (ejecutadas automáticamente por el backend del sistema).
-> - **Tareas Manuales (`Manual Task`):** Ícono de mano (acciones físicas fuera del sistema, como la visita presencial final y entrega de llaves).
+> **Nota de notación BPMN 2.0:** El diagrama distingue explícitamente los tipos de tareas según la norma oficial:
+> - **Tareas de Usuario (`User Task`):** Marcadas con ícono de silueta de persona (ejecutadas por el usuario o dueño con apoyo de la interfaz gráfica).
+> - **Tareas de Servicio (`Service Task`):** Marcadas con ícono de engranaje (ejecutadas automáticamente por los servicios backend de la plataforma).
+> - **Compuerta Exclusiva (`Exclusive Gateway`):** Rombo con marcador 'X' que evalúa la decisión de disponibilidad y aceptación del arrendador.
 
 ---
 
 ## Actividades del Proceso TO-BE
 
-### ACT-TOBE-01 — Conmutar disponibilidad en app móvil
-- **Tipo:** Tarea de Usuario (`User Task`).
-- **Actor:** Dueño de Pensión.
-- **Descripción:** El propietario activa o desactiva la disponibilidad de una habitación con un toque en su teléfono móvil al producirse un arriendo o vacancia.
+### Carril: Usuario (Foráneo)
+- **ACT-TOBE-01 — Buscar pensión y aplicar filtros:** Tarea de Usuario (`User Task`). El estudiante ingresa a la aplicación y aplica filtros por campus universitario, rango de precio y normas de convivencia.
+- **ACT-TOBE-02 — Consultar y cargar catálogo en tiempo real:** Tarea de Servicio (`Service Task`). El backend consulta la base de datos y despliega en tiempo real las piezas disponibles que cumplen los criterios.
+- **ACT-TOBE-03 — Enviar solicitud de reserva:** Tarea de Usuario (`User Task`). El estudiante selecciona la habitación deseada, define fechas estimadas de llegada y envía la solicitud formal con su mensaje.
 
-### ACT-TOBE-02 — Actualizar catálogo y tasa de ocupación
-- **Tipo:** Tarea de Servicio (`Service Task`).
-- **Actor:** Sistema BuscaTuNido.
-- **Descripción:** El backend actualiza la oferta visible en el catálogo y recalcula automáticamente los indicadores de ocupación del dueño.
-
-### ACT-TOBE-03 — Filtrar por campus, precio y normas
-- **Tipo:** Tarea de Usuario (`User Task`).
-- **Actor:** Estudiante Universitario.
-- **Descripción:** El estudiante selecciona su universidad, ajusta el rango de precio y selecciona filtros de convivencia (toque de queda, visitas, servicios incluidos).
-
-### ACT-TOBE-04 — Consultar ficha con fotos, reglas y WhatsApp
-- **Tipo:** Tarea de Usuario (`User Task`).
-- **Actor:** Estudiante Universitario.
-- **Descripción:** El estudiante revisa fotos, reglas detalladas y calificaciones de la pensión, iniciando chat de WhatsApp directo con el dueño si está conforme.
-
-### ACT-TOBE-05 — Realizar visita presencial y entrega de llaves
-- **Tipo:** Tarea Manual (`Manual Task`).
-- **Actor:** Estudiante Universitario y Dueño de Pensión.
-- **Descripción:** Visita presencial final en el inmueble para verificar la habitación y concretar la entrega de llaves.
-
-### ACT-TOBE-06 — Publicar reseña comunitaria post-estadía
-- **Tipo:** Tarea de Usuario (`User Task`).
-- **Actor:** Estudiante Universitario.
-- **Descripción:** El estudiante califica su experiencia evaluando limpieza, silencio, trato del dueño y calidad de WiFi tras su estadía.
-
-### ACT-TOBE-07 — Validar correo institucional y actualizar rating
-- **Tipo:** Tarea de Servicio (`Service Task`).
-- **Actor:** Sistema BuscaTuNido.
-- **Descripción:** El sistema valida el dominio del correo institucional (`@alumnos...`) para asignar la insignia de residente verificado y actualiza el promedio de la pensión.
+### Carril: Dueño (Arrendador)
+- **ACT-TOBE-04 — Generar notificación push de solicitud:** Tarea de Servicio (`Service Task`). El sistema despacha una notificación push inmediata al smartphone del arrendador avisando de la nueva postulación.
+- **ACT-TOBE-05 — Revisar solicitud y perfil en la app:** Tarea de Usuario (`User Task`). El arrendador abre la notificación, examina las fechas solicitadas y revisa el perfil universitario del estudiante.
+- **Compuerta Exclusiva — ¿Disponible y acepta?:**
+  - **Rama No:**
+    - **ACT-TOBE-06 — Rechazar solicitud:** Tarea de Usuario (`User Task`). El dueño presiona el botón de rechazo (por cupo lleno o incompatibilidad de fechas).
+    - **ACT-TOBE-07 — Actualizar estado y disparar alerta:** Tarea de Servicio (`Service Task`). El backend registra el rechazo en la base de datos y envía alerta push al postulante.
+    - *(Flujo retorna a Usuario)* **ACT-TOBE-08 — Ver opciones alternativas sugeridas:** Tarea de Usuario (`User Task`). La aplicación despliega al estudiante una lista curada de pensiones con vacantes similares en el mismo sector (**Fin: Sin cupo**).
+  - **Rama Sí:**
+    - **ACT-TOBE-09 — Aprobar solicitud de reserva:** Tarea de Usuario (`User Task`). El dueño confirma y aprueba la postulación en la aplicación móvil.
+    - **ACT-TOBE-10 — Bloquear fechas y emitir ficha de confirmación:** Tarea de Servicio (`Service Task`). El sistema actualiza el estado de la habitación a ocupada, inhabilita nuevas solicitudes para ese cupo y genera la ficha oficial de reserva en PDF.
+    - *(Flujo retorna a Usuario)* **ACT-TOBE-11 — Recibir confirmación y coordinar llegada por chat:** Tarea de Usuario (`User Task`). El estudiante recibe la confirmación con el comprobante y accede al chat integrado para coordinar la llegada con el arrendador (**Fin: Reserva coordinada**).
 
 ---
 
@@ -81,7 +70,9 @@ Archivo fuente: [`./assets/diagramas/to-be.bpmn`](./assets/diagramas/to-be.bpmn)
 
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |
 |-------------------------|--------------------------|------------|
-| [`ACT-AS-01`](./01-proceso-as-is.md#act-as-01) — Buscar avisos informales en postes y redes | [`ACT-TOBE-03`](#act-tobe-03) — Filtrar por campus, precio y normas | Se sustituye la búsqueda física desordenada por un catálogo centralizado con filtros georreferenciados y normas explícitas. |
-| [`ACT-AS-02`](./01-proceso-as-is.md#act-as-02) — Llamar para consultar disponibilidad y precio | [`ACT-TOBE-04`](#act-tobe-04) — Consultar ficha con fotos, reglas y WhatsApp | La información de precios, normas y contacto directo queda visible de inmediato, reduciendo llamadas exploratorias ciegas. |
-| [`ACT-AS-03`](./01-proceso-as-is.md#act-as-03) — Revisar disponibilidad en cuaderno manual | [`ACT-TOBE-01`](#act-tobe-01) — Conmutar disponibilidad en app móvil | El dueño gestiona su inventario en tiempo real desde el celular con un toque, reemplazando la libreta de papel. |
-| [`ACT-AS-04`](./01-proceso-as-is.md#act-as-04) — Visita presencial a ciegas y negociación verbal | [`ACT-TOBE-06`](#act-tobe-06) — Publicar reseña comunitaria post-estadía | La reputación y cumplimiento de acuerdos se transparenta mediante un sistema de evaluación auditado por pares con correo institucional. |
+| [`ACT-AS-01`](./01-proceso-as-is.md#act-as-01) — Buscar avisos informales en postes y redes | [`ACT-TOBE-01`](#act-tobe-01) / [`ACT-TOBE-02`](#act-tobe-02) — Buscar pensión, aplicar filtros y cargar catálogo | La búsqueda manual desordenada se reemplaza por filtros multicriterio y catálogo georreferenciado en tiempo real. |
+| [`ACT-AS-02`](./01-proceso-as-is.md#act-as-02) y [`ACT-AS-03`](./01-proceso-as-is.md#act-as-03) — Llamar al dueño para consultar disponibilidad | [`ACT-TOBE-03`](#act-tobe-03) — Enviar solicitud de reserva | Las llamadas telefónicas exploratorias a ciegas se sustituyen por una solicitud formal digital con datos estructurados. |
+| [`ACT-AS-04`](./01-proceso-as-is.md#act-as-04) — Atender llamada telefónica del estudiante | [`ACT-TOBE-04`](#act-tobe-04) — Generar notificación push de solicitud | El dueño deja de ser interrumpido por llamadas a deshoras y recibe avisos estructurados en su smartphone. |
+| [`ACT-AS-05`](./01-proceso-as-is.md#act-as-05) — Revisar disponibilidad en cuaderno manual | [`ACT-TOBE-05`](#act-tobe-05) — Revisar solicitud y perfil en la app | El control en libretas de papel se cambia por la revisión ágil del perfil y fechas del postulante en la app móvil. |
+| [`ACT-AS-06`](./01-proceso-as-is.md#act-as-06) y [`ACT-AS-08`](./01-proceso-as-is.md#act-as-08) — Informar indisponibilidad y reiniciar búsqueda | [`ACT-TOBE-06`](#act-tobe-06), [`ACT-TOBE-07`](#act-tobe-07) y [`ACT-TOBE-08`](#act-tobe-08) — Rechazar solicitud, alertar y ver alternativas | En vez de una negativa verbal que deja al estudiante sin opciones, el sistema notifica el rechazo y recomienda alternativas automáticas. |
+| [`ACT-AS-09`](./01-proceso-as-is.md#act-as-09) y [`ACT-AS-11`](./01-proceso-as-is.md#act-as-11) — Citar a visita presencial, pago en efectivo y llaves | [`ACT-TOBE-09`](#act-tobe-09), [`ACT-TOBE-10`](#act-tobe-10) y [`ACT-TOBE-11`](#act-tobe-11) — Aprobar solicitud, bloquear fechas y coordinar llegada | El acuerdo verbal e informal se profesionaliza con aprobación digital, bloqueo de calendario, ficha oficial descargable y chat directo. |
