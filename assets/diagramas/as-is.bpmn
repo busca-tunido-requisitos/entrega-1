@@ -16,104 +16,34 @@
         <bpmn:flowNodeRef>Start_Estudiante</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_AS_01</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_AS_02</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_06</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_07</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_Acuerdo</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_08</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_Exito</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_SinAcuerdo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ACT_AS_04</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ACT_AS_05</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Arrendado</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>End_SinCupo</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Dueno" name="Dueño de Pensión">
         <bpmn:flowNodeRef>ACT_AS_03</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_Disponibilidad</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_04</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_05</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Cupo</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     
-    <bpmn:startEvent id="Start_Estudiante" name="Necesidad de habitación universitaria" />
+    <bpmn:startEvent id="Start_Estudiante" name="Necesita pensión" />
     <bpmn:manualTask id="ACT_AS_01" name="ACT-AS-01: Buscar avisos informales en postes y redes sociales" />
-    <bpmn:manualTask id="ACT_AS_02" name="ACT-AS-02: Contactar por llamada telefónica para consultar precio y disponibilidad" />
-    <bpmn:manualTask id="ACT_AS_03" name="ACT-AS-03: Revisar disponibilidad en cuaderno o memoria" />
-    <bpmn:exclusiveGateway id="Gateway_Disponibilidad" name="¿Tiene habitación disponible?" />
-    <bpmn:manualTask id="ACT_AS_04" name="ACT-AS-04: Informar indisponibilidad al estudiante" />
-    <bpmn:manualTask id="ACT_AS_05" name="ACT-AS-05: Informar precio y citar a visita presencial" />
-    <bpmn:manualTask id="ACT_AS_06" name="ACT-AS-06: Realizar visita presencial para conocer el inmueble" />
-    <bpmn:manualTask id="ACT_AS_07" name="ACT-AS-07: Negociar verbalmente reglas de convivencia y cobros básicos" />
-    <bpmn:exclusiveGateway id="Gateway_Acuerdo" name="¿Acuerdan precio y normas?" />
-    <bpmn:manualTask id="ACT_AS_08" name="ACT-AS-08: Realizar pago inicial en efectivo/transferencia y entrega de llaves" />
-    <bpmn:endEvent id="End_Exito" name="Habitación arrendada" />
-    <bpmn:endEvent id="End_SinAcuerdo" name="Fin sin acuerdo de arriendo" />
-    <bpmn:endEvent id="End_SinCupo" name="Fin por falta de cupo" />
+    <bpmn:manualTask id="ACT_AS_02" name="ACT-AS-02: Llamar al dueño para consultar disponibilidad y precio" />
+    <bpmn:manualTask id="ACT_AS_03" name="ACT-AS-03: Revisar disponibilidad en cuaderno manual" />
+    <bpmn:exclusiveGateway id="Gateway_Cupo" name="¿Hay pieza disponible?" />
+    <bpmn:manualTask id="ACT_AS_04" name="ACT-AS-04: Realizar visita presencial para conocer inmueble y reglas" />
+    <bpmn:manualTask id="ACT_AS_05" name="ACT-AS-05: Pago de mes/garantía y entrega manual de llaves" />
+    <bpmn:endEvent id="End_Arrendado" name="Habitación arrendada" />
+    <bpmn:endEvent id="End_SinCupo" name="Fin sin arriendo" />
     
-    <bpmn:sequenceFlow id="Flow_1" sourceRef="Start_Estudiante" targetRef="ACT_AS_01" />
-    <bpmn:sequenceFlow id="Flow_2" sourceRef="ACT_AS_01" targetRef="ACT_AS_02" />
-    <bpmn:sequenceFlow id="Flow_3" sourceRef="ACT_AS_02" targetRef="ACT_AS_03" />
-    <bpmn:sequenceFlow id="Flow_4" sourceRef="ACT_AS_03" targetRef="Gateway_Disponibilidad" />
-    <bpmn:sequenceFlow id="Flow_NoCupo" name="No" sourceRef="Gateway_Disponibilidad" targetRef="ACT_AS_04" />
-    <bpmn:sequenceFlow id="Flow_EndNoCupo" sourceRef="ACT_AS_04" targetRef="End_SinCupo" />
-    <bpmn:sequenceFlow id="Flow_SiCupo" name="Sí" sourceRef="Gateway_Disponibilidad" targetRef="ACT_AS_05" />
-    <bpmn:sequenceFlow id="Flow_5" sourceRef="ACT_AS_05" targetRef="ACT_AS_06" />
-    <bpmn:sequenceFlow id="Flow_6" sourceRef="ACT_AS_06" targetRef="ACT_AS_07" />
-    <bpmn:sequenceFlow id="Flow_7" sourceRef="ACT_AS_07" targetRef="Gateway_Acuerdo" />
-    <bpmn:sequenceFlow id="Flow_NoAcuerdo" name="No" sourceRef="Gateway_Acuerdo" targetRef="End_SinAcuerdo" />
-    <bpmn:sequenceFlow id="Flow_SiAcuerdo" name="Sí" sourceRef="Gateway_Acuerdo" targetRef="ACT_AS_08" />
-    <bpmn:sequenceFlow id="Flow_EndExito" sourceRef="ACT_AS_08" targetRef="End_Exito" />
+    <bpmn:sequenceFlow id="f1" sourceRef="Start_Estudiante" targetRef="ACT_AS_01" />
+    <bpmn:sequenceFlow id="f2" sourceRef="ACT_AS_01" targetRef="ACT_AS_02" />
+    <bpmn:sequenceFlow id="f3" sourceRef="ACT_AS_02" targetRef="ACT_AS_03" />
+    <bpmn:sequenceFlow id="f4" sourceRef="ACT_AS_03" targetRef="Gateway_Cupo" />
+    <bpmn:sequenceFlow id="fNo" name="No" sourceRef="Gateway_Cupo" targetRef="End_SinCupo" />
+    <bpmn:sequenceFlow id="fSi" name="Sí" sourceRef="Gateway_Cupo" targetRef="ACT_AS_04" />
+    <bpmn:sequenceFlow id="f5" sourceRef="ACT_AS_04" targetRef="ACT_AS_05" />
+    <bpmn:sequenceFlow id="f6" sourceRef="ACT_AS_05" targetRef="End_Arrendado" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_AS_IS">
-      <bpmndi:BPMNShape id="Participant_AS_IS_di" bpmnElement="Participant_AS_IS" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1380" height="420" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_Estudiante_di" bpmnElement="Lane_Estudiante" isHorizontal="true">
-        <dc:Bounds x="190" y="80" width="1350" height="210" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_Dueno_di" bpmnElement="Lane_Dueno" isHorizontal="true">
-        <dc:Bounds x="190" y="290" width="1350" height="210" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Start_Estudiante_di" bpmnElement="Start_Estudiante">
-        <dc:Bounds x="232" y="162" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_01_di" bpmnElement="ACT_AS_01">
-        <dc:Bounds x="300" y="140" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_02_di" bpmnElement="ACT_AS_02">
-        <dc:Bounds x="460" y="140" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_03_di" bpmnElement="ACT_AS_03">
-        <dc:Bounds x="460" y="350" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_Disponibilidad_di" bpmnElement="Gateway_Disponibilidad" isMarkerVisible="true">
-        <dc:Bounds x="625" y="365" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_04_di" bpmnElement="ACT_AS_04">
-        <dc:Bounds x="710" y="410" width="120" height="70" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_05_di" bpmnElement="ACT_AS_05">
-        <dc:Bounds x="710" y="310" width="120" height="70" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_06_di" bpmnElement="ACT_AS_06">
-        <dc:Bounds x="860" y="140" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_07_di" bpmnElement="ACT_AS_07">
-        <dc:Bounds x="1020" y="140" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_Acuerdo_di" bpmnElement="Gateway_Acuerdo" isMarkerVisible="true">
-        <dc:Bounds x="1185" y="155" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_08_di" bpmnElement="ACT_AS_08">
-        <dc:Bounds x="1270" y="140" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_Exito_di" bpmnElement="End_Exito">
-        <dc:Bounds x="1442" y="162" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_SinAcuerdo_di" bpmnElement="End_SinAcuerdo">
-        <dc:Bounds x="1192" y="242" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_SinCupo_di" bpmnElement="End_SinCupo">
-        <dc:Bounds x="862" y="427" width="36" height="36" />
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-  </bpmndi:BPMNDiagram>
 </bpmn:definitions>

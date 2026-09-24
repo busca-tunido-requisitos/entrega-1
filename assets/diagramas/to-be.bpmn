@@ -8,7 +8,7 @@
                   exporter="Camunda Modeler"
                   exporterVersion="5.20.0">
   <bpmn:collaboration id="Collaboration_TO_BE">
-    <bpmn:participant id="Participant_TO_BE" name="Búsqueda, Arriendo y Gestión de Pensiones con BuscaTuNido (TO-BE)" processRef="Process_TO_BE" />
+    <bpmn:participant id="Participant_TO_BE" name="Búsqueda, Arriendo y Gestión con BuscaTuNido (TO-BE)" processRef="Process_TO_BE" />
   </bpmn:collaboration>
   <bpmn:process id="Process_TO_BE" isExecutable="false">
     <bpmn:laneSet id="LaneSet_TO_BE">
@@ -19,37 +19,27 @@
         <bpmn:flowNodeRef>ACT_TOBE_05</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_TOBE_06</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_TOBE_07</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_TOBE_08</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_TOBE_09</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_TOBE_10</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_CicloEstudiante</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Estudiante_TOBE</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Dueno_TOBE" name="Dueño de Pensión">
         <bpmn:flowNodeRef>Start_Dueno_TOBE</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_TOBE_01</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_TOBE_02</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_TOBE_11</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_TOBE_12</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_CicloDueno</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Dueno_TOBE</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     
-    <bpmn:startEvent id="Start_Dueno_TOBE" name="Cambio de estado o cupo" />
+    <bpmn:startEvent id="Start_Dueno_TOBE" name="Vacancia o cambio" />
     <bpmn:userTask id="ACT_TOBE_01" name="ACT-TOBE-01: Conmutar disponibilidad de habitación en app móvil" />
-    <bpmn:serviceTask id="ACT_TOBE_02" name="ACT-TOBE-02: Actualizar catálogo y recalcular tasa de ocupación" />
+    <bpmn:serviceTask id="ACT_TOBE_02" name="ACT-TOBE-02: Actualizar catálogo y recalcular ocupación" />
+    <bpmn:endEvent id="End_Dueno_TOBE" name="Oferta actualizada" />
     
-    <bpmn:startEvent id="Start_Estudiante_TOBE" name="Búsqueda de alojamiento universitario" />
-    <bpmn:userTask id="ACT_TOBE_03" name="ACT-TOBE-03: Filtrar catálogo por campus, rango de precio y normas" />
-    <bpmn:serviceTask id="ACT_TOBE_04" name="ACT-TOBE-04: Calcular distancias a campus y filtrar en tiempo real" />
-    <bpmn:userTask id="ACT_TOBE_05" name="ACT-TOBE-05: Consultar ficha con fotos, reglas, servicios y opiniones" />
-    <bpmn:userTask id="ACT_TOBE_06" name="ACT-TOBE-06: Contactar al dueño vía WhatsApp directo" />
-    <bpmn:manualTask id="ACT_TOBE_07" name="ACT-TOBE-07: Realizar visita presencial y entrega de llaves" />
-    <bpmn:userTask id="ACT_TOBE_08" name="ACT-TOBE-08: Publicar reseña multidimensional post-estadía" />
-    <bpmn:serviceTask id="ACT_TOBE_09" name="ACT-TOBE-09: Validar correo institucional y actualizar calificación" />
-    <bpmn:userTask id="ACT_TOBE_10" name="ACT-TOBE-10: Proponer corrección de datos desactualizados" />
-    <bpmn:userTask id="ACT_TOBE_11" name="ACT-TOBE-11: Revisar diff de propuesta en buzón y resolver" />
-    <bpmn:serviceTask id="ACT_TOBE_12" name="ACT-TOBE-12: Aplicar y consolidar cambios aprobados en la pensión" />
-    <bpmn:endEvent id="End_CicloEstudiante" name="Estadía evaluada" />
-    <bpmn:endEvent id="End_CicloDueno" name="Pensión actualizada" />
+    <bpmn:startEvent id="Start_Estudiante_TOBE" name="Busca pensión" />
+    <bpmn:userTask id="ACT_TOBE_03" name="ACT-TOBE-03: Filtrar catálogo por campus, precio y normas" />
+    <bpmn:userTask id="ACT_TOBE_04" name="ACT-TOBE-04: Consultar ficha con fotos, reglas y WhatsApp directo" />
+    <bpmn:manualTask id="ACT_TOBE_05" name="ACT-TOBE-05: Realizar visita presencial y entrega de llaves" />
+    <bpmn:userTask id="ACT_TOBE_06" name="ACT-TOBE-06: Publicar reseña comunitaria post-estadía" />
+    <bpmn:serviceTask id="ACT_TOBE_07" name="ACT-TOBE-07: Validar correo institucional y actualizar calificación" />
+    <bpmn:endEvent id="End_Estudiante_TOBE" name="Estadía evaluada" />
   </bpmn:process>
 </bpmn:definitions>
