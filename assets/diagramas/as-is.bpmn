@@ -9,208 +9,134 @@
                   exporter="Camunda Modeler"
                   exporterVersion="5.20.0">
   <bpmn:collaboration id="Collaboration_AS_IS">
-    <bpmn:participant id="Participant_AS_IS" name="Proceso AS-IS: Búsqueda y Arriendo Tradicional" processRef="Process_AS_IS" />
+    <bpmn:participant id="Participant_AS_IS" name="Búsqueda y Arriendo Tradicional de Pensiones Universitarias (AS-IS)" processRef="Process_AS_IS" />
   </bpmn:collaboration>
   <bpmn:process id="Process_AS_IS" isExecutable="false">
     <bpmn:laneSet id="LaneSet_AS_IS">
       <bpmn:lane id="Lane_Estudiante" name="Estudiante Universitario">
-        <bpmn:flowNodeRef>Start_ASIS</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Start_Estudiante</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_AS_01</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_AS_02</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_03</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_08</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_SinCupo_AS</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_11</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_Arriendo_AS</bpmn:flowNodeRef>
-      </bpmn:lane>
-      <bpmn:lane id="Lane_Dueno" name="Dueño de Pensión">
         <bpmn:flowNodeRef>ACT_AS_04</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ACT_AS_05</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Arrendado</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Dueno" name="Dueño de Pensión">
+        <bpmn:flowNodeRef>ACT_AS_03</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_Cupo</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_06</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_07</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_09</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ACT_AS_10</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_SinCupo</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     
-    <bpmn:startEvent id="Start_ASIS" name="Inicio" />
-    <bpmn:manualTask id="ACT_AS_01" name="Buscar avisos informales en postes y redes" />
-    <bpmn:manualTask id="ACT_AS_02" name="Recopilar teléfonos y llamar al dueño" />
-    <bpmn:manualTask id="ACT_AS_03" name="Consultar disponibilidad y valor por teléfono" />
+    <bpmn:startEvent id="Start_Estudiante" name="Necesita pensión" />
+    <bpmn:manualTask id="ACT_AS_01" name="ACT-AS-01: Buscar avisos informales en postes y redes sociales" />
+    <bpmn:manualTask id="ACT_AS_02" name="ACT-AS-02: Llamar al dueño para consultar disponibilidad y precio" />
+    <bpmn:manualTask id="ACT_AS_03" name="ACT-AS-03: Revisar disponibilidad en cuaderno manual" />
+    <bpmn:exclusiveGateway id="Gateway_Cupo" name="¿Hay pieza disponible?" />
+    <bpmn:manualTask id="ACT_AS_04" name="ACT-AS-04: Realizar visita presencial para conocer inmueble y reglas" />
+    <bpmn:manualTask id="ACT_AS_05" name="ACT-AS-05: Pago de mes/garantía y entrega manual de llaves" />
+    <bpmn:endEvent id="End_Arrendado" name="Habitación arrendada" />
+    <bpmn:endEvent id="End_SinCupo" name="Fin sin arriendo" />
     
-    <bpmn:manualTask id="ACT_AS_04" name="Atender llamada telefónica del estudiante" />
-    <bpmn:manualTask id="ACT_AS_05" name="Revisar disponibilidad en cuaderno manual" />
-    <bpmn:exclusiveGateway id="Gateway_Cupo" name="¿Tiene pieza disponible?" />
-    
-    <bpmn:manualTask id="ACT_AS_06" name="Informar indisponibilidad por teléfono" />
-    <bpmn:manualTask id="ACT_AS_07" name="Finalizar llamada y registrar descarte" />
-    <bpmn:manualTask id="ACT_AS_08" name="Reiniciar búsqueda física de otros avisos" />
-    <bpmn:endEvent id="End_SinCupo_AS" name="Fin: Sin arriendo" />
-    
-    <bpmn:manualTask id="ACT_AS_09" name="Informar precio y citar a visita presencial" />
-    <bpmn:manualTask id="ACT_AS_10" name="Recibir al estudiante en el inmueble" />
-    <bpmn:manualTask id="ACT_AS_11" name="Visitar inmueble, pagar efectivo y recibir llaves" />
-    <bpmn:endEvent id="End_Arriendo_AS" name="Fin: Arriendo presencial" />
-    
-    <bpmn:sequenceFlow id="Flow_AS_1" sourceRef="Start_ASIS" targetRef="ACT_AS_01" />
-    <bpmn:sequenceFlow id="Flow_AS_2" sourceRef="ACT_AS_01" targetRef="ACT_AS_02" />
-    <bpmn:sequenceFlow id="Flow_AS_3" sourceRef="ACT_AS_02" targetRef="ACT_AS_03" />
-    <bpmn:sequenceFlow id="Flow_AS_4" name="Llamada" sourceRef="ACT_AS_03" targetRef="ACT_AS_04" />
-    <bpmn:sequenceFlow id="Flow_AS_5" sourceRef="ACT_AS_04" targetRef="ACT_AS_05" />
-    <bpmn:sequenceFlow id="Flow_AS_6" sourceRef="ACT_AS_05" targetRef="Gateway_Cupo" />
-    <bpmn:sequenceFlow id="Flow_AS_No" name="No" sourceRef="Gateway_Cupo" targetRef="ACT_AS_06" />
-    <bpmn:sequenceFlow id="Flow_AS_7" sourceRef="ACT_AS_06" targetRef="ACT_AS_07" />
-    <bpmn:sequenceFlow id="Flow_AS_8" sourceRef="ACT_AS_07" targetRef="ACT_AS_08" />
-    <bpmn:sequenceFlow id="Flow_AS_9" sourceRef="ACT_AS_08" targetRef="End_SinCupo_AS" />
-    <bpmn:sequenceFlow id="Flow_AS_Si" name="Si" sourceRef="Gateway_Cupo" targetRef="ACT_AS_09" />
-    <bpmn:sequenceFlow id="Flow_AS_10" sourceRef="ACT_AS_09" targetRef="ACT_AS_10" />
-    <bpmn:sequenceFlow id="Flow_AS_11" sourceRef="ACT_AS_10" targetRef="ACT_AS_11" />
-    <bpmn:sequenceFlow id="Flow_AS_12" sourceRef="ACT_AS_11" targetRef="End_Arriendo_AS" />
+    <bpmn:sequenceFlow id="f1" sourceRef="Start_Estudiante" targetRef="ACT_AS_01" />
+    <bpmn:sequenceFlow id="f2" sourceRef="ACT_AS_01" targetRef="ACT_AS_02" />
+    <bpmn:sequenceFlow id="f3" sourceRef="ACT_AS_02" targetRef="ACT_AS_03" />
+    <bpmn:sequenceFlow id="f4" sourceRef="ACT_AS_03" targetRef="Gateway_Cupo" />
+    <bpmn:sequenceFlow id="fNo" name="No" sourceRef="Gateway_Cupo" targetRef="End_SinCupo" />
+    <bpmn:sequenceFlow id="fSi" name="Sí" sourceRef="Gateway_Cupo" targetRef="ACT_AS_04" />
+    <bpmn:sequenceFlow id="f5" sourceRef="ACT_AS_04" targetRef="ACT_AS_05" />
+    <bpmn:sequenceFlow id="f6" sourceRef="ACT_AS_05" targetRef="End_Arrendado" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_AS_IS">
       <bpmndi:BPMNShape id="Participant_AS_IS_di" bpmnElement="Participant_AS_IS" isHorizontal="true">
-        <dc:Bounds x="20" y="20" width="1580" height="520" />
+        <dc:Bounds x="160" y="80" width="1120" height="440" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_Estudiante_di" bpmnElement="Lane_Estudiante" isHorizontal="true">
-        <dc:Bounds x="50" y="20" width="1550" height="260" />
+        <dc:Bounds x="190" y="80" width="1090" height="220" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_Dueno_di" bpmnElement="Lane_Dueno" isHorizontal="true">
-        <dc:Bounds x="50" y="280" width="1550" height="260" />
+        <dc:Bounds x="190" y="300" width="1090" height="220" />
       </bpmndi:BPMNShape>
-      
-      <bpmndi:BPMNShape id="Start_ASIS_di" bpmnElement="Start_ASIS">
-        <dc:Bounds x="130" y="132" width="36" height="36" />
+      <bpmndi:BPMNShape id="Start_Estudiante_di" bpmnElement="Start_Estudiante">
+        <dc:Bounds x="240" y="172" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="135" y="175" width="26" height="14" />
+          <dc:Bounds x="216" y="215" width="84" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ACT_AS_01_di" bpmnElement="ACT_AS_01">
-        <dc:Bounds x="210" y="110" width="130" height="80" />
+        <dc:Bounds x="330" y="150" width="120" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ACT_AS_02_di" bpmnElement="ACT_AS_02">
-        <dc:Bounds x="380" y="110" width="140" height="80" />
+        <dc:Bounds x="500" y="150" width="120" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ACT_AS_03_di" bpmnElement="ACT_AS_03">
-        <dc:Bounds x="560" y="110" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      
-      <bpmndi:BPMNShape id="ACT_AS_04_di" bpmnElement="ACT_AS_04">
-        <dc:Bounds x="560" y="370" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_05_di" bpmnElement="ACT_AS_05">
-        <dc:Bounds x="730" y="370" width="130" height="80" />
+        <dc:Bounds x="500" y="370" width="120" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Cupo_di" bpmnElement="Gateway_Cupo" isMarkerVisible="true">
-        <dc:Bounds x="900" y="385" width="50" height="50" />
+        <dc:Bounds x="670" y="385" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="888" y="442" width="75" height="27" />
+          <dc:Bounds x="664" y="442" width="62" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      
-      <bpmndi:BPMNShape id="ACT_AS_06_di" bpmnElement="ACT_AS_06">
-        <dc:Bounds x="980" y="295" width="120" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_07_di" bpmnElement="ACT_AS_07">
-        <dc:Bounds x="1140" y="295" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_08_di" bpmnElement="ACT_AS_08">
-        <dc:Bounds x="1350" y="45" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_SinCupo_AS_di" bpmnElement="End_SinCupo_AS">
-        <dc:Bounds x="1520" y="67" width="36" height="36" />
+      <bpmndi:BPMNShape id="End_SinCupo_di" bpmnElement="End_SinCupo">
+        <dc:Bounds x="780" y="472" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1498" y="110" width="81" height="14" />
+          <dc:Bounds x="760" y="515" width="76" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      
-      <bpmndi:BPMNShape id="ACT_AS_09_di" bpmnElement="ACT_AS_09">
-        <dc:Bounds x="980" y="445" width="120" height="80" />
+      <bpmndi:BPMNShape id="ACT_AS_04_di" bpmnElement="ACT_AS_04">
+        <dc:Bounds x="840" y="150" width="120" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_10_di" bpmnElement="ACT_AS_10">
-        <dc:Bounds x="1140" y="445" width="130" height="80" />
+      <bpmndi:BPMNShape id="ACT_AS_05_di" bpmnElement="ACT_AS_05">
+        <dc:Bounds x="1010" y="150" width="120" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ACT_AS_11_di" bpmnElement="ACT_AS_11">
-        <dc:Bounds x="1350" y="175" width="130" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_Arriendo_AS_di" bpmnElement="End_Arriendo_AS">
-        <dc:Bounds x="1520" y="197" width="36" height="36" />
+      <bpmndi:BPMNShape id="End_Arrendado_di" bpmnElement="End_Arrendado">
+        <dc:Bounds x="1180" y="172" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1506" y="240" width="65" height="27" />
+          <dc:Bounds x="1170" y="215" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      
-      <bpmndi:BPMNEdge id="Flow_AS_1_di" bpmnElement="Flow_AS_1">
-        <di:waypoint x="166" y="150" />
-        <di:waypoint x="210" y="150" />
+      <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1">
+        <di:waypoint x="276" y="190" />
+        <di:waypoint x="330" y="190" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_2_di" bpmnElement="Flow_AS_2">
-        <di:waypoint x="340" y="150" />
-        <di:waypoint x="380" y="150" />
+      <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2">
+        <di:waypoint x="450" y="190" />
+        <di:waypoint x="500" y="190" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_3_di" bpmnElement="Flow_AS_3">
-        <di:waypoint x="520" y="150" />
-        <di:waypoint x="560" y="150" />
+      <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3">
+        <di:waypoint x="560" y="230" />
+        <di:waypoint x="560" y="370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_4_di" bpmnElement="Flow_AS_4">
-        <di:waypoint x="625" y="190" />
-        <di:waypoint x="625" y="370" />
+      <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4">
+        <di:waypoint x="620" y="410" />
+        <di:waypoint x="670" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="fNo_di" bpmnElement="fNo">
+        <di:waypoint x="695" y="435" />
+        <di:waypoint x="695" y="490" />
+        <di:waypoint x="780" y="490" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="635" y="275" width="44" height="14" />
+          <dc:Bounds x="702" y="455" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_5_di" bpmnElement="Flow_AS_5">
-        <di:waypoint x="690" y="410" />
-        <di:waypoint x="730" y="410" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_6_di" bpmnElement="Flow_AS_6">
-        <di:waypoint x="860" y="410" />
-        <di:waypoint x="900" y="410" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_No_di" bpmnElement="Flow_AS_No">
-        <di:waypoint x="925" y="385" />
-        <di:waypoint x="925" y="335" />
-        <di:waypoint x="980" y="335" />
+      <bpmndi:BPMNEdge id="fSi_di" bpmnElement="fSi">
+        <di:waypoint x="720" y="410" />
+        <di:waypoint x="780" y="410" />
+        <di:waypoint x="780" y="190" />
+        <di:waypoint x="840" y="190" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="933" y="318" width="15" height="14" />
+          <dc:Bounds x="739" y="392" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_7_di" bpmnElement="Flow_AS_7">
-        <di:waypoint x="1100" y="335" />
-        <di:waypoint x="1140" y="335" />
+      <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5">
+        <di:waypoint x="960" y="190" />
+        <di:waypoint x="1010" y="190" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_8_di" bpmnElement="Flow_AS_8">
-        <di:waypoint x="1270" y="335" />
-        <di:waypoint x="1310" y="335" />
-        <di:waypoint x="1310" y="85" />
-        <di:waypoint x="1350" y="85" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_9_di" bpmnElement="Flow_AS_9">
-        <di:waypoint x="1480" y="85" />
-        <di:waypoint x="1520" y="85" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_Si_di" bpmnElement="Flow_AS_Si">
-        <di:waypoint x="925" y="435" />
-        <di:waypoint x="925" y="485" />
-        <di:waypoint x="980" y="485" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="935" y="468" width="11" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_10_di" bpmnElement="Flow_AS_10">
-        <di:waypoint x="1100" y="485" />
-        <di:waypoint x="1140" y="485" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_11_di" bpmnElement="Flow_AS_11">
-        <di:waypoint x="1270" y="485" />
-        <di:waypoint x="1330" y="485" />
-        <di:waypoint x="1330" y="215" />
-        <di:waypoint x="1350" y="215" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_AS_12_di" bpmnElement="Flow_AS_12">
-        <di:waypoint x="1480" y="215" />
-        <di:waypoint x="1520" y="215" />
+      <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6">
+        <di:waypoint x="1130" y="190" />
+        <di:waypoint x="1180" y="190" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
