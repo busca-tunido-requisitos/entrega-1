@@ -16,7 +16,7 @@
 
 ## Métricas de los 3 atributos más importantes (ISO/IEC 25023)
 
-### 1. Capacidad de interacción — Operabilidad (Learnability)
+### 1. Capacidad de interacción — Capacidad de aprendizaje (Learnability)
 - **Métrica:** Tasa de éxito en la resolución de solicitudes de reserva (aprobar/rechazar) al primer intento sin ayuda externa (`MET-INT-01`).
 - **Fórmula de medición:**  
   $$X = \frac{A}{B}$$  

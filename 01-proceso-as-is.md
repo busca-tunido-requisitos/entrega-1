@@ -21,25 +21,34 @@ Permitir que los estudiantes de educación superior encuentren y arrienden una h
 
 Archivo fuente: [`./assets/diagramas/as-is.bpmn`](./assets/diagramas/as-is.bpmn)
 
-> **Nota de notación BPMN 2.0:** Todas las tareas del proceso AS-IS corresponden a **Tareas Manuales** (marcadas con el ícono normativo de mano en la esquina superior izquierda de cada actividad), dado que el proceso actual carece de soporte de software y se ejecuta mediante interacciones presenciales, cuadernos físicos o llamadas telefónicas.
+> **Nota de notación BPMN 2.0:** El AS-IS distingue los tipos de tarea según cómo se ejecuta hoy cada actividad. Las acciones realizadas sin apoyo de un sistema se modelan como **Tareas Manuales**; la revisión de publicaciones en redes sociales se modela como **Tarea de Usuario**, porque la persona interactúa con una plataforma digital para realizar la actividad. No existen Tareas de Servicio en el proceso actual, ya que ninguna actividad es ejecutada automáticamente por un sistema.
 
 ---
 
 ## Actividades del Proceso AS-IS
 
-### ACT-AS-01 — Buscar avisos informales en postes y redes sociales
-El estudiante recorre a pie los alrededores de las universidades o revisa grupos informales en redes sociales para recopilar números de contacto de pensiones.
+### ACT-AS-01A — Buscar avisos físicos en el sector universitario
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
+El estudiante recorre a pie los alrededores de las universidades y revisa avisos físicos o carteles para recopilar números de contacto de pensiones.
+
+### ACT-AS-01B — Revisar publicaciones de pensiones en redes sociales
+**Tipo BPMN:** Tarea de Usuario (`User Task`).  
+El estudiante revisa grupos y publicaciones en redes sociales para identificar pensiones y obtener datos de contacto.
 
 ### ACT-AS-02 — Llamar para consultar disponibilidad y precio
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
 El estudiante llama por teléfono al dueño para preguntar si aún tiene piezas disponibles, el precio mensual y las condiciones generales.
 
 ### ACT-AS-03 — Revisar disponibilidad en cuaderno manual
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
 El dueño revisa su libreta de anotaciones para verificar si alguna de sus habitaciones se encuentra libre o ya fue comprometida.
 
 ### ACT-AS-04 — Realizar visita presencial para ver inmueble y reglas
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
 Si hay cupo disponible, el estudiante visita físicamente la pensión, conoce la habitación y negocia verbalmente las normas de convivencia y servicios incluidos.
 
 ### ACT-AS-05 — Pago de mes, garantía y entrega de llaves
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
 Ambas partes acuerdan el arriendo, el estudiante entrega el dinero en efectivo o transferencia, y el dueño le entrega las llaves de la habitación.
 
 ---

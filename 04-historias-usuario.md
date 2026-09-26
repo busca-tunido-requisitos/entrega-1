@@ -31,11 +31,11 @@ Como dueño de pensión,
 quiero recibir una notificación push en mi teléfono y revisar la ficha del postulante con un resumen de su solicitud,  
 para aprobar o rechazar la reserva con un solo toque sin interrumpir mis quehaceres cotidianos.
 
-**Actividad TO-BE asociada:** [`ACT-TOBE-05`](./02-rediseno-to-be.md#act-tobe-05--revisar-solicitud-y-perfil-en-la-app) y [`ACT-TOBE-09`](./02-rediseno-to-be.md#act-tobe-09--aprobar-solicitud-de-reserva)
+**Actividad TO-BE asociada:** [`ACT-TOBE-05`](./02-rediseno-to-be.md#act-tobe-05--revisar-solicitud-y-perfil-en-la-app), [`ACT-TOBE-06`](./02-rediseno-to-be.md#act-tobe-06--rechazar-solicitud) y [`ACT-TOBE-09`](./02-rediseno-to-be.md#act-tobe-09--aprobar-solicitud-de-reserva)
 
 **Criterios de aceptación:**
 - **CA1:** Al tocar la notificación push, la app móvil debe abrir directamente la bandeja de postulaciones mostrando nombre, carrera, universidad y fechas del solicitante.
-- **CA2:** Al presionar «Aprobar», el sistema debe actualizar la pieza a ocupada, bloquear el cupo en el catálogo y notificar de inmediato al estudiante; al presionar «Rechazar», el sistema debe liberar el cupo y disparar la alerta de opciones alternativas al postulante.
+- **CA2:** Al presionar «Aprobar», el sistema debe actualizar la pieza a ocupada, bloquear el cupo en el catálogo y notificar de inmediato al estudiante; al presionar «Rechazar», el sistema debe registrar la postulación como rechazada, mantener la habitación disponible para nuevas solicitudes y disparar la alerta de opciones alternativas al postulante.
 
 ---
 
@@ -44,7 +44,7 @@ Como estudiante con reserva aprobada,
 quiero descargar mi comprobante oficial en PDF y acceder a una sala de chat directo con el dueño,  
 para acordar los detalles de mi viaje, hora de llegada y entrega de la habitación con total tranquilidad.
 
-**Actividad TO-BE asociada:** [`ACT-TOBE-11`](./02-rediseno-to-be.md#act-tobe-11--recibir-confirmación-y-coordinar-llegada-por-chat)
+**Actividad TO-BE asociada:** [`ACT-TOBE-10`](./02-rediseno-to-be.md#act-tobe-10--bloquear-fechas-y-emitir-ficha-de-confirmación) y [`ACT-TOBE-11`](./02-rediseno-to-be.md#act-tobe-11--recibir-confirmación-y-coordinar-llegada-por-chat)
 
 **Criterios de aceptación:**
 - **CA1:** Una vez aprobada la postulación, el sistema debe habilitar un botón para descargar la ficha oficial de reserva en PDF con su código de verificación.

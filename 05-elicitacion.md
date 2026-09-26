@@ -1,5 +1,9 @@
 # Elicitación de requisitos
 
+## Técnicas utilizadas
+
+Para esta entrega se utilizaron **dos técnicas de elicitación**: **entrevista semiestructurada** y **revisión documental**. La entrevista permitió profundizar en experiencias, problemas y necesidades de los participantes; la revisión documental permitió complementar lo declarado por la dueña mediante contratos y reglamento interno existentes.
+
 ## Técnica 1: Entrevista semiestructurada individual (Estudiante foráneo)
 
 - **Participante(s):** Bastián Toledo — Estudiante de 2do año de Ingeniería Civil, proveniente de la Región del Maule (residente foráneo en Santiago).
@@ -13,10 +17,10 @@
 
 ---
 
-## Técnica 2: Entrevista presencial y revisión documental (Dueña de pensión)
+## Técnica 2: Revisión documental, complementada con entrevista presencial (Dueña de pensión)
 
 - **Participante(s):** Carmen Gloria Morales — Propietaria y administradora de pensión universitaria familiar (8 habitaciones en Playa Ancha, Valparaíso).
-- **Fecha y modalidad:** 20 de septiembre de 2026, 11:00 hrs — Modalidad presencial en el inmueble, combinando entrevista y revisión de contratos y reglamento interno.
+- **Fecha y modalidad:** 20 de septiembre de 2026, 11:00 hrs — Modalidad presencial en el inmueble. Se revisaron contratos y reglamento interno, complementando la revisión documental con preguntas a la propietaria para aclarar el proceso actual.
 - **Evidencia:**  
   ![Evidencia Técnica 2: Entrevista a Dueña de Pensión y Revisión Documental](./assets/evidencias/entrevista-dueno.png)
 - **Hallazgos principales:**
@@ -34,5 +38,8 @@ En sesión de cierre con los participantes entrevistados, se ratificaron los sig
 2. **Control de disponibilidad autónomo:** Proveer al dueño una interfaz móvil simple para marcar piezas libres u ocupadas en tiempo real.
 3. **Reseñas verificadas por correo institucional:** Limitar el sello de verificación a reseñas de usuarios con correo universitario institucional (`@alumnos...`).
 4. **Contacto directo sin comisiones:** Habilitar un canal directo vía WhatsApp entre estudiante interesado y arrendador.
+
+### Decisión posterior de análisis
+El uso de **WhatsApp** apareció durante la elicitación como una alternativa concreta para satisfacer la necesidad de **contacto directo** entre estudiante y arrendador. Al diseñar el proceso TO-BE, el equipo mantuvo esa necesidad, pero la especificó como un **chat integrado en BuscaTuNido**. Por lo tanto, el hallazgo elicitado es la necesidad de comunicación directa; la solución técnica concreta fue refinada posteriormente durante el análisis y rediseño.
 
 > *Nota: Esta actividad de elicitación se realizó de forma previa a la formalización del proceso TO-BE, sirviendo de base empírica para la identificación de problemas y requisitos del sistema.*

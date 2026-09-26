@@ -36,7 +36,7 @@ Toda necesidad identificada debe rastrearse a lo largo de las siguientes capas:
 ## 2. Reglas de Validación de Trazabilidad
 
 1. **Cobertura del AS-IS:**
-   - Cada actividad manual del AS-IS (`ACT-AS-01` a `ACT-AS-05`) debe aparecer en la tabla comparativa de `02-rediseno-to-be.md` con su transformación explícita.
+   - Cada actividad relevante del AS-IS (`ACT-AS-01A`, `ACT-AS-01B` y `ACT-AS-02` a `ACT-AS-05`) debe aparecer en la tabla comparativa de `02-rediseno-to-be.md` con su transformación explícita.
    - Todo problema identificado ($P_1$, $P_2$) debe ser mitigado por al menos una iniciativa de rediseño.
 
 2. **Correspondencia del TO-BE:**
@@ -73,13 +73,13 @@ Verificar que no existan elementos huérfanos completando mentalmente o en repor
 
 | ID TO-BE | Actividad TO-BE | Origen AS-IS | Requisito RP | Historia HU | Métrica ISO |
 |---|---|---|---|---|---|
-| ACT-TOBE-01 | Buscar pensión y filtros | ACT-AS-01 | RP-01 | HU-01 | - |
-| ACT-TOBE-02 | Cargar catálogo tiempo real | ACT-AS-01 | RP-02, RP-10 | - | MET-PERF-01 |
+| ACT-TOBE-01 | Buscar pensión y filtros | ACT-AS-01A, ACT-AS-01B | RP-01 | HU-01 | - |
+| ACT-TOBE-02 | Cargar catálogo tiempo real | ACT-AS-01A, ACT-AS-01B | RP-02, RP-10 | - | MET-PERF-01 |
 | ACT-TOBE-03 | Enviar solicitud reserva | ACT-AS-02 | RP-03 | HU-02 | - |
 | ACT-TOBE-04 | Notificación push dueño | ACT-AS-02 | RP-04, RP-10 | - | MET-PERF-01 |
 | ACT-TOBE-05 | Revisar solicitud en app | ACT-AS-03 | RP-05, RP-09 | HU-03 | MET-INT-01 |
 | ACT-TOBE-06 | Rechazar solicitud | ACT-AS-04 | RP-05 | HU-03 | MET-INT-01 |
-| ACT-TOBE-07 | Actualizar estado rechazo | ACT-AS-04 | - | HU-03 | - |
+| ACT-TOBE-07 | Actualizar estado rechazo | ACT-AS-04 | RP-06 | - | - |
 | ACT-TOBE-08 | Ver alternativas sugeridas | ACT-AS-04 | RP-06 | - | - |
 | ACT-TOBE-09 | Aprobar solicitud reserva | ACT-AS-05 | RP-05 | HU-03 | MET-INT-01 |
 | ACT-TOBE-10 | Bloquear fechas y ficha PDF | ACT-AS-05 | RP-07, RP-DER-01 | HU-04 | MET-SEC-01 |
