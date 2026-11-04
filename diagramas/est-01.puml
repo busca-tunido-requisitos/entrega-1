@@ -1,24 +1,42 @@
 @startuml
-skinparam state {
-  BackgroundColor White
-  BorderColor Black
-  ArrowColor Black
-}
-skinparam shadowing false
+title EST-01 · Solicitud de reserva
 skinparam defaultFontName Arial
-
-[*] --> Ingresada : enviarSolicitud() / emitirComprobante()
-
-Ingresada --> EnEvaluacion : abrirDetalle() / registrarLectura()
-Ingresada --> Cancelada : cancelarSolicitud() [estado == Ingresada] / liberarIntento()
-Ingresada --> Expirada : vencerPlazo() [tiempoEspera > 48h] / alertarExpiracion()
-
-EnEvaluacion --> Aprobada : presionarAprobar() [cupoDisponible] / bloquearCupoYGenerarFicha()
-EnEvaluacion --> Rechazada : presionarRechazar() / alertarYBuscarAlternativas()
-
+skinparam defaultFontSize 15
+skinparam titleFontSize 22
+skinparam titleFontColor #16324F
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam ArrowColor #64748B
+skinparam ArrowFontColor #334155
+skinparam ArrowFontSize 12
+skinparam roundcorner 14
+skinparam nodesep 65
+skinparam ranksep 65
+skinparam padding 12
+skinparam classBackgroundColor #F1F5F9
+skinparam classBorderColor #94A3B8
+skinparam classHeaderBackgroundColor #DBEAFE
+skinparam classFontColor #16324F
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #7C9CBF
+skinparam stateFontColor #16324F
+skinparam usecaseBackgroundColor #EFF6FF
+skinparam usecaseBorderColor #7C9CBF
+skinparam usecaseFontColor #16324F
+skinparam actorBorderColor #475569
+skinparam actorFontColor #16324F
+skinparam rectangleBorderColor #CBD5E1
+skinparam rectangleFontColor #16324F
+hide empty description
+state "En revisión" as Revision
+state Aprobada #DCFCE7
+state Rechazada #FEE2E2
+state Expirada #F1F5F9
+[*] --> Revision : / registrar solicitud
+Revision --> Aprobada : aprobar [con cupo y antes de 48 h]\n/ bloquear cupo y notificar
+Revision --> Rechazada : rechazar [antes de 48 h]\n/ notificar con alternativas
+Revision --> Expirada : after (48 h)\n/ notificar expiración
 Aprobada --> [*]
 Rechazada --> [*]
-Cancelada --> [*]
 Expirada --> [*]
-
 @enduml

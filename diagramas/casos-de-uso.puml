@@ -1,42 +1,51 @@
 @startuml
-left to right direction
-skinparam packageStyle rectangle
-skinparam shadowing false
+title CU-DG-01 · Casos de uso
 skinparam defaultFontName Arial
-
-actor "Estudiante" as Estudiante
-actor "Dueño de Pensión" as Dueno
-
-actor "Servicio Push (FCM)" as Push <<system>>
-actor "Servicio Criptográfico QR" as Crypto <<system>>
-
+skinparam defaultFontSize 15
+skinparam titleFontSize 22
+skinparam titleFontColor #16324F
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam ArrowColor #64748B
+skinparam ArrowFontColor #334155
+skinparam ArrowFontSize 12
+skinparam roundcorner 14
+skinparam nodesep 65
+skinparam ranksep 65
+skinparam padding 6
+skinparam classBackgroundColor #F1F5F9
+skinparam classBorderColor #94A3B8
+skinparam classHeaderBackgroundColor #DBEAFE
+skinparam classFontColor #16324F
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #7C9CBF
+skinparam stateFontColor #16324F
+skinparam usecaseBackgroundColor #EFF6FF
+skinparam usecaseBorderColor #7C9CBF
+skinparam usecaseFontColor #16324F
+skinparam actorBorderColor #475569
+skinparam actorFontColor #16324F
+skinparam rectangleBorderColor #CBD5E1
+skinparam rectangleFontColor #16324F
+left to right direction
+actor Estudiante
+actor "Dueño de pensión" as Dueno
 rectangle "BuscaTuNido" {
-  usecase "CU-01: Filtrar catálogo de alojamientos" as CU01
-  usecase "CU-02: Enviar solicitud formal de reserva" as CU02
-  usecase "CU-02A: Validar datos y disponibilidad" as CU02A
-  usecase "CU-03: Resolver postulación de reserva" as CU03
-  usecase "CU-03A: Bloquear cupo en catálogo" as CU03A
-  usecase "CU-03B: Sugerir pensiones alternativas" as CU03B
-  usecase "CU-04: Descargar comprobante oficial de reserva" as CU04
-  usecase "CU-04A: Generar firma digital QR offline" as CU04A
-  usecase "CU-05: Coordinar llegada mediante chat" as CU05
+ usecase "CU-01\nBuscar alojamiento" as CU01
+ usecase "CU-02\nSolicitar reserva" as CU02
+ usecase "CU-04\nObtener comprobante" as CU04
+ usecase "CU-05\nCoordinar llegada" as CU05
+ usecase "CU-03\nResolver solicitud" as CU03
 }
-
+actor "Servicio Push\n(FCM)" as Push <<externo>>
+actor "Servicio de firma QR" as QR <<externo>>
 Estudiante --> CU01
 Estudiante --> CU02
-CU02 ..> CU02A : <<include>>
-CU02 --> Push : <<notifica al dueño>>
-
-Dueno --> CU03
-CU03 ..> CU03A : <<include>>
-CU03B ..> CU03 : <<extend>>\n(al rechazar postulación)
-CU03 --> Push : <<notifica al estudiante>>
-
 Estudiante --> CU04
-CU04 ..> CU04A : <<include>>
-CU04A --> Crypto : <<firma>>
-
 Estudiante --> CU05
 Dueno --> CU05
-
+Dueno --> CU03
+CU02 --> Push
+CU03 --> Push
+CU04 --> QR
 @enduml

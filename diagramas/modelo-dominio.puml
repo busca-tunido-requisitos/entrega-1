@@ -1,75 +1,70 @@
 @startuml
-skinparam classAttributeIconSize 0
-skinparam monochrome false
-skinparam roundcorner 5
-skinparam shadowing false
+title DOM-01 · Modelo de dominio
 skinparam defaultFontName Arial
-skinparam classFontSize 12
-
+skinparam defaultFontSize 15
+skinparam titleFontSize 22
+skinparam titleFontColor #16324F
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam ArrowColor #64748B
+skinparam ArrowFontColor #334155
+skinparam ArrowFontSize 12
+skinparam roundcorner 14
+skinparam nodesep 65
+skinparam ranksep 65
+skinparam padding 12
+skinparam classBackgroundColor #F1F5F9
+skinparam classBorderColor #94A3B8
+skinparam classHeaderBackgroundColor #DBEAFE
+skinparam classFontColor #16324F
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #7C9CBF
+skinparam stateFontColor #16324F
+skinparam usecaseBackgroundColor #EFF6FF
+skinparam usecaseBorderColor #7C9CBF
+skinparam usecaseFontColor #16324F
+skinparam actorBorderColor #475569
+skinparam actorFontColor #16324F
+skinparam rectangleBorderColor #CBD5E1
+skinparam rectangleFontColor #16324F
 hide methods
 hide circle
-
-class Estudiante {
-  + nombreCompleto : String
-  + correoInstitucional : String
-  + telefono : String
-  + universidad : String
-  + carrera : String
+skinparam classAttributeIconSize 0
+class Persona {
+  nombreCompleto
+  correoElectronico
+  telefono
 }
-
-class Dueno {
-  + nombreCompleto : String
-  + correoElectronico : String
-  + telefonoContacto : String
-  + cuentaBancaria : String
-}
-
 class Pension {
-  + nombreComercial : String
-  + direccion : String
-  + comuna : String
-  + coordenadasGeograficas : String
-  + normasConvivencia : String
-  + serviciosIncluidos : String
+  nombreComercial
+  direccion
+  normasConvivencia
 }
-
 class Habitacion {
-  + identificadorHabitacion : String
-  + precioMensual : Integer
-  + tipoCama : String
-  + tieneBanoPrivado : Boolean
-  + estadoDisponibilidad : String
+  identificadorHabitacion
+  precioMensual
+  estadoDisponibilidad
 }
-
 class SolicitudReserva {
-  + codigoSolicitud : String
-  + fechaLlegadaEstimada : Fecha
-  + duracionEstadiaMeses : Integer
-  + mensajePresentacion : String
-  + fechaEnvio : FechaHora
-  + estado : String
+  codigoSolicitud
+  fechaLlegadaEstimada
+  estado
 }
-
 class FichaReserva {
-  + codigoReserva : String
-  + fechaEmision : FechaHora
-  + codigoQRFirmado : String
-  + estadoFicha : String
+  codigoReserva
+  fechaEmision
+  codigoQRFirmado
 }
-
 class MensajeChat {
-  + contenidoTexto : String
-  + fechaHoraEnvio : FechaHora
-  + leido : Boolean
+  contenidoTexto
+  fechaHoraEnvio
+  leido
 }
-
-Dueno "1" -- "1..*" Pension : administra >
-Pension "1" *-- "1..*" Habitacion : compone >
-Estudiante "1" -- "0..*" SolicitudReserva : postula >
-SolicitudReserva "0..*" -- "1" Habitacion : solicita >
-SolicitudReserva "1" -- "0..1" FichaReserva : genera >
-SolicitudReserva "1" -- "0..*" MensajeChat : habilita >
-Estudiante "1" -- "0..*" MensajeChat : emite >
-Dueno "1" -- "0..*" MensajeChat : emite >
-
+Persona "1" -right- "0..*" Pension : administra
+Pension "1" -down- "1..*" Habitacion : contiene
+Persona "1" -down- "0..*" SolicitudReserva : presenta
+SolicitudReserva "0..*" -right- "1" Habitacion : solicita
+SolicitudReserva "1" -down- "0..1" FichaReserva : genera
+SolicitudReserva "1" -left- "0..*" MensajeChat : contextualiza
+Persona "1" -left- "0..*" MensajeChat : envía
 @enduml
