@@ -1,0 +1,75 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam roundcorner 5
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam classFontSize 12
+
+hide methods
+hide circle
+
+class Estudiante {
+  + nombreCompleto : String
+  + correoInstitucional : String
+  + telefono : String
+  + universidad : String
+  + carrera : String
+}
+
+class Dueno {
+  + nombreCompleto : String
+  + correoElectronico : String
+  + telefonoContacto : String
+  + cuentaBancaria : String
+}
+
+class Pension {
+  + nombreComercial : String
+  + direccion : String
+  + comuna : String
+  + coordenadasGeograficas : String
+  + normasConvivencia : String
+  + serviciosIncluidos : String
+}
+
+class Habitacion {
+  + identificadorHabitacion : String
+  + precioMensual : Integer
+  + tipoCama : String
+  + tieneBanoPrivado : Boolean
+  + estadoDisponibilidad : String
+}
+
+class SolicitudReserva {
+  + codigoSolicitud : String
+  + fechaLlegadaEstimada : Fecha
+  + duracionEstadiaMeses : Integer
+  + mensajePresentacion : String
+  + fechaEnvio : FechaHora
+  + estado : String
+}
+
+class FichaReserva {
+  + codigoReserva : String
+  + fechaEmision : FechaHora
+  + codigoQRFirmado : String
+  + estadoFicha : String
+}
+
+class MensajeChat {
+  + contenidoTexto : String
+  + fechaHoraEnvio : FechaHora
+  + leido : Boolean
+}
+
+Dueno "1" -- "1..*" Pension : administra >
+Pension "1" *-- "1..*" Habitacion : compone >
+Estudiante "1" -- "0..*" SolicitudReserva : postula >
+SolicitudReserva "0..*" -- "1" Habitacion : solicita >
+SolicitudReserva "1" -- "0..1" FichaReserva : genera >
+SolicitudReserva "1" -- "0..*" MensajeChat : habilita >
+Estudiante "1" -- "0..*" MensajeChat : emite >
+Dueno "1" -- "0..*" MensajeChat : emite >
+
+@enduml

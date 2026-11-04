@@ -1,0 +1,22 @@
+@startuml
+skinparam state {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+[*] --> Disponible : publicarHabitacion() / habilitarEnCatalogo()
+
+Disponible --> Reservada : confirmarAprobacionReserva() [cupoLibre] / retirarDeCatalogo()
+Disponible --> EnMantenimiento : suspenderPorRefaccion() / ocultarEnBusqueda()
+EnMantenimiento --> Disponible : finalizarReparacion() / reactivarEnCatalogo()
+
+Reservada --> Ocupada : registrarCheckIn() [qrValido] / iniciarContrato()
+Reservada --> Disponible : rescindirReserva() / restablecerEnCatalogo()
+
+Ocupada --> Disponible : registrarCheckOut() / habilitarNuevaTemporada()
+Disponible --> [*] : darDeBajaInmueble()
+
+@enduml

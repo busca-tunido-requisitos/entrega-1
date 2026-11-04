@@ -1,0 +1,22 @@
+@startuml
+autonumber
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor ":Estudiante" as Estudiante
+participant ":BuscaTuNido" as Sistema
+participant ":ServicioFirmaQR" as Crypto
+actor ":Dueño" as Dueno
+
+Estudiante -> Sistema : solicitarFichaConfirmacion(codigoReserva)
+Sistema -> Crypto : generarFirmaDigital(codigoReserva, rutEstudiante, direccionInmueble, fechas)
+Crypto --> Sistema : codigoQRFirmado
+Sistema -> Sistema : compilarDocumentoPDF(datosReserva, codigoQRFirmado)
+Sistema --> Estudiante : entregarFichaReservaPDF()
+
+opt Variante: Verificación presencial offline en check-in
+    Estudiante -> Dueno : presentarFichaReservaPDF(codigoQRFirmado)
+    Dueno -> Dueno : escanearQRConLectorOffline()
+    note over Dueno : Valida clave pública y datos sin conexión a internet
+end
+@enduml

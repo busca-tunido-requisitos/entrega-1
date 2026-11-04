@@ -1,0 +1,42 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor "Estudiante" as Estudiante
+actor "Dueño de Pensión" as Dueno
+
+actor "Servicio Push (FCM)" as Push <<system>>
+actor "Servicio Criptográfico QR" as Crypto <<system>>
+
+rectangle "BuscaTuNido" {
+  usecase "CU-01: Filtrar catálogo de alojamientos" as CU01
+  usecase "CU-02: Enviar solicitud formal de reserva" as CU02
+  usecase "CU-02A: Validar datos y disponibilidad" as CU02A
+  usecase "CU-03: Resolver postulación de reserva" as CU03
+  usecase "CU-03A: Bloquear cupo en catálogo" as CU03A
+  usecase "CU-03B: Sugerir pensiones alternativas" as CU03B
+  usecase "CU-04: Descargar comprobante oficial de reserva" as CU04
+  usecase "CU-04A: Generar firma digital QR offline" as CU04A
+  usecase "CU-05: Coordinar llegada mediante chat" as CU05
+}
+
+Estudiante --> CU01
+Estudiante --> CU02
+CU02 ..> CU02A : <<include>>
+CU02 --> Push : <<notifica al dueño>>
+
+Dueno --> CU03
+CU03 ..> CU03A : <<include>>
+CU03B ..> CU03 : <<extend>>\n(al rechazar postulación)
+CU03 --> Push : <<notifica al estudiante>>
+
+Estudiante --> CU04
+CU04 ..> CU04A : <<include>>
+CU04A --> Crypto : <<firma>>
+
+Estudiante --> CU05
+Dueno --> CU05
+
+@enduml

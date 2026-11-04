@@ -1,0 +1,24 @@
+@startuml
+skinparam state {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+[*] --> Ingresada : enviarSolicitud() / emitirComprobante()
+
+Ingresada --> EnEvaluacion : abrirDetalle() / registrarLectura()
+Ingresada --> Cancelada : cancelarSolicitud() [estado == Ingresada] / liberarIntento()
+Ingresada --> Expirada : vencerPlazo() [tiempoEspera > 48h] / alertarExpiracion()
+
+EnEvaluacion --> Aprobada : presionarAprobar() [cupoDisponible] / bloquearCupoYGenerarFicha()
+EnEvaluacion --> Rechazada : presionarRechazar() / alertarYBuscarAlternativas()
+
+Aprobada --> [*]
+Rechazada --> [*]
+Cancelada --> [*]
+Expirada --> [*]
+
+@enduml

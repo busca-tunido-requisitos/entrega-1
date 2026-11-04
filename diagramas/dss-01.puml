@@ -1,0 +1,27 @@
+@startuml
+autonumber
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor ":Dueño" as Dueno
+participant ":BuscaTuNido" as Sistema
+participant ":ServicioPush" as Push
+actor ":Estudiante" as Estudiante
+
+Dueno -> Sistema : abrirBandejaSolicitudes()
+Sistema --> Dueno : mostrarDetalleSolicitud(estudiante, carrera, fechas, mensaje)
+
+alt Escenario Principal: Dueño aprueba la solicitud
+    Dueno -> Sistema : aprobarSolicitudReserva(codigoSolicitud)
+    Sistema -> Sistema : bloquearCupoHabitacion()
+    Sistema -> Push : despacharNotificacionAprobacion(estudianteId, codigoReserva)
+    Push --> Estudiante : notificarReservaAprobada(codigoReserva)
+    Sistema --> Dueno : confirmarAprobacionYCupoBloqueado()
+else Escenario Alternativo: Dueño rechaza la solicitud
+    Dueno -> Sistema : rechazarSolicitudReserva(codigoSolicitud, motivo)
+    Sistema -> Sistema : registrarRechazoYBuscarAlternativas(sector, presupuesto)
+    Sistema -> Push : despacharNotificacionRechazoConAlternativas(estudianteId)
+    Push --> Estudiante : notificarRechazoYSugerirPensiones(listaAlternativas)
+    Sistema --> Dueno : confirmarRechazoYHabitacionDisponible()
+end
+@enduml
