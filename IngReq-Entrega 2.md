@@ -23,10 +23,6 @@
 | 11-diagramas-estado.md | 5 | Vicente Arancibia Araya |
 | 12-trazabilidad.md | 6 | José Ignacio Leiva |
 
-## Uso de IA generativa
-
-Se utilizó Antigravity (Gemini 3.8 Flash) como herramienta de asistencia técnica para la estructuración de especificaciones formales, generación de plantillas Gherkin y codificación de fuentes PlantUML. El equipo auditó, corrigió y validó críticamente cada artefacto: se ajustaron las multiplicidades y composiciones del modelo de dominio a la realidad del mercado de arriendos, se eliminaron detalles de interfaz y métodos técnicos de los diagramas de secuencia para mantener el sistema como caja negra, se formalizaron las guardas y acciones de las máquinas de estado, y se garantizó la trazabilidad bidireccional estricta con la Entrega 1.
-
 ## Entrega anterior
 
 [IngReq-Entrega 1](./IngReq-Entrega%201.md)
