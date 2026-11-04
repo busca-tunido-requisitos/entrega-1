@@ -30,7 +30,7 @@
 
     <bpmn:startEvent id="Start_Estudiante" name="Necesita pensión" />
     <bpmn:manualTask id="ACT_AS_01A" name="ACT-AS-01A: Buscar avisos físicos en el sector universitario" />
-    <bpmn:userTask id="ACT_AS_01B" name="ACT-AS-01B: Revisar publicaciones de pensiones en redes sociales" />
+    <bpmn:manualTask id="ACT_AS_01B" name="ACT-AS-01B: Revisar publicaciones de pensiones en redes sociales" />
     <bpmn:manualTask id="ACT_AS_02" name="ACT-AS-02: Llamar al dueño para consultar disponibilidad y precio" />
     <bpmn:manualTask id="ACT_AS_03" name="ACT-AS-03: Revisar disponibilidad en cuaderno manual" />
     <bpmn:exclusiveGateway id="Gateway_Cupo" name="¿Hay pieza disponible?" />

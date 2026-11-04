@@ -21,7 +21,7 @@ Permitir que los estudiantes de educación superior encuentren y arrienden una h
 
 Archivo fuente: [`./assets/diagramas/as-is.bpmn`](./assets/diagramas/as-is.bpmn)
 
-> **Nota de notación BPMN 2.0:** El AS-IS distingue los tipos de tarea según cómo se ejecuta hoy cada actividad. Las acciones realizadas sin apoyo de un sistema se modelan como **Tareas Manuales**; la revisión de publicaciones en redes sociales se modela como **Tarea de Usuario**, porque la persona interactúa con una plataforma digital para realizar la actividad. No existen Tareas de Servicio en el proceso actual, ya que ninguna actividad es ejecutada automáticamente por un sistema.
+> **Nota de notación BPMN 2.0:** En el proceso AS-IS, todas las actividades se modelan como **Tareas Manuales** (`Manual Task`), ya que ninguna actividad es orquestada ni ejecutada con apoyo de un sistema de información propio del negocio. La revisión de publicaciones en redes sociales externas o las llamadas telefónicas se clasifican como tareas manuales realizadas por los participantes sin soporte de una aplicación de workflow. No existen Tareas de Servicio ni Tareas de Usuario en el proceso actual.
 
 ---
 
@@ -32,7 +32,7 @@ Archivo fuente: [`./assets/diagramas/as-is.bpmn`](./assets/diagramas/as-is.bpmn)
 El estudiante recorre a pie los alrededores de las universidades y revisa avisos físicos o carteles para recopilar números de contacto de pensiones.
 
 ### ACT-AS-01B — Revisar publicaciones de pensiones en redes sociales
-**Tipo BPMN:** Tarea de Usuario (`User Task`).  
+**Tipo BPMN:** Tarea Manual (`Manual Task`).  
 El estudiante revisa grupos y publicaciones en redes sociales para identificar pensiones y obtener datos de contacto.
 
 ### ACT-AS-02 — Llamar para consultar disponibilidad y precio
