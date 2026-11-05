@@ -2,7 +2,7 @@
 
 ## DOM-01 — Modelo de dominio de BuscaTuNido
 
-![DOM-01: Modelo de dominio](./diagramas/modelo-dominio.png)
+![DOM-01: Modelo de dominio](./diagramas/modelo-dominio-simplificado.png)
 
 Archivo fuente: [modelo-dominio.puml](./diagramas/modelo-dominio.puml)
 
