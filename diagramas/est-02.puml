@@ -1,22 +1,39 @@
 @startuml
-skinparam state {
-  BackgroundColor White
-  BorderColor Black
-  ArrowColor Black
-}
-skinparam shadowing false
+title EST-02 · Habitación
 skinparam defaultFontName Arial
-
-[*] --> Disponible : publicarHabitacion() / habilitarEnCatalogo()
-
-Disponible --> Reservada : confirmarAprobacionReserva() [cupoLibre] / retirarDeCatalogo()
-Disponible --> EnMantenimiento : suspenderPorRefaccion() / ocultarEnBusqueda()
-EnMantenimiento --> Disponible : finalizarReparacion() / reactivarEnCatalogo()
-
-Reservada --> Ocupada : registrarCheckIn() [qrValido] / iniciarContrato()
-Reservada --> Disponible : rescindirReserva() / restablecerEnCatalogo()
-
-Ocupada --> Disponible : registrarCheckOut() / habilitarNuevaTemporada()
-Disponible --> [*] : darDeBajaInmueble()
-
+skinparam defaultFontSize 15
+skinparam titleFontSize 22
+skinparam titleFontColor #16324F
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam ArrowColor #64748B
+skinparam ArrowFontColor #334155
+skinparam ArrowFontSize 12
+skinparam roundcorner 14
+skinparam nodesep 65
+skinparam ranksep 65
+skinparam padding 12
+skinparam classBackgroundColor #F1F5F9
+skinparam classBorderColor #94A3B8
+skinparam classHeaderBackgroundColor #DBEAFE
+skinparam classFontColor #16324F
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #7C9CBF
+skinparam stateFontColor #16324F
+skinparam usecaseBackgroundColor #EFF6FF
+skinparam usecaseBorderColor #7C9CBF
+skinparam usecaseFontColor #16324F
+skinparam actorBorderColor #475569
+skinparam actorFontColor #16324F
+skinparam rectangleBorderColor #CBD5E1
+skinparam rectangleFontColor #16324F
+hide empty description
+state Disponible #DCFCE7
+state Reservada #DBEAFE
+state Ocupada #EDE9FE
+[*] --> Disponible : / publicar oferta
+Disponible -right-> Reservada : aprobar [solicitud vigente]\n/ bloquear cupo
+Reservada -down-> Ocupada : registrar llegada [QR válido]\n/ confirmar ingreso
+Ocupada -left-> Disponible : registrar salida\n/ habilitar cupo
+Disponible -down-> [*] : dar de baja\n/ cerrar oferta
 @enduml
