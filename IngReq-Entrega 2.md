@@ -23,6 +23,12 @@
 | 11-diagramas-estado.md | 5 | Vicente Arancibia Araya |
 | 12-trazabilidad.md | 6 | José Ignacio Leiva |
 
+## Uso de IA generativa
+
+Utilizaremos **Codex** y **Antigravity** como herramientas de apoyo para elaborar y revisar borradores de la documentación y los diagramas UML. Codex ya se utilizó para corregir y simplificar los modelos de dominio, casos de uso y estados, y ajustar sus tablas y referencias de trazabilidad.
+
+Se corrigieron multiplicidades, relaciones entre casos de uso y transiciones de estado; también se redujo el texto de los diagramas para mejorar su legibilidad. El equipo revisará críticamente las propuestas de ambas herramientas, corregirá o descartará lo que no corresponda al negocio y será responsable de validar el contenido final.
+
 ## Entrega anterior
 
 [IngReq-Entrega 1](./IngReq-Entrega%201.md)
