@@ -25,7 +25,7 @@
 
 ## Uso de IA generativa
 
-Utilizaremos **Codex** y **Antigravity** como herramientas de apoyo para elaborar y revisar borradores de la documentación y los diagramas UML. Codex ya se utilizó para corregir y simplificar los modelos de dominio, casos de uso y estados, y ajustar sus tablas y referencias de trazabilidad.
+Utilizamos **Codex** y **Antigravity** como herramientas de apoyo para elaborar y revisar borradores de la documentación y los diagramas UML. Codex ya se utilizó para corregir y simplificar los modelos de dominio, casos de uso y estados, y ajustar sus tablas y referencias de trazabilidad.
 
 Se corrigieron multiplicidades, relaciones entre casos de uso y transiciones de estado; también se redujo el texto de los diagramas para mejorar su legibilidad. El equipo revisará críticamente las propuestas de ambas herramientas, corregirá o descartará lo que no corresponda al negocio y será responsable de validar el contenido final.
 
