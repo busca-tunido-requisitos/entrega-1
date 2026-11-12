@@ -12,9 +12,9 @@ El diagrama muestra los atributos esenciales. La tabla siguiente conserva el det
 
 | Clase | Qué representa en el negocio | Atributos |
 |-------|------------------------------|-----------|
-| Persona | Persona que participa como estudiante postulante, arrendador o ambos. | nombreCompleto, correoElectronico, telefono, correoInstitucional, universidad, carrera |
+| Persona | Persona que participa como estudiante postulante, arrendador o ambos. | nombreCompleto, correoElectronico, telefono, correoInstitucional, correoInstitucionalVerificado, universidad, carrera |
 | Pension | Inmueble que ofrece alojamiento a estudiantes. | nombreComercial, direccion, comuna, coordenadasGeograficas, normasConvivencia, serviciosIncluidos |
-| Habitacion | Espacio ofrecido en arriendo dentro de una pensión. | identificadorHabitacion, precioMensual, tipoCama, tieneBanoPrivado, estadoDisponibilidad |
+| Habitacion | Espacio ofrecido en arriendo dentro de una pensión. | identificadorHabitacion, precioMensual, tipoCama, tieneBanoPrivado, estadoDisponibilidad, fechaInicioAdmision, fechaFinAdmision |
 | SolicitudReserva | Postulación de una persona a una habitación para una fecha y duración determinadas. | codigoSolicitud, fechaLlegadaEstimada, duracionEstadiaMeses, mensajePresentacion, fechaEnvio, estado |
 | FichaReserva | Comprobante de una solicitud aprobada, con código de verificación firmado. | codigoReserva, fechaEmision, codigoQRFirmado, estadoFicha |
 | MensajeChat | Mensaje de coordinación de llegada asociado a una solicitud aprobada. | contenidoTexto, fechaHoraEnvio, leido |
@@ -37,4 +37,5 @@ El diagrama muestra los atributos esenciales. La tabla siguiente conserva el det
 - Se usan asociaciones simples, sin herencia, agregación ni composición. Dar de baja una oferta no implica destruir la habitación física ni eliminar solicitudes, fichas o conversaciones históricas.
 - Los atributos representan información del negocio, sin métodos ni modificadores de visibilidad. No se incluyen cuentas bancarias porque el alcance no contempla pagos.
 - `EstadoSolicitud` corresponde a los estados de EST-01: En revisión, Aprobada, Rechazada y Expirada. `EstadoHabitacion` corresponde a EST-02: Disponible, Reservada y Ocupada.
+- `Persona.correoInstitucionalVerificado` y las fechas `fechaInicioAdmision`/`fechaFinAdmision` de `Habitacion` se incorporan por HU-02 (confirmado el 2026-11-12): el correo verificado es condición para postular y las fechas delimitan el período válido de ingreso.
 - Puede haber varias solicitudes para una habitación, pero la aprobación exige disponibilidad y bloquea el cupo para impedir aprobaciones incompatibles. Una solicitud pendiente o rechazada no habilita ficha ni chat.

@@ -1,2 +1,6 @@
-docs/
 .agents/
+node_modules/
+dist/
+data/*.db
+data/*.db-*
+.env

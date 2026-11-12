@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catálogo de pensiones · BuscaTuNido</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Catálogo de pensiones universitarias · Región de Valparaíso</p>
+      </div>
+      <label class="rol">
+        Rol (demostración)
+        <select id="rol" name="rol">
+          <option value="Estudiante" selected>Estudiante</option>
+        </select>
+      </label>
+    </header>
+
+    <main class="disposicion">
+      <form
+        id="form-filtros"
+        class="filtros"
+        method="get"
+        action="/catalogo"
+        data-filtros
+      >
+        <h2>Filtros</h2>
+
+        <div class="campo">
+          <label for="sede">Sede universitaria</label>
+          <select id="sede" name="sede">
+            <% sedes.forEach(function (sede) { %>
+            <option value="<%= sede.id %>" <%= sede.id === filtros.sedeId ? 'selected' : '' %>>
+              <%= sede.nombre %> — <%= sede.comuna %>
+            </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="campo doble">
+          <div>
+            <label for="precioMin">Precio mínimo (CLP)</label>
+            <input
+              type="number"
+              id="precioMin"
+              name="precioMin"
+              min="0"
+              step="1000"
+              value="<%= filtros.precioMin %>"
+            />
+          </div>
+          <div>
+            <label for="precioMax">Precio máximo (CLP)</label>
+            <input
+              type="number"
+              id="precioMax"
+              name="precioMax"
+              min="0"
+              step="1000"
+              value="<%= filtros.precioMax %>"
+            />
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="radioKm">Radio de búsqueda</label>
+          <select id="radioKm" name="radioKm">
+            <% [1, 2, 5, 10].forEach(function (km) { %>
+            <option value="<%= km %>" <%= Number(filtros.radioKm) === km ? 'selected' : '' %>>
+              <%= km %> km a la redonda
+            </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Normas de convivencia</legend>
+          <label class="check">
+            <input
+              type="checkbox"
+              name="permiteVisitas"
+              value="1"
+              <%= filtros.permiteVisitas ? 'checked' : '' %>
+            />
+            Permite visitas
+          </label>
+          <label class="check">
+            <input
+              type="checkbox"
+              name="permiteMascotas"
+              value="1"
+              <%= filtros.permiteMascotas ? 'checked' : '' %>
+            />
+            Permite mascotas
+          </label>
+          <label class="check">
+            <input
+              type="checkbox"
+              name="sinToqueQueda"
+              value="1"
+              <%= filtros.sinToqueQueda ? 'checked' : '' %>
+            />
+            Sin toque de queda
+          </label>
+        </fieldset>
+
+        <button type="submit">Actualizar catálogo</button>
+        <p class="nota">
+          Los filtros se aplican al instante. Este botón sirve si el navegador no
+          ejecuta JavaScript.
+        </p>
+      </form>
+
+      <section class="panel-resultados" aria-live="polite">
+        <p id="resumen" class="resumen"><%= resumen %></p>
+        <div id="resultados">
+          <%- include('parciales/lista', { resultados: resultados,
+          sinCoincidencias: sinCoincidencias, formatearPrecio: formatearPrecio,
+          formatearDistancia: formatearDistancia }) %>
+        </div>
+      </section>
+
+      <section class="panel-mapa">
+        <h2>Mapa</h2>
+        <div
+          id="mapa"
+          class="mapa"
+          role="application"
+          aria-label="Mapa de pensiones cercanas a la sede seleccionada"
+        ></div>
+        <p id="aviso-mapa" class="aviso" hidden>
+          El mapa no está disponible sin conexión. La lista y los filtros siguen
+          funcionando.
+        </p>
+        <p class="nota">
+          Mapa: Leaflet + OpenStreetMap. Requiere internet para las teselas.
+        </p>
+      </section>
+    </main>
+
+    <script type="application/json" id="datos-catalogo"><%- datosMapaJson %></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/catalogo.js"></script>
+  </body>
+</html>

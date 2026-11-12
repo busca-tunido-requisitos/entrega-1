@@ -1,0 +1,34 @@
+<% if (sinCoincidencias) { %>
+<div class="vacio" role="status">
+  <h2>No se encontraron habitaciones disponibles con ese criterio</h2>
+  <p>
+    Sugerencias: amplía el radio de búsqueda geográfica o flexibiliza las normas
+    seleccionadas.
+  </p>
+</div>
+<% } else { %>
+<ul class="tarjetas">
+  <% resultados.forEach(function (pension) { %>
+  <li class="tarjeta">
+    <div class="tarjeta-cabecera">
+      <h2><%= pension.nombreComercial %></h2>
+      <span class="chip"><%= formatearDistancia(pension.distanciaMetros) %></span>
+    </div>
+    <p class="direccion"><%= pension.direccion %>, <%= pension.comuna %></p>
+    <p class="precio">Desde <%= formatearPrecio(pension.precioDesde) %> al mes</p>
+    <p class="detalle">
+      <%= pension.habitacionesDisponibles %> habitación(es) disponible(s) en el
+      rango de precio
+    </p>
+    <ul class="normas">
+      <li><%= pension.permiteVisitas ? 'Permite visitas' : 'No permite visitas' %></li>
+      <li><%= pension.permiteMascotas ? 'Permite mascotas' : 'No permite mascotas' %></li>
+      <li>
+        <%= pension.horaToqueQueda ? 'Toque de queda ' + pension.horaToqueQueda : 'Sin toque de queda' %>
+      </li>
+    </ul>
+    <p class="servicios"><%= pension.serviciosIncluidos %></p>
+  </li>
+  <% }) %>
+</ul>
+<% } %>

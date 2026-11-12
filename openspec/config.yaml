@@ -1,0 +1,32 @@
+schema: spec-driven
+
+context: |
+  Proyecto del curso CIN 324 (Ingeniería de Requisitos): aplicación web sencilla
+  generada historia por historia desde la documentación del repositorio.
+  Idioma: escribe todos los artefactos de OpenSpec y los textos de la interfaz en español.
+  Stack: TypeScript + Express + EJS + better-sqlite3 + Vitest.
+  Base de datos: SQLite en data/app.db. Migraciones SQL numeradas en src/db/migrations,
+  registradas en schema_migrations.
+  Artefactos del curso (fuente de verdad, no modificar sin permiso del estudiante):
+  historias y Gherkin en 04-historias-usuario.md y 07-criterios-aceptacion.md,
+  modelo de dominio en 08-modelo-dominio.md y diagramas/modelo-dominio.puml,
+  casos de uso en 09-casos-de-uso.md, diagramas de secuencia en 10-diagramas-secuencia.md,
+  diagramas de estado en 11-diagramas-estado.md.
+  Fichas confirmadas de cada historia en .cin324/historias/HU-xx.md: son el insumo de cada propuesta.
+  Alcance: una historia por cambio. No se implementan requisitos no funcionales ni autenticación real
+  (usar selector de rol de demostración). Los sistemas externos se simulan mediante adaptadores.
+  El catálogo de sedes universitarias y los datos de ejemplo viven en la base SQLite.
+
+rules:
+  proposal:
+    - Citar la historia (HU-xx), la actividad del TO-BE y el caso de uso de origen.
+    - Indicar explícitamente qué queda fuera del alcance.
+  specs:
+    - Un requisito por cada regla del Gherkin y un escenario por cada escenario Gherkin, con el mismo vocabulario del dominio.
+    - Los nombres de entidades, estados y mensajes deben coincidir con el modelo de dominio y los diagramas.
+  design:
+    - Derivar tablas del modelo de dominio, transiciones del diagrama de estado y rutas del diagrama de secuencia.
+    - Declarar qué integraciones externas se simulan y cómo.
+  tasks:
+    - Tareas pequeñas y verificables, que incluyan datos de ejemplo, lógica, pantallas y una prueba por escenario Gherkin.
+    - Como última tarea, actualizar el README con cómo instalar, ejecutar y probar.
