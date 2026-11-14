@@ -50,7 +50,7 @@
 |----------|--------|--------------------|-------|----------------|
 | HU-01 | hecha — validada sin observaciones | `hu-01-catalogo-filtros` (archivado) | 2026-11-12 | 19/19 tareas y 2/2 pruebas; cambio en `openspec/changes/archive/2026-11-12-hu-01-catalogo-filtros/` |
 | HU-02 | hecha — validada sin observaciones y archivada | `hu-02-solicitud-reserva` (archivado en `openspec/changes/archive/2026-11-14-hu-02-solicitud-reserva`) | 2026-11-14 | 27/27 tareas y 11/11 pruebas; especificación vigente en `openspec/specs/solicitud-reserva/spec.md`; formulario de postulación con código `SOL-<año>-<secuencial>` y push simulado en `notificacion` |
-| HU-03 | implementada — pendiente de validación | `hu-03-resolver-solicitud` | 2026-11-14 | 27/27 tareas y 19/19 pruebas; bandeja del dueño, aprobación con bloqueo de cupo y ficha `RES-<código>`, rechazo con motivo y alternativas del sector, expiración a las 48 h |
+| HU-03 | hecha — validada sin observaciones y archivada | `hu-03-resolver-solicitud` (archivado en `openspec/changes/archive/2026-11-14-hu-03-resolver-solicitud`) | 2026-11-14 | 23/23 tareas y 19/19 pruebas; bandeja del dueño con aprobación (cupo bloqueado + ficha `RES-<código>`), rechazo con motivo y alternativas del sector, y expiración a las 48 h; requisitos publicados en `openspec/specs/solicitud-reserva/spec.md` |
 | HU-04 | pendiente | — | — | Depende de HU-03 (reserva aprobada) |
 
 ## Validaciones
@@ -58,6 +58,7 @@
 |----------|---------|--------|-------|
 | HU-01 | `.cin324/validaciones/VAL-HU-01-1.md` | sin observaciones | 2026-11-11 |
 | HU-02 | `.cin324/validaciones/VAL-HU-02-1.md` | sin observaciones | 2026-11-14 |
+| HU-03 | `.cin324/validaciones/VAL-HU-03-1.md` | sin observaciones | 2026-11-14 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
