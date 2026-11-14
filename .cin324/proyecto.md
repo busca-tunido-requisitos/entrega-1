@@ -57,7 +57,7 @@
 | Historia | Informe | Estado | Fecha |
 |----------|---------|--------|-------|
 | HU-01 | `.cin324/validaciones/VAL-HU-01-1.md` | sin observaciones | 2026-11-11 |
-| HU-02 | (validación del estudiante en la prueba manual previa al archivado) | sin observaciones | 2026-11-14 |
+| HU-02 | `.cin324/validaciones/VAL-HU-02-1.md` | sin observaciones | 2026-11-14 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
