@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bandeja del dueño · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Bandeja de postulaciones · <%= dueno.nombreCompleto %></p>
+      </div>
+      <a class="volver" href="/catalogo">← Volver al catálogo</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Postulaciones por resolver</h2>
+
+        <% if (aviso === 'aprobada') { %>
+          <p class="aviso-ok" role="status">
+            Solicitud aprobada: el cupo quedó bloqueado y se emitió la ficha de reserva.
+          </p>
+        <% } else if (aviso === 'rechazada') { %>
+          <p class="aviso-ok" role="status">
+            Solicitud rechazada: la habitación sigue disponible y el postulante recibió las
+            alternativas del sector.
+          </p>
+        <% } else if (aviso === 'error') { %>
+          <p class="error-campo" role="alert"><%= mensaje %></p>
+        <% } %>
+
+        <% if (expiradas > 0) { %>
+          <p class="nota">
+            <%= expiradas %> postulación(es) superaron las 48 horas y se marcaron como
+            «Expirada».
+          </p>
+        <% } %>
+
+        <% if (pendientes.length === 0) { %>
+          <div class="vacio" role="status">
+            <h3>No hay postulaciones por resolver</h3>
+            <p>
+              Cuando un estudiante postule a una de tus habitaciones, la solicitud aparecerá
+              aquí.
+            </p>
+          </div>
+        <% } else { %>
+          <ul class="postulaciones">
+            <% pendientes.forEach(function (detalle) { %>
+            <li class="postulacion">
+              <div class="postulacion-cabecera">
+                <h3><%= detalle.persona.nombreCompleto %></h3>
+                <span class="chip"><%= detalle.solicitud.codigoSolicitud %></span>
+              </div>
+              <p class="postulacion-datos">
+                <%= detalle.persona.universidad %>
+                <% if (detalle.persona.carrera) { %> · <%= detalle.persona.carrera %><% } %>
+              </p>
+              <p class="postulacion-datos">
+                Ingreso el <%= formatearFecha(detalle.solicitud.fechaLlegadaEstimada) %> ·
+                <%= detalle.solicitud.duracionEstadiaMeses %> mes(es) ·
+                <%= detalle.habitacion.identificadorHabitacion %> en
+                <%= detalle.pension.nombreComercial %>
+              </p>
+              <p class="postulacion-mensaje"><%= detalle.solicitud.mensajePresentacion %></p>
+              <a class="boton-enlace" href="/bandeja/<%= detalle.solicitud.codigoSolicitud %>">
+                Revisar y resolver
+              </a>
+            </li>
+            <% }) %>
+          </ul>
+        <% } %>
+
+        <% if (resueltas.length > 0) { %>
+          <h2 class="subtitulo">Resueltas recientemente</h2>
+          <ul class="postulaciones resueltas">
+            <% resueltas.forEach(function (detalle) { %>
+            <li class="postulacion">
+              <div class="postulacion-cabecera">
+                <h3><%= detalle.persona.nombreCompleto %></h3>
+                <span class="chip"><%= detalle.solicitud.estado %></span>
+              </div>
+              <p class="postulacion-datos">
+                <%= detalle.habitacion.identificadorHabitacion %> en
+                <%= detalle.pension.nombreComercial %> ·
+                enviada el <%= formatearFechaHora(detalle.solicitud.fechaEnvio) %>
+              </p>
+              <% if (detalle.solicitud.motivoRechazo) { %>
+                <p class="postulacion-mensaje">Motivo: <%= detalle.solicitud.motivoRechazo %></p>
+              <% } %>
+              <a class="boton-enlace secundario" href="/bandeja/<%= detalle.solicitud.codigoSolicitud %>">
+                Ver detalle
+              </a>
+            </li>
+            <% }) %>
+          </ul>
+        <% } %>
+
+        <p class="nota">
+          Rol de demostración: no hay autenticación real. La notificación push al postulante
+          se registra en la base de datos, no se envía de verdad.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

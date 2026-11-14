@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Postulación <%= solicitud.codigoSolicitud %> · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Postulación <%= solicitud.codigoSolicitud %> · <%= pension.nombreComercial %></p>
+      </div>
+      <a class="volver" href="/bandeja">← Volver a la bandeja</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Ficha del postulante</h2>
+
+        <ul class="datos-habitacion">
+          <li>
+            <span>Nombre</span>
+            <strong><%= persona.nombreCompleto %></strong>
+          </li>
+          <li>
+            <span>Carrera</span>
+            <strong><%= persona.carrera ?? 'No informada' %></strong>
+          </li>
+          <li>
+            <span>Universidad</span>
+            <strong><%= persona.universidad ?? 'No informada' %></strong>
+          </li>
+          <li>
+            <span>Correo institucional</span>
+            <strong><%= persona.correoInstitucional %></strong>
+          </li>
+          <li>
+            <span>Fecha de ingreso</span>
+            <strong><%= formatearFecha(solicitud.fechaLlegadaEstimada) %></strong>
+          </li>
+          <li>
+            <span>Duración estimada</span>
+            <strong><%= solicitud.duracionEstadiaMeses %> mes(es)</strong>
+          </li>
+          <li>
+            <span>Habitación</span>
+            <strong><%= habitacion.identificadorHabitacion %></strong>
+          </li>
+          <li>
+            <span>Precio mensual</span>
+            <strong><%= formatearPrecio(habitacion.precioMensual) %></strong>
+          </li>
+          <li>
+            <span>Enviada el</span>
+            <strong><%= formatearFechaHora(solicitud.fechaEnvio) %></strong>
+          </li>
+          <li>
+            <span>Estado</span>
+            <strong><%= solicitud.estado %></strong>
+          </li>
+        </ul>
+
+        <p class="nota">
+          Mensaje del postulante: «<%= solicitud.mensajePresentacion %>»
+        </p>
+
+        <% if (solicitud.estado === 'En revisión') { %>
+          <div class="resoluciones">
+            <form class="panel-accion" method="post" action="/bandeja/<%= solicitud.codigoSolicitud %>/aprobar">
+              <h3>Aprobar</h3>
+              <p>
+                La solicitud queda <strong>Aprobada</strong>, la habitación pasa a
+                <strong>Reservada</strong> y se bloquea el cupo en el catálogo. Se emite la
+                ficha de reserva y se notifica al postulante.
+              </p>
+              <button type="submit">Aprobar y bloquear cupo</button>
+            </form>
+
+            <form class="panel-accion" method="post" action="/bandeja/<%= solicitud.codigoSolicitud %>/rechazar">
+              <h3>Rechazar</h3>
+              <div class="campo">
+                <label for="motivo">Motivo de incompatibilidad</label>
+                <textarea id="motivo" name="motivo" rows="4" required></textarea>
+              </div>
+              <p>
+                La solicitud queda <strong>Rechazada</strong> y la habitación sigue
+                <strong>Disponible</strong>. El postulante recibe el motivo y un listado de
+                pensiones similares del mismo sector.
+              </p>
+              <button type="submit" class="boton-rechazo">Rechazar y sugerir alternativas</button>
+            </form>
+          </div>
+        <% } else { %>
+          <p class="aviso" role="status">
+            Esta postulación ya fue resuelta («<%= solicitud.estado %>»), por lo que no puede
+            modificarse.
+            <% if (solicitud.motivoRechazo) { %>
+              Motivo del rechazo: <%= solicitud.motivoRechazo %>.
+            <% } %>
+          </p>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>

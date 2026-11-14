@@ -58,6 +58,7 @@ interface FilaSolicitud {
   mensaje_presentacion: string;
   fecha_envio: string;
   estado: SolicitudReserva['estado'];
+  motivo_rechazo: string | null;
 }
 
 interface FilaNotificacion {
@@ -124,6 +125,7 @@ function aSolicitud(fila: FilaSolicitud): SolicitudReserva {
     mensajePresentacion: fila.mensaje_presentacion,
     fechaEnvio: fila.fecha_envio,
     estado: fila.estado,
+    motivoRechazo: fila.motivo_rechazo,
   };
 }
 
@@ -234,7 +236,8 @@ export function insertarSolicitud(
     const fila = db
       .prepare(
         `SELECT id, codigo_solicitud, persona_id, habitacion_id, fecha_llegada_estimada,
-                duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado
+                duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado,
+                motivo_rechazo
            FROM solicitud_reserva
           WHERE id = ?`,
       )
@@ -263,7 +266,8 @@ export function buscarSolicitudPorCodigo(
   const fila = db
     .prepare(
       `SELECT id, codigo_solicitud, persona_id, habitacion_id, fecha_llegada_estimada,
-              duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado
+              duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado,
+              motivo_rechazo
          FROM solicitud_reserva
         WHERE codigo_solicitud = ?`,
     )

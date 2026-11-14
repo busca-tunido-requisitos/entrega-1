@@ -205,6 +205,19 @@ const PERFIL_DEMO = {
 };
 
 /**
+ * Dueño de demostración (HU-03): un `Persona` con rol de arrendador que
+ * administra las pensiones de ejemplo (asociación `administra` de DOM-01).
+ */
+const DUENO_DEMO = {
+  nombreCompleto: 'Rodrigo Pérez Soto',
+  correoElectronico: 'dueno@buscatunido.cl',
+  telefono: '+56 9 1111 1111',
+  correoInstitucional: 'rodrigo.perez@ejemplo.cl',
+  universidad: 'Universidad de Valparaíso',
+  carrera: null,
+};
+
+/**
  * Semestre académico en curso: enero–junio → 01-01 a 07-15; julio–diciembre →
  * 07-16 a 12-31. Las habitaciones admiten arriendos solo en ese período.
  */
@@ -286,6 +299,13 @@ export function sembrarDatos(db: Database.Database): void {
      )
   `);
 
+  // HU-03: el dueño de demostración administra todas las pensiones de ejemplo.
+  const asignarDueno = db.prepare(`
+    UPDATE pension
+       SET persona_dueno_id = (SELECT id FROM persona WHERE correo_institucional = ?)
+     WHERE persona_dueno_id IS NULL
+  `);
+
   const carga = db.transaction(() => {
     for (const sede of SEDES) {
       upsertSede.run(sede);
@@ -315,6 +335,11 @@ export function sembrarDatos(db: Database.Database): void {
     // Perfil de estudiante de demostración (HU-02): se inserta una sola vez.
     insertarPerfilDemo.run(PERFIL_DEMO);
 
+    // Dueño de demostración (HU-03): se inserta una sola vez y se asigna a las
+    // pensiones de ejemplo mediante la asociación `administra`.
+    insertarPerfilDemo.run(DUENO_DEMO);
+    asignarDueno.run(DUENO_DEMO.correoInstitucional);
+
     // Comprobación de que las sedes quedaron cargadas (evita silencios si se edita la lista).
     for (const sede of SEDES) {
       if (!buscarSede.get(sede.nombre)) {
@@ -337,7 +362,7 @@ if (require.main === module) {
 
   console.log(
     `Datos de ejemplo cargados: ${sedes.total} sedes, ${pensiones.total} pensiones, ` +
-      `${habitaciones.total} habitaciones y ${personas.total} perfil(es) de estudiante.`,
+      `${habitaciones.total} habitaciones y ${personas.total} personas (perfiles de demostración).`,
   );
   db.close();
 }

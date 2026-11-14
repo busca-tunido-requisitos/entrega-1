@@ -62,6 +62,31 @@ export interface SolicitudReserva {
   mensajePresentacion: string;
   fechaEnvio: string;
   estado: EstadoSolicitud;
+  /** Motivo de incompatibilidad; obligatorio cuando la solicitud se rechaza. */
+  motivoRechazo: string | null;
+}
+
+/** Estados de `FichaReserva`. */
+export type EstadoFicha = 'Emitida' | 'Anulada';
+
+/** Comprobante de una solicitud aprobada (`genera`, `SolicitudReserva 1 – 0..1 FichaReserva`). */
+export interface FichaReserva {
+  id: number;
+  solicitudId: number;
+  codigoReserva: string;
+  fechaEmision: string;
+  codigoQRFirmado: string;
+  estadoFicha: EstadoFicha;
+}
+
+/** Pensión alternativa del mismo sector, propuesta al postulante tras un rechazo. */
+export interface AlternativaPension {
+  pensionId: number;
+  pensionNombre: string;
+  comuna: string;
+  habitacionId: number;
+  identificadorHabitacion: string;
+  precioMensual: number;
 }
 
 /** Notificación persistida por el `ServicioPush` simulado (no es clase del dominio). */

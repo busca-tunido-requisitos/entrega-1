@@ -1,6 +1,7 @@
 import express, { type Express } from 'express';
 import path from 'node:path';
 import type Database from 'better-sqlite3';
+import { rutasBandeja } from './rutas/bandeja';
 import { rutasCatalogo } from './rutas/catalogo';
 import { rutasSolicitudes } from './rutas/solicitudes';
 import { ServicioPushSqlite, type ServicioPush } from './servicios/push';
@@ -27,6 +28,11 @@ export function crearApp(db: Database.Database, opciones: OpcionesCrearApp = {})
   app.use(rutasCatalogo(db));
   app.use(
     rutasSolicitudes(db, {
+      servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
+    }),
+  );
+  app.use(
+    rutasBandeja(db, {
       servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
     }),
   );

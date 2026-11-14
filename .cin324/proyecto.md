@@ -50,7 +50,7 @@
 |----------|--------|--------------------|-------|----------------|
 | HU-01 | hecha — validada sin observaciones | `hu-01-catalogo-filtros` (archivado) | 2026-11-12 | 19/19 tareas y 2/2 pruebas; cambio en `openspec/changes/archive/2026-11-12-hu-01-catalogo-filtros/` |
 | HU-02 | hecha — validada sin observaciones y archivada | `hu-02-solicitud-reserva` (archivado en `openspec/changes/archive/2026-11-14-hu-02-solicitud-reserva`) | 2026-11-14 | 27/27 tareas y 11/11 pruebas; especificación vigente en `openspec/specs/solicitud-reserva/spec.md`; formulario de postulación con código `SOL-<año>-<secuencial>` y push simulado en `notificacion` |
-| HU-03 | pendiente | — | — | Depende de HU-02 (solicitudes) |
+| HU-03 | implementada — pendiente de validación | `hu-03-resolver-solicitud` | 2026-11-14 | 27/27 tareas y 19/19 pruebas; bandeja del dueño, aprobación con bloqueo de cupo y ficha `RES-<código>`, rechazo con motivo y alternativas del sector, expiración a las 48 h |
 | HU-04 | pendiente | — | — | Depende de HU-03 (reserva aprobada) |
 
 ## Validaciones
