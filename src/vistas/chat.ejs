@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chat de coordinación · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Chat de coordinación · <%= detalle.solicitud.codigoSolicitud %></p>
+      </div>
+      <a class="volver" href="/solicitudes/<%= detalle.solicitud.codigoSolicitud %>">
+        ← Volver a la reserva
+      </a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Coordinar la llegada</h2>
+
+        <p class="nota">
+          Habitación <%= detalle.habitacion.identificadorHabitacion %> en
+          <%= detalle.pension.nombreComercial %>, <%= detalle.pension.direccion %> ·
+          Ingreso el <%= formatearFechaHora(detalle.solicitud.fechaLlegadaEstimada) %>.
+        </p>
+
+        <ul class="participantes">
+          <% participantes.forEach(function (participante) { %>
+            <li>
+              <strong><%= participante.persona.nombreCompleto %></strong>
+              <span><%= participante.rol === 'postulante' ? 'Estudiante' : 'Dueño de la pensión' %></span>
+            </li>
+          <% }) %>
+        </ul>
+
+        <div
+          class="mensajes"
+          id="mensajes"
+          data-codigo="<%= detalle.solicitud.codigoSolicitud %>"
+          data-ultimo-id="<%= mensajes.length > 0 ? mensajes[mensajes.length - 1].id : 0 %>"
+        >
+          <% if (mensajes.length === 0) { %>
+            <p class="nota" id="sin-mensajes">
+              Todavía no hay mensajes. Escribe el primero para coordinar la llegada.
+            </p>
+          <% } %>
+          <% mensajes.forEach(function (mensaje) { %>
+            <article class="mensaje <%= mensaje.autorRol === 'postulante' ? 'propio' : 'contrario' %>">
+              <header>
+                <strong><%= mensaje.autorNombre %></strong>
+                <span><%= formatearFechaHora(mensaje.fechaHoraEnvio) %></span>
+              </header>
+              <p><%= mensaje.contenidoTexto %></p>
+            </article>
+          <% }) %>
+        </div>
+
+        <form class="formulario-chat" method="post" action="/solicitudes/<%= detalle.solicitud.codigoSolicitud %>/chat">
+          <div class="campo">
+            <label for="personaId">Enviar como (demostración)</label>
+            <select id="personaId" name="personaId">
+              <% participantes.forEach(function (participante) { %>
+                <option value="<%= participante.persona.id %>">
+                  <%= participante.persona.nombreCompleto %>
+                  (<%= participante.rol === 'postulante' ? 'Estudiante' : 'Dueño' %>)
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="texto">Mensaje</label>
+            <textarea id="texto" name="texto" rows="3" placeholder="¿A qué hora llegarías?"></textarea>
+          </div>
+
+          <% if (error) { %>
+            <p class="error-campo" role="alert"><%= error %></p>
+          <% } %>
+
+          <button type="submit">Enviar mensaje</button>
+        </form>
+
+        <p class="nota">
+          Los mensajes quedan guardados en el servidor y se actualizan automáticamente cada
+          pocos segundos.
+        </p>
+      </section>
+    </main>
+
+    <script src="/chat.js"></script>
+  </body>
+</html>

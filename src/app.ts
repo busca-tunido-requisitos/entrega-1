@@ -3,7 +3,10 @@ import path from 'node:path';
 import type Database from 'better-sqlite3';
 import { rutasBandeja } from './rutas/bandeja';
 import { rutasCatalogo } from './rutas/catalogo';
+import { rutasChat } from './rutas/chat';
+import { rutasFichas } from './rutas/fichas';
 import { rutasSolicitudes } from './rutas/solicitudes';
+import { rutasVerificacion } from './rutas/verificacion';
 import { ServicioPushSqlite, type ServicioPush } from './servicios/push';
 
 export interface OpcionesCrearApp {
@@ -36,6 +39,9 @@ export function crearApp(db: Database.Database, opciones: OpcionesCrearApp = {})
       servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
     }),
   );
+  app.use(rutasFichas(db));
+  app.use(rutasChat(db));
+  app.use(rutasVerificacion(db));
 
   return app;
 }

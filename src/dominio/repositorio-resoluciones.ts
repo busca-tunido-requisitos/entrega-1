@@ -404,3 +404,65 @@ export function listarSolicitudesVencidas(
 
   return filas.map(aSolicitud);
 }
+
+/** Ficha de reserva de una solicitud (`genera`, 1 – 0..1). */
+export function obtenerFichaDeSolicitud(
+  db: Database.Database,
+  solicitudId: number,
+): FichaReserva | null {
+  const fila = db
+    .prepare(
+      `SELECT id, solicitud_id, codigo_reserva, fecha_emision, codigo_qr_firmado, estado_ficha
+         FROM ficha_reserva
+        WHERE solicitud_id = ?`,
+    )
+    .get(solicitudId) as FilaFicha | undefined;
+
+  if (!fila) return null;
+
+  return {
+    id: fila.id,
+    solicitudId: fila.solicitud_id,
+    codigoReserva: fila.codigo_reserva,
+    fechaEmision: fila.fecha_emision,
+    codigoQRFirmado: fila.codigo_qr_firmado,
+    estadoFicha: fila.estado_ficha,
+  };
+}
+
+/** Guardar la firma real del comprobante en la ficha. */
+export function actualizarFirmaFicha(
+  db: Database.Database,
+  solicitudId: number,
+  contenido: string,
+): void {
+  db.prepare('UPDATE ficha_reserva SET codigo_qr_firmado = ? WHERE solicitud_id = ?').run(
+    contenido,
+    solicitudId,
+  );
+}
+
+/** Buscar una ficha por su código de reserva. */
+export function buscarFichaPorCodigo(
+  db: Database.Database,
+  codigoReserva: string,
+): FichaReserva | null {
+  const fila = db
+    .prepare(
+      `SELECT id, solicitud_id, codigo_reserva, fecha_emision, codigo_qr_firmado, estado_ficha
+         FROM ficha_reserva
+        WHERE codigo_reserva = ?`,
+    )
+    .get(codigoReserva) as FilaFicha | undefined;
+
+  if (!fila) return null;
+
+  return {
+    id: fila.id,
+    solicitudId: fila.solicitud_id,
+    codigoReserva: fila.codigo_reserva,
+    fechaEmision: fila.fecha_emision,
+    codigoQRFirmado: fila.codigo_qr_firmado,
+    estadoFicha: fila.estado_ficha,
+  };
+}

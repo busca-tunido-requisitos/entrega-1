@@ -61,6 +61,32 @@
           solicitud está en estado <strong>En revisión</strong> hasta entonces.
         </p>
 
+        <% if (solicitud.estado === 'Aprobada') { %>
+          <h2 class="subtitulo">Reserva confirmada</h2>
+          <% if (ficha) { %>
+            <p class="codigo-solicitud">
+              Código de reserva: <strong><%= ficha.codigoReserva %></strong>
+            </p>
+          <% } %>
+          <div class="acciones-confirmacion">
+            <a class="boton-enlace" href="/solicitudes/<%= solicitud.codigoSolicitud %>/ficha.pdf">
+              Descargar ficha oficial en PDF
+            </a>
+            <a class="boton-enlace secundario" href="/solicitudes/<%= solicitud.codigoSolicitud %>/chat">
+              Abrir chat de coordinación
+            </a>
+          </div>
+          <p class="nota">
+            La ficha incluye un código QR firmado digitalmente: el dueño lo escanea al
+            registrar tu llegada, incluso sin conexión a internet.
+          </p>
+        <% } else { %>
+          <p class="aviso" role="status">
+            La ficha oficial en PDF y el chat de coordinación se habilitan cuando la
+            reserva esté confirmada y aprobada.
+          </p>
+        <% } %>
+
         <p class="nota">
           Conserva el código <strong><%= solicitud.codigoSolicitud %></strong> para
           consultar tu postulación.

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verificar llegada · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Verificación de llegada · Dueño de la pensión</p>
+      </div>
+      <a class="volver" href="/bandeja">← Volver a la bandeja</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Registrar la llegada del estudiante</h2>
+
+        <p class="nota">
+          Escanea el código QR de la ficha oficial en PDF que muestra el estudiante. La
+          comprobación de la firma digital se hace en este dispositivo, sin necesidad de
+          conexión a internet.
+        </p>
+
+        <div class="visor-qr">
+          <video id="camara" playsinline muted></video>
+          <div class="acciones-qr">
+            <button type="button" id="btn-escanear">Activar cámara y escanear</button>
+            <p class="nota" id="estado-camara"></p>
+          </div>
+        </div>
+
+        <form class="formulario-solicitud" method="post" action="/verificar/llegada">
+          <div class="campo">
+            <label for="contenido">Contenido del código QR</label>
+            <textarea id="contenido" name="contenido" rows="4"
+              placeholder="BTN1|RES-SOL-2026-0001|1|Av. Colón 1240|2026-09-01|2026-12-01|firma"></textarea>
+            <p class="nota">
+              Si no dispones de cámara, copia aquí el contenido que aparece bajo el QR del
+              comprobante.
+            </p>
+          </div>
+
+          <button type="submit">Verificar y registrar llegada</button>
+        </form>
+
+        <% if (resultado) { %>
+          <div class="<%= resultado.ok ? 'aviso-ok' : 'error-campo' %>" role="status">
+            <%= resultado.mensaje %>
+          </div>
+        <% } %>
+
+        <h2 class="subtitulo">Clave pública de verificación</h2>
+        <p class="nota">
+          Es la clave con la que se valida la firma del comprobante. Queda disponible para
+          contrastarla sin conexión.
+        </p>
+        <code class="clave-publica"><%= clavePublica %></code>
+      </section>
+    </main>
+
+    <script src="/verificador.js"></script>
+  </body>
+</html>

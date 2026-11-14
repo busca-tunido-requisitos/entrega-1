@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type Database from 'better-sqlite3';
 import { formatearFecha, formatearFechaHora, formatearPrecio } from '../dominio/formato';
+import { obtenerFichaDeSolicitud } from '../dominio/repositorio-resoluciones';
 import {
   buscarHabitacionConPension,
   buscarSolicitudPorCodigo,
@@ -108,6 +109,7 @@ export function rutasSolicitudes(
 
     res.render('solicitud-confirmacion', {
       ...detalle,
+      ficha: obtenerFichaDeSolicitud(db, detalle.solicitud.id),
       plazo: calcularPlazoRespuesta(desdeFechaHoraSqlite(detalle.solicitud.fechaEnvio)),
       formatearFecha,
       formatearFechaHora,

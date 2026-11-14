@@ -66,8 +66,7 @@
           Mensaje del postulante: «<%= solicitud.mensajePresentacion %>»
         </p>
 
-        <% if (solicitud.estado === 'En revisión') { %>
-          <div class="resoluciones">
+        <% if (solicitud.estado === 'En revisión') { %>          <div class="resoluciones">
             <form class="panel-accion" method="post" action="/bandeja/<%= solicitud.codigoSolicitud %>/aprobar">
               <h3>Aprobar</h3>
               <p>
@@ -100,6 +99,20 @@
               Motivo del rechazo: <%= solicitud.motivoRechazo %>.
             <% } %>
           </p>
+
+          <% if (solicitud.estado === 'Aprobada') { %>
+            <div class="acciones-confirmacion">
+              <a class="boton-enlace" href="/solicitudes/<%= solicitud.codigoSolicitud %>/ficha.pdf">
+                Ficha oficial en PDF
+              </a>
+              <a class="boton-enlace secundario" href="/solicitudes/<%= solicitud.codigoSolicitud %>/chat">
+                Chat con el postulante
+              </a>
+              <a class="boton-enlace secundario" href="/verificar">
+                Registrar llegada (escanear QR)
+              </a>
+            </div>
+          <% } %>
         <% } %>
       </section>
     </main>
