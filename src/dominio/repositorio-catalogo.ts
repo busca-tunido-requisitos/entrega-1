@@ -30,6 +30,8 @@ interface FilaHabitacion {
   tipo_cama: string;
   tiene_bano_privado: number;
   estado_disponibilidad: Habitacion['estadoDisponibilidad'];
+  fecha_inicio_admision: string;
+  fecha_fin_admision: string;
 }
 
 export function listarUniversidades(db: Database.Database): Universidad[] {
@@ -73,7 +75,8 @@ export function listarPensionesConHabitacionesDisponibles(
   const habitaciones = db
     .prepare(
       `SELECT id, pension_id, identificador_habitacion, precio_mensual,
-              tipo_cama, tiene_bano_privado, estado_disponibilidad
+              tipo_cama, tiene_bano_privado, estado_disponibilidad,
+              fecha_inicio_admision, fecha_fin_admision
          FROM habitacion
         WHERE estado_disponibilidad = 'Disponible'
         ORDER BY precio_mensual`,
@@ -90,6 +93,8 @@ export function listarPensionesConHabitacionesDisponibles(
       tipoCama: fila.tipo_cama,
       tieneBanoPrivado: fila.tiene_bano_privado === 1,
       estadoDisponibilidad: fila.estado_disponibilidad,
+      fechaInicioAdmision: fila.fecha_inicio_admision,
+      fechaFinAdmision: fila.fecha_fin_admision,
     };
 
     const lista = porPension.get(fila.pension_id) ?? [];

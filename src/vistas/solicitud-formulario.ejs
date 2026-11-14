@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solicitar reserva · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Solicitud formal de reserva · <%= pension.nombreComercial %></p>
+      </div>
+      <a class="volver" href="/catalogo">← Volver al catálogo</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Solicitar reserva</h2>
+
+        <div class="contexto">
+          <h3><%= pension.nombreComercial %></h3>
+          <p class="direccion"><%= pension.direccion %>, <%= pension.comuna %></p>
+          <ul class="datos-habitacion">
+            <li>
+              <span>Habitación</span>
+              <strong><%= habitacion.identificadorHabitacion %></strong>
+            </li>
+            <li>
+              <span>Precio mensual</span>
+              <strong><%= formatearPrecio(habitacion.precioMensual) %></strong>
+            </li>
+            <li>
+              <span>Tipo de cama</span>
+              <strong><%= habitacion.tipoCama %></strong>
+            </li>
+            <li>
+              <span>Baño privado</span>
+              <strong><%= habitacion.tieneBanoPrivado ? 'Sí' : 'No' %></strong>
+            </li>
+            <li>
+              <span>Período de admisión</span>
+              <strong>
+                <%= formatearFecha(habitacion.fechaInicioAdmision) %> al
+                <%= formatearFecha(habitacion.fechaFinAdmision) %>
+              </strong>
+            </li>
+          </ul>
+        </div>
+
+        <div class="perfil">
+          <h3>Postulante</h3>
+          <% if (persona) { %>
+            <p><%= persona.nombreCompleto %></p>
+            <p class="correo"><%= persona.correoInstitucional %></p>
+            <% if (persona.universidad) { %>
+              <p class="nota"><%= persona.universidad %> · <%= persona.carrera %></p>
+            <% } %>
+            <% if (persona.correoInstitucionalVerificado) { %>
+              <p class="insignia insignia-ok">Correo institucional verificado</p>
+            <% } else { %>
+              <p class="insignia insignia-alerta">Correo institucional sin verificar</p>
+            <% } %>
+          <% } else { %>
+            <p class="nota">
+              No hay un perfil de estudiante de demostración cargado. Ejecuta
+              <code>npm run db:seed</code> para crear uno verificado.
+            </p>
+          <% } %>
+        </div>
+
+        <form class="formulario-solicitud" method="post" action="/solicitudes">
+          <input type="hidden" name="habitacionId" value="<%= habitacion.id %>" />
+
+          <div class="campo">
+            <label for="fechaLlegada">Fecha de ingreso estimada</label>
+            <input
+              type="date"
+              id="fechaLlegada"
+              name="fechaLlegada"
+              min="<%= habitacion.fechaInicioAdmision %>"
+              max="<%= habitacion.fechaFinAdmision %>"
+              value="<%= datos.fechaLlegada %>"
+              required
+            />
+            <% if (errores.fechaLlegada) { %>
+              <p class="error-campo" role="alert"><%= errores.fechaLlegada %></p>
+            <% } else { %>
+              <p class="nota">
+                Fechas válidas de inicio de estadía:
+                <%= formatearFecha(habitacion.fechaInicioAdmision) %> al
+                <%= formatearFecha(habitacion.fechaFinAdmision) %>.
+              </p>
+            <% } %>
+          </div>
+
+          <div class="campo">
+            <label for="duracionMeses">Duración estimada de la estadía (meses)</label>
+            <input
+              type="number"
+              id="duracionMeses"
+              name="duracionMeses"
+              min="1"
+              max="12"
+              step="1"
+              value="<%= datos.duracionMeses %>"
+              required
+            />
+            <% if (errores.duracionMeses) { %>
+              <p class="error-campo" role="alert"><%= errores.duracionMeses %></p>
+            <% } %>
+          </div>
+
+          <div class="campo">
+            <label for="mensajePresentacion">Mensaje de presentación</label>
+            <textarea
+              id="mensajePresentacion"
+              name="mensajePresentacion"
+              rows="5"
+              required
+            ><%= datos.mensaje %></textarea>
+            <% if (errores.mensajePresentacion) { %>
+              <p class="error-campo" role="alert"><%= errores.mensajePresentacion %></p>
+            <% } %>
+          </div>
+
+          <% if (errores.perfil) { %>
+            <p class="error-campo" role="alert"><%= errores.perfil %></p>
+          <% } %>
+          <% if (errores.habitacion) { %>
+            <p class="error-campo" role="alert"><%= errores.habitacion %></p>
+          <% } %>
+
+          <button type="submit">Enviar solicitud</button>
+          <p class="nota">
+            El dueño de la pensión dispone de un plazo máximo de 48 horas para
+            responder. La notificación push es simulada en este taller.
+          </p>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

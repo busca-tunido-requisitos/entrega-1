@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aviso · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Solicitud formal de reserva</p>
+      </div>
+      <a class="volver" href="/catalogo">← Volver al catálogo</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <div class="aviso bloque-aviso" role="status">
+          <h2><%= titulo %></h2>
+          <p><%= mensaje %></p>
+          <a class="boton-enlace" href="/catalogo">Ir al catálogo</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

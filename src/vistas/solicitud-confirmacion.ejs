@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solicitud enviada · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Solicitud formal de reserva</p>
+      </div>
+      <a class="volver" href="/catalogo">← Volver al catálogo</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <div class="exito-cabecera">
+          <h2>Solicitud enviada</h2>
+          <p>
+            Tu postulación fue registrada y el dueño de la pensión recibió la
+            notificación. Te avisaremos cuando responda.
+          </p>
+        </div>
+
+        <p class="codigo-solicitud">
+          Código de solicitud: <strong><%= solicitud.codigoSolicitud %></strong>
+        </p>
+
+        <ul class="datos-habitacion">
+          <li>
+            <span>Estado</span>
+            <strong><%= solicitud.estado %></strong>
+          </li>
+          <li>
+            <span>Habitación</span>
+            <strong><%= habitacion.identificadorHabitacion %></strong>
+          </li>
+          <li>
+            <span>Pensión</span>
+            <strong><%= pension.nombreComercial %></strong>
+          </li>
+          <li>
+            <span>Fecha de ingreso estimada</span>
+            <strong><%= formatearFecha(solicitud.fechaLlegadaEstimada) %></strong>
+          </li>
+          <li>
+            <span>Duración estimada</span>
+            <strong><%= solicitud.duracionEstadiaMeses %> mes(es)</strong>
+          </li>
+          <li>
+            <span>Enviada el</span>
+            <strong><%= formatearFechaHora(solicitud.fechaEnvio) %></strong>
+          </li>
+        </ul>
+
+        <p class="plazo">
+          El dueño dispone de un plazo máximo de 48 horas para responder. Tu
+          solicitud está en estado <strong>En revisión</strong> hasta entonces.
+        </p>
+
+        <p class="nota">
+          Conserva el código <strong><%= solicitud.codigoSolicitud %></strong> para
+          consultar tu postulación.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

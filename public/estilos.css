@@ -327,3 +327,197 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* --- HU-02 · Solicitud formal de reserva --- */
+
+.volver {
+  color: var(--acento);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
+
+.disposicion-columna {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+}
+
+.panel-solicitud {
+  width: 100%;
+  max-width: 760px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: var(--sombra);
+}
+
+.panel-solicitud h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.contexto,
+.perfil {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  background: #fbfcfe;
+}
+
+.contexto h3,
+.perfil h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.perfil p {
+  margin: 0.15rem 0;
+}
+
+.datos-habitacion {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.datos-habitacion li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+  border-bottom: 1px dashed var(--borde);
+  padding-bottom: 0.3rem;
+}
+
+.datos-habitacion strong {
+  color: var(--tinta);
+  text-align: right;
+}
+
+.insignia {
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.insignia-ok {
+  background: #e4f5ec;
+  color: var(--exito);
+}
+
+.insignia-alerta {
+  background: #fff4e5;
+  color: #7a4b00;
+}
+
+.formulario-solicitud textarea {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+.error-campo {
+  margin: 0.35rem 0 0;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: #fdecec;
+  color: #a32020;
+  font-size: 0.85rem;
+}
+
+.exito-cabecera {
+  border-left: 4px solid var(--exito);
+  padding-left: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.exito-cabecera p {
+  margin: 0.35rem 0 0;
+  color: var(--tinta-suave);
+}
+
+.codigo-solicitud {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.plazo {
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: var(--acento-suave);
+  color: var(--tinta);
+  font-size: 0.92rem;
+}
+
+.bloque-aviso {
+  text-align: center;
+}
+
+.habitaciones {
+  list-style: none;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.habitacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.habitacion-datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
+.precio-habitacion {
+  color: var(--exito);
+  font-weight: 600;
+}
+
+.boton-enlace {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: var(--acento);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.boton-enlace:hover {
+  background: #1859c4;
+}

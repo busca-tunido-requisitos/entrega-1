@@ -96,6 +96,13 @@ export function buscarEnCatalogo(
       ...pension,
       habitaciones,
       habitacionesDisponibles: habitaciones.length,
+      habitacionesResumidas: habitaciones.map((habitacion) => ({
+        id: habitacion.id,
+        identificadorHabitacion: habitacion.identificadorHabitacion,
+        precioMensual: habitacion.precioMensual,
+        tipoCama: habitacion.tipoCama,
+        tieneBanoPrivado: habitacion.tieneBanoPrivado,
+      })),
       distanciaMetros: distancia,
       precioDesde: Math.min(...habitaciones.map((habitacion) => habitacion.precioMensual)),
     });

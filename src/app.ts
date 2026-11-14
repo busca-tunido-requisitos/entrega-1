@@ -2,9 +2,16 @@ import express, { type Express } from 'express';
 import path from 'node:path';
 import type Database from 'better-sqlite3';
 import { rutasCatalogo } from './rutas/catalogo';
+import { rutasSolicitudes } from './rutas/solicitudes';
+import { ServicioPushSqlite, type ServicioPush } from './servicios/push';
+
+export interface OpcionesCrearApp {
+  /** Doble de prueba del push simulado; por defecto se usa `ServicioPushSqlite`. */
+  servicioPush?: ServicioPush;
+}
 
 /** Crea la aplicación Express sin escuchar puerto (para usarla en pruebas). */
-export function crearApp(db: Database.Database): Express {
+export function crearApp(db: Database.Database, opciones: OpcionesCrearApp = {}): Express {
   const app = express();
 
   app.set('view engine', 'ejs');
@@ -18,6 +25,11 @@ export function crearApp(db: Database.Database): Express {
   });
 
   app.use(rutasCatalogo(db));
+  app.use(
+    rutasSolicitudes(db, {
+      servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
+    }),
+  );
 
   return app;
 }

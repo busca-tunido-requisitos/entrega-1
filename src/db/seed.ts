@@ -191,8 +191,39 @@ interface FilaId {
   id: number;
 }
 
-/** Carga idempotente de los datos de ejemplo de HU-01. */
+/**
+ * Perfil de estudiante de demostración (HU-02).
+ * No hay autenticación real en el taller: el correo institucional ya viene verificado.
+ */
+const PERFIL_DEMO = {
+  nombreCompleto: 'Camila Rojas Fuentes',
+  correoElectronico: 'camila.rojas.contacto@example.cl',
+  telefono: '+56 9 0000 0000',
+  correoInstitucional: 'camila.rojas@uv.cl',
+  universidad: 'Universidad de Valparaíso',
+  carrera: 'Ingeniería Civil Informática',
+};
+
+/**
+ * Semestre académico en curso: enero–junio → 01-01 a 07-15; julio–diciembre →
+ * 07-16 a 12-31. Las habitaciones admiten arriendos solo en ese período.
+ */
+export function calcularSemestreEnCurso(fecha: Date = new Date()): {
+  inicio: string;
+  fin: string;
+} {
+  const anio = fecha.getFullYear();
+  const mes = fecha.getMonth() + 1;
+
+  if (mes <= 6) {
+    return { inicio: `${anio}-01-01`, fin: `${anio}-07-15` };
+  }
+  return { inicio: `${anio}-07-16`, fin: `${anio}-12-31` };
+}
+
+/** Carga idempotente de los datos de ejemplo de HU-01 y HU-02. */
 export function sembrarDatos(db: Database.Database): void {
+  const semestre = calcularSemestreEnCurso();
   const upsertSede = db.prepare(`
     INSERT INTO universidad (nombre, comuna, latitud, longitud)
     VALUES (@nombre, @comuna, @latitud, @longitud)
@@ -225,17 +256,35 @@ export function sembrarDatos(db: Database.Database): void {
   const upsertHabitacion = db.prepare(`
     INSERT INTO habitacion (
       pension_id, identificador_habitacion, precio_mensual, tipo_cama,
-      tiene_bano_privado, estado_disponibilidad
+      tiene_bano_privado, estado_disponibilidad,
+      fecha_inicio_admision, fecha_fin_admision
     )
-    VALUES (@pensionId, @identificador, @precioMensual, @tipoCama, @banoPrivado, 'Disponible')
+    VALUES (
+      @pensionId, @identificador, @precioMensual, @tipoCama, @banoPrivado, 'Disponible',
+      @fechaInicioAdmision, @fechaFinAdmision
+    )
     ON CONFLICT (pension_id, identificador_habitacion) DO UPDATE SET
       precio_mensual = excluded.precio_mensual,
       tipo_cama = excluded.tipo_cama,
-      tiene_bano_privado = excluded.tiene_bano_privado
+      tiene_bano_privado = excluded.tiene_bano_privado,
+      fecha_inicio_admision = excluded.fecha_inicio_admision,
+      fecha_fin_admision = excluded.fecha_fin_admision
   `);
 
   const buscarSede = db.prepare('SELECT id FROM universidad WHERE nombre = ?');
   const buscarPension = db.prepare('SELECT id FROM pension WHERE nombre_comercial = ?');
+
+  const insertarPerfilDemo = db.prepare(`
+    INSERT INTO persona (
+      nombre_completo, correo_electronico, telefono, correo_institucional,
+      correo_institucional_verificado, universidad, carrera
+    )
+    SELECT @nombreCompleto, @correoElectronico, @telefono, @correoInstitucional,
+           1, @universidad, @carrera
+     WHERE NOT EXISTS (
+       SELECT 1 FROM persona WHERE correo_institucional = @correoInstitucional
+     )
+  `);
 
   const carga = db.transaction(() => {
     for (const sede of SEDES) {
@@ -257,9 +306,14 @@ export function sembrarDatos(db: Database.Database): void {
           precioMensual: habitacion.precioMensual,
           tipoCama: habitacion.tipoCama,
           banoPrivado: habitacion.banoPrivado ? 1 : 0,
+          fechaInicioAdmision: semestre.inicio,
+          fechaFinAdmision: semestre.fin,
         });
       }
     }
+
+    // Perfil de estudiante de demostración (HU-02): se inserta una sola vez.
+    insertarPerfilDemo.run(PERFIL_DEMO);
 
     // Comprobación de que las sedes quedaron cargadas (evita silencios si se edita la lista).
     for (const sede of SEDES) {
@@ -279,9 +333,11 @@ if (require.main === module) {
   const sedes = db.prepare('SELECT COUNT(*) AS total FROM universidad').get() as { total: number };
   const pensiones = db.prepare('SELECT COUNT(*) AS total FROM pension').get() as { total: number };
   const habitaciones = db.prepare('SELECT COUNT(*) AS total FROM habitacion').get() as { total: number };
+  const personas = db.prepare('SELECT COUNT(*) AS total FROM persona').get() as { total: number };
 
   console.log(
-    `Datos de ejemplo cargados: ${sedes.total} sedes, ${pensiones.total} pensiones y ${habitaciones.total} habitaciones.`,
+    `Datos de ejemplo cargados: ${sedes.total} sedes, ${pensiones.total} pensiones, ` +
+      `${habitaciones.total} habitaciones y ${personas.total} perfil(es) de estudiante.`,
   );
   db.close();
 }

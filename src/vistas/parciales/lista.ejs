@@ -28,6 +28,23 @@
       </li>
     </ul>
     <p class="servicios"><%= pension.serviciosIncluidos %></p>
+
+    <ul class="habitaciones">
+      <% pension.habitacionesResumidas.forEach(function (habitacion) { %>
+      <li class="habitacion">
+        <div class="habitacion-datos">
+          <strong><%= habitacion.identificadorHabitacion %></strong>
+          <span><%= habitacion.tipoCama %></span>
+          <span><%= habitacion.tieneBanoPrivado ? 'Baño privado' : 'Baño compartido' %></span>
+          <span class="precio-habitacion"><%= formatearPrecio(habitacion.precioMensual) %></span>
+        </div>
+        <a
+          class="boton-enlace"
+          href="/solicitudes/nueva?habitacionId=<%= habitacion.id %>"
+        >Solicitar reserva</a>
+      </li>
+      <% }) %>
+    </ul>
   </li>
   <% }) %>
 </ul>
