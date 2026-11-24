@@ -50,6 +50,7 @@ class Habitacion {
   fechaFinAdmision
 }
 class SolicitudReserva {
+  acuerdoSubarriendo
   codigoSolicitud
   fechaLlegadaEstimada
   estado
