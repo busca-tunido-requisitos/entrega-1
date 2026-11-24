@@ -8,8 +8,8 @@ Cambian atributos en la entidad habitación
 
 ### casos de uso
 
-- un actor nuevo, subarendador
-- en el diagrama uno, se agrega un nuevo subarendador, sería un rol alternativo al dueño y a estudiante. tiene todos los atributos
+- un actor nuevo, subarrendador
+- en el diagrama uno, se agrega un nuevo subarrendador, sería un rol alternativo al dueño y a estudiante. tiene todos los atributos
 - casos de uso y su origen. es actor principal de todos
 
 
