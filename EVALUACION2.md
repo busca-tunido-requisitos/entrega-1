@@ -16,7 +16,7 @@ Cambian atributos en la entidad habitación
 
 ### diagrama de secuencia 
 
--se crea un nuevo di agrama de secuencia debido a que hay un actor nuevo por lo que se necesita un diagrama estudiante- subarrendador - dueño 
+- se crea un nuevo diagrama de secuencia debido a que hay un actor nuevo por lo que se necesita un diagrama estudiante- subarrendador - dueño 
 
 ### diagramas de estado
 
