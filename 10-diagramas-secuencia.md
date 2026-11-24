@@ -31,3 +31,13 @@ Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02.puml)
 - **Fragmento combinado `opt` (Verificación presencial sin conexión a internet en el check-in):**
   - Al solicitar la ficha oficial, el sistema consulta al servicio criptográfico para sellar digitalmente los metadatos de la reserva (código de reserva, identificador del estudiante, dirección del inmueble y rango de fechas lectivas) e incrusta el código QR en un PDF descargable.
   - El bloque opcional `opt` modela la llegada presencial del estudiante al inmueble universitario: el estudiante presenta la ficha en su teléfono inteligente (o impresa), y el dueño escanea el código QR mediante la aplicación móvil en modo desconectado. La app verifica la firma con la clave pública preinstalada, certificando la autenticidad del arriendo sin necesidad de cobertura telefónica ni plan de datos activo.
+
+---
+
+## DSS-03 — Resolución de postulación de reserva para un subarrendador (Aprobación / Rechazo)
+
+- **Caso de uso:** [`CU-06`](./09-casos-de-uso.md)
+- **Historia:** [`HU-05`]()
+- **Sistemas externos que participan:** Servicio Push (Firebase Cloud Messaging - FCM)
+
+![DSS-01](./diagramas/dss-03.jpg)
