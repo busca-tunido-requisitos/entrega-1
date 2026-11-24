@@ -15,6 +15,8 @@
 | **RP-09** (Usabilidad móvil 48×48 px) | [`HU-03`](./07-criterios-aceptacion.md#hu-03--revisar-solicitud-y-resolver-postulación-desde-el-móvil) | [`CU-03`](./09-casos-de-uso.md) | [`DSS-01`](./10-diagramas-secuencia.md#dss-01--resolución-de-postulación-de-reserva-aprobación--rechazo) | — | `Persona`, `SolicitudReserva` |
 | **RP-10** (Rendimiento API < 400 ms) | [`HU-01`](./07-criterios-aceptacion.md#hu-01--filtrar-catálogo-por-campus-precio-y-normas), [`HU-02`](./07-criterios-aceptacion.md#hu-02--enviar-solicitud-formal-de-reserva) | [`CU-01`](./09-casos-de-uso.md), [`CU-02`](./09-casos-de-uso.md) | [`DSS-01`](./10-diagramas-secuencia.md#dss-01--resolución-de-postulación-de-reserva-aprobación--rechazo) | — | `Habitacion`, `SolicitudReserva` |
 | **RP-DER-01** (QR firmado offline) | [`HU-04`](./07-criterios-aceptacion.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) | [`CU-04`](./09-casos-de-uso.md) | [`DSS-02`](./10-diagramas-secuencia.md#dss-02--emisión-y-verificación-de-ficha-de-reserva-con-firma-digital-qr) | [`EST-02`](./11-diagramas-estado.md#est-02--ciclo-de-vida-de-habitacion) | `FichaReserva`, `Habitacion`, `Persona` |
+| **RP-04** (Envío solicitud formal) | [`HU-05`](./07-criterios-aceptacion.md) | [`CU-06`](./09-casos-de-uso.md) | — | [`EST-03`](./11-diagramas-estado.md) | `SolicitudReserva`, `Persona`, `Habitacion` |
+
 
 ## Trazabilidad por historia de usuario (código y pruebas)
 
