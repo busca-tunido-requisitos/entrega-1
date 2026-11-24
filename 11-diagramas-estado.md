@@ -50,8 +50,8 @@ Reservada significa que el cupo está comprometido; Ocupada, que el estudiante y
 
 ## EST-03 — Ciclo de vida de Reserva Subarriendo
 
-- Clase: [SolicitudReserva]().
-- Secuencia relacionada: []().
+- Clase: [SolicitudReserva](./08-modelo-dominio.md).
+- Secuencia relacionada: [DSS-03](./10-diagramas-secuencia.md).
 
 ![EST-03: Solicitud de reserva subarriendo](./diagramas/est-03.jpg)
 
@@ -61,7 +61,7 @@ Reservada significa que el cupo está comprometido; Ocupada, que el estudiante y
 |--------|--------|--------|--------|---------|
 | Inicio | Creación tras enviar una solicitud válida | — | Registrar solicitud y notificar al subarrendador | En revisión |
 | En revisión | Aprobar | _ | esperar al subarrendador | Aprobada |
-| En revisión | Aprobar | — | Registrar solicitud y notificar al dueño | En revisión |
+| En revisión | Esperar al dueño | — | Registrar solicitud y notificar al dueño | En revisión |
 | En revisión | Aprobar | Habitación disponible y menos de 48 h desde el envío | Bloquear cupo y notificar aprobación | Aprobada |
 | En revisión | Rechazar | Menos de 48 h desde el envío | Registrar motivo y notificar con alternativas | Rechazada |
 | En revisión | after (48 h) | — | Notificar expiración | Expirada |
