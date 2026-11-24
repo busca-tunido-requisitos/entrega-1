@@ -47,3 +47,24 @@ Archivo fuente: [est-02.puml](./diagramas/est-02.puml)
 **Solicitud vigente** significa En revisión y dentro del plazo de 48 horas. **QR válido** incluye autenticidad y correspondencia con la reserva presentada. Si la verificación falla, la habitación permanece Reservada y se informa el error. Rechazar otra solicitud no modifica la habitación.
 
 Reservada significa que el cupo está comprometido; Ocupada, que el estudiante ya llegó. Aprobar corresponde a `aprobarSolicitudReserva` en DSS-01; la validación del QR se relaciona con DSS-02. Publicación, registro de salida y baja completan el ciclo propuesto y requieren validación del equipo, pues no están desarrollados en esas secuencias.
+
+## EST-03 — Ciclo de vida de Reserva Subarriendo
+
+- Clase: [SolicitudReserva]().
+- Secuencia relacionada: []().
+
+![EST-03: Solicitud de reserva subarriendo](./diagramas/est-03.jpg)
+
+### Tabla de transiciones
+
+| Origen | Evento | Guarda | Acción | Destino |
+|--------|--------|--------|--------|---------|
+| Inicio | Creación tras enviar una solicitud válida | — | Registrar solicitud y notificar al subarrendador | En revisión |
+| En revisión | Aprobar | _ | esperar al dueño | Aprobada |
+| En revisión | Aprobar | — | Registrar solicitud y notificar al dueño | En revisión |
+| En revisión | Aprobar | Habitación disponible y menos de 48 h desde el envío | Bloquear cupo y notificar aprobación | Aprobada |
+| En revisión | Rechazar | Menos de 48 h desde el envío | Registrar motivo y notificar con alternativas | Rechazada |
+| En revisión | after (48 h) | — | Notificar expiración | Expirada |
+| Aprobada | Finalización | — | — | Fin |
+| Rechazada | Finalización | — | — | Fin |
+| Expirada | Finalización | — | — | Fin |
