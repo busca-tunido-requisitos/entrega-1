@@ -25,7 +25,7 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 | **CU-03** | Resolver solicitud | Dueño de Pensión / subarrendador | [`HU-03`](./04-historias-usuario.md#hu-03--revisar-solicitud-y-resolver-postulación-desde-el-móvil) |
 | **CU-04** | Obtener comprobante | Estudiante / subarrendador | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
 | **CU-05** | Coordinar llegada | Estudiante / Dueño / subarrendador | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
-pendiente hu para sub arrendador
+| **CU-06** | Solicitud reserva | Estudiante / Dueño / subarrendador | [`HU-05`](./04-historias-usuario.md) |
 
 ## Alcance de los casos de uso
 
