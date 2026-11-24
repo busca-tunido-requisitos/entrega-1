@@ -60,7 +60,7 @@ Reservada significa que el cupo está comprometido; Ocupada, que el estudiante y
 | Origen | Evento | Guarda | Acción | Destino |
 |--------|--------|--------|--------|---------|
 | Inicio | Creación tras enviar una solicitud válida | — | Registrar solicitud y notificar al subarrendador | En revisión |
-| En revisión | Aprobar | _ | esperar al dueño | Aprobada |
+| En revisión | Aprobar | _ | esperar al subarrendador | Aprobada |
 | En revisión | Aprobar | — | Registrar solicitud y notificar al dueño | En revisión |
 | En revisión | Aprobar | Habitación disponible y menos de 48 h desde el envío | Bloquear cupo y notificar aprobación | Aprobada |
 | En revisión | Rechazar | Menos de 48 h desde el envío | Registrar motivo y notificar con alternativas | Rechazada |
