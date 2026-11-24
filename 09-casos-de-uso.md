@@ -6,6 +6,7 @@
 |-------|----------------------------------|-------------|
 | **Estudiante** | Humano | Estudiante de educación superior foráneo que explora alojamientos, envía solicitudes formales y coordina su llegada. |
 | **Dueño de Pensión** | Humano | Arrendador o administrador del inmueble que recibe postulaciones móviles, aprueba o rechaza cupos y entrega habitaciones. |
+| **Subarrendador** | Humano | envía solicitudes formales y coordina su llegada. También es arrendador o administrador del inmueble que recibe postulaciones móviles, aprueba o rechaza cupos y entrega habitaciones. |
 | **Servicio Push (FCM)** | Sistema externo | Plataforma Firebase Cloud Messaging encargada de despachar alertas en tiempo real a los dispositivos móviles de estudiantes y dueños. |
 | **Servicio Criptográfico QR** | Sistema externo | Entidad de firma digital encargada de emitir y verificar sellos criptográficos asimétricos para validación de fichas sin conexión a internet. |
 
@@ -19,11 +20,12 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 
 | ID | Caso de uso (objetivo del actor) | Actor principal | Historia de origen |
 |----|-----------------------------------|-----------------|---------------------|
-| **CU-01** | Buscar alojamiento | Estudiante | [`HU-01`](./04-historias-usuario.md#hu-01--filtrar-catálogo-por-campus-precio-y-normas) |
-| **CU-02** | Solicitar reserva | Estudiante | [`HU-02`](./04-historias-usuario.md#hu-02--enviar-solicitud-formal-de-reserva) |
-| **CU-03** | Resolver solicitud | Dueño de Pensión | [`HU-03`](./04-historias-usuario.md#hu-03--revisar-solicitud-y-resolver-postulación-desde-el-móvil) |
-| **CU-04** | Obtener comprobante | Estudiante | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
-| **CU-05** | Coordinar llegada | Estudiante / Dueño | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
+| **CU-01** | Buscar alojamiento | Estudiante / subarrendador | [`HU-01`](./04-historias-usuario.md#hu-01--filtrar-catálogo-por-campus-precio-y-normas) |
+| **CU-02** | Solicitar reserva | Estudiante / subarrendador | [`HU-02`](./04-historias-usuario.md#hu-02--enviar-solicitud-formal-de-reserva) |
+| **CU-03** | Resolver solicitud | Dueño de Pensión / subarrendador | [`HU-03`](./04-historias-usuario.md#hu-03--revisar-solicitud-y-resolver-postulación-desde-el-móvil) |
+| **CU-04** | Obtener comprobante | Estudiante / subarrendador | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
+| **CU-05** | Coordinar llegada | Estudiante / Dueño / subarrendador | [`HU-04`](./04-historias-usuario.md#hu-04--recibir-confirmación-y-coordinar-llegada-por-chat) |
+pendiente hu para sub arrendador
 
 ## Alcance de los casos de uso
 
