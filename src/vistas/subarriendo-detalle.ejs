@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pre-evaluación <%= solicitud.codigoSolicitud %> · BuscaTuNido</title>
+    <link rel="stylesheet" href="/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="marca">
+        <h1>BuscaTuNido</h1>
+        <p>Subarriendo <%= solicitud.codigoSolicitud %> · <%= pension.nombreComercial %></p>
+      </div>
+      <a class="volver" href="/subarriendo">← Volver a subarriendo</a>
+    </header>
+
+    <main class="disposicion disposicion-columna">
+      <section class="panel-solicitud">
+        <h2>Ficha del postulante</h2>
+
+        <ul class="datos-habitacion">
+          <li>
+            <span>Nombre</span>
+            <strong><%= persona.nombreCompleto %></strong>
+          </li>
+          <li>
+            <span>Carrera</span>
+            <strong><%= persona.carrera ?? 'No informada' %></strong>
+          </li>
+          <li>
+            <span>Universidad</span>
+            <strong><%= persona.universidad ?? 'No informada' %></strong>
+          </li>
+          <li>
+            <span>Correo institucional</span>
+            <strong><%= persona.correoInstitucional %></strong>
+          </li>
+          <li>
+            <span>Fecha de ingreso</span>
+            <strong><%= formatearFecha(solicitud.fechaLlegadaEstimada) %></strong>
+          </li>
+          <li>
+            <span>Duración estimada</span>
+            <strong><%= solicitud.duracionEstadiaMeses %> mes(es)</strong>
+          </li>
+          <li>
+            <span>Habitación</span>
+            <strong><%= habitacion.identificadorHabitacion %></strong>
+          </li>
+          <li>
+            <span>Precio mensual</span>
+            <strong><%= formatearPrecio(habitacion.precioMensual) %></strong>
+          </li>
+          <li>
+            <span>Enviada el</span>
+            <strong><%= formatearFechaHora(solicitud.fechaEnvio) %></strong>
+          </li>
+          <li>
+            <span>Estado</span>
+            <strong><%= solicitud.estado %></strong>
+          </li>
+        </ul>
+
+        <p class="nota">
+          Mensaje del postulante: «<%= solicitud.mensajePresentacion %>»
+        </p>
+
+        <% if (solicitud.estado === 'En revisión') { %>
+          <div class="resoluciones">
+            <form class="panel-accion" method="post" action="/subarriendo/<%= solicitud.codigoSolicitud %>/pre-aprobar">
+              <h3>Pre-aprobar</h3>
+              <p>
+                Registra tu <strong>acuerdo de subarriendo</strong> y pasa la solicitud a
+                <strong>Pendiente confirmación dueño</strong>. La habitación sigue disponible hasta
+                que el dueño confirme.
+              </p>
+              <button type="submit">Pre-aprobar y notificar al dueño</button>
+            </form>
+
+            <form class="panel-accion" method="post" action="/subarriendo/<%= solicitud.codigoSolicitud %>/rechazar">
+              <h3>Rechazar</h3>
+              <div class="campo">
+                <label for="motivo">Motivo de rechazo</label>
+                <textarea id="motivo" name="motivo" rows="4" required></textarea>
+              </div>
+              <p>
+                La solicitud queda <strong>Rechazada</strong> y la habitación sigue
+                <strong>Disponible</strong>. Se notifica al dueño y al postulante con alternativas.
+              </p>
+              <button type="submit" class="boton-rechazo">Rechazar solicitud</button>
+            </form>
+          </div>
+        <% } else { %>
+          <p class="aviso" role="status">
+            Esta postulación está en estado «<%= solicitud.estado %>» y ya fue pre-evaluada.
+            <% if (solicitud.motivoRechazo) { %>
+              Motivo del rechazo: <%= solicitud.motivoRechazo %>.
+            <% } %>
+          </p>
+
+          <% if (solicitud.estado === 'Confirmada por dueño') { %>
+            <div class="acciones-confirmacion">
+              <a class="boton-enlace" href="/solicitudes/<%= solicitud.codigoSolicitud %>/ficha.pdf">
+                Ficha oficial en PDF
+              </a>
+              <a class="boton-enlace secundario" href="/solicitudes/<%= solicitud.codigoSolicitud %>/chat">
+                Chat de coordinación
+              </a>
+            </div>
+          <% } %>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>

@@ -10,6 +10,7 @@ Aplicación web del taller CIN 324 generada a partir de la documentación de req
 | **HU-02** | Solicitud formal de reserva con plazo de respuesta de 48 h | CU-02 |
 | **HU-03** | Bandeja del dueño: aprobar o rechazar la postulación y bloquear el cupo | CU-03 |
 | **HU-04** | Ficha oficial en **PDF con QR firmado digitalmente** y **chat** de coordinación | CU-04, CU-05 |
+| **HU-05** | Permisos de **subarrendador**: pre-evaluación y doble aprobación con el dueño | CU-06, CU-03 |
 
 ## Documentación del proyecto
 
@@ -71,6 +72,9 @@ Hay una prueba de integración por cada escenario Gherkin de las cuatro historia
 - `HU-03 · Rechazo de postulación por incompatibilidad de fechas y sugerencia de alternativas`
 - `HU-04 · Emisión de ficha oficial con código criptográfico verificable`
 - `HU-04 · Intento de acceso al canal de chat sin contar con reserva aprobada`
+- `HU-05 · Doble aprobación exitosa por subarrendador y dueño`
+- `HU-05 · Rechazo de postulación por el subarrendador o por el dueño`
+- `HU-05 · Restricción de ficha y chat mientras falta confirmación del dueño`
 
 ## Recorrido manual de los escenarios
 
@@ -122,6 +126,7 @@ Perfiles de demostración (`persona`):
 
 - **Camila Rojas Fuentes** — estudiante postulante, con `correoInstitucionalVerificado`.
 - **Rodrigo Pérez Soto** — dueño de las pensiones de ejemplo (asociación `administra`).
+- **Matías Herrera Vidal** — subarrendador de demostración asignado a **Pensión Brasil** (asociación `subarrienda`).
 
 ## Notas y alcance
 
@@ -164,4 +169,5 @@ tests/                       # una prueba por escenario Gherkin
 | HU-01 | `.cin324/historias/HU-01.md` | CU-01 | ACT-TOBE-01, ACT-TOBE-02 | `openspec/changes/archive/2026-11-12-hu-01-catalogo-filtros/` |
 | HU-02 | `.cin324/historias/HU-02.md` | CU-02 | ACT-TOBE-03, ACT-TOBE-04 | `openspec/changes/archive/2026-11-14-hu-02-solicitud-reserva/` |
 | HU-03 | `.cin324/historias/HU-03.md` | CU-03 | ACT-TOBE-05 a ACT-TOBE-09 | `openspec/changes/archive/2026-11-14-hu-03-resolver-solicitud/` |
-| HU-04 | `.cin324/historias/HU-04.md` | CU-04, CU-05 | ACT-TOBE-10, ACT-TOBE-11 | `openspec/changes/hu-04-ficha-pdf-y-chat/` |
+| HU-04 | `.cin324/historias/HU-04.md` | CU-04, CU-05 | ACT-TOBE-10, ACT-TOBE-11 | `openspec/changes/archive/2026-11-14-hu-04-ficha-pdf-y-chat/` |
+| HU-05 | `.cin324/historias/HU-05.md` | CU-06, CU-03 | ACT-TOBE-05, ACT-TOBE-06, ACT-TOBE-09 | `openspec/changes/archive/2026-11-26-ajuste-hu-05-permisos-subarrendador/` |

@@ -61,7 +61,7 @@
           solicitud está en estado <strong>En revisión</strong> hasta entonces.
         </p>
 
-        <% if (solicitud.estado === 'Aprobada') { %>
+        <% if (solicitud.estado === 'Aprobada' || solicitud.estado === 'Confirmada por dueño') { %>
           <h2 class="subtitulo">Reserva confirmada</h2>
           <% if (ficha) { %>
             <p class="codigo-solicitud">

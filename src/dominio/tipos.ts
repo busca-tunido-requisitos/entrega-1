@@ -34,6 +34,8 @@ export interface Pension {
   permiteVisitas: boolean;
   permiteMascotas: boolean;
   horaToqueQueda: string | null;
+  personaDuenoId?: number | null;
+  personaSubarrendadorId?: number | null;
   habitaciones: Habitacion[];
 }
 
@@ -49,8 +51,18 @@ export interface Persona {
   carrera: string | null;
 }
 
-/** Estados de `SolicitudReserva` según EST-01. */
-export type EstadoSolicitud = 'En revisión' | 'Aprobada' | 'Rechazada' | 'Expirada';
+/** Estados de `SolicitudReserva` según EST-01 y EST-03. */
+export type EstadoSolicitud =
+  | 'En revisión'
+  | 'Pendiente confirmación dueño'
+  | 'Aprobada'
+  | 'Confirmada por dueño'
+  | 'Rechazada'
+  | 'Expirada';
+
+export function estaSolicitudAprobada(estado: EstadoSolicitud): boolean {
+  return estado === 'Aprobada' || estado === 'Confirmada por dueño';
+}
 
 export interface SolicitudReserva {
   id: number;
@@ -64,6 +76,7 @@ export interface SolicitudReserva {
   estado: EstadoSolicitud;
   /** Motivo de incompatibilidad; obligatorio cuando la solicitud se rechaza. */
   motivoRechazo: string | null;
+  acuerdoSubarriendo: boolean | null;
 }
 
 /** Estados de `FichaReserva`. */

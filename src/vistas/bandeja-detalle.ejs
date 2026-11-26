@@ -66,15 +66,18 @@
           Mensaje del postulante: «<%= solicitud.mensajePresentacion %>»
         </p>
 
-        <% if (solicitud.estado === 'En revisión') { %>          <div class="resoluciones">
+        <% const tieneSubarrendador = pension.personaSubarrendadorId != null; %>
+        <% const puedeResolverDueno = (!tieneSubarrendador && solicitud.estado === 'En revisión') || (tieneSubarrendador && solicitud.estado === 'Pendiente confirmación dueño'); %>
+        <% if (puedeResolverDueno) { %>
+          <div class="resoluciones">
             <form class="panel-accion" method="post" action="/bandeja/<%= solicitud.codigoSolicitud %>/aprobar">
-              <h3>Aprobar</h3>
+              <h3><%= tieneSubarrendador ? 'Confirmar reserva' : 'Aprobar' %></h3>
               <p>
-                La solicitud queda <strong>Aprobada</strong>, la habitación pasa a
+                La solicitud queda <strong><%= tieneSubarrendador ? 'Confirmada por dueño' : 'Aprobada' %></strong>, la habitación pasa a
                 <strong>Reservada</strong> y se bloquea el cupo en el catálogo. Se emite la
                 ficha de reserva y se notifica al postulante.
               </p>
-              <button type="submit">Aprobar y bloquear cupo</button>
+              <button type="submit"><%= tieneSubarrendador ? 'Confirmar y bloquear cupo' : 'Aprobar y bloquear cupo' %></button>
             </form>
 
             <form class="panel-accion" method="post" action="/bandeja/<%= solicitud.codigoSolicitud %>/rechazar">
@@ -91,6 +94,10 @@
               <button type="submit" class="boton-rechazo">Rechazar y sugerir alternativas</button>
             </form>
           </div>
+        <% } else if (tieneSubarrendador && solicitud.estado === 'En revisión') { %>
+          <p class="aviso" role="status">
+            Esta pensión cuenta con subarrendador: la postulación debe ser pre-aprobada por el subarrendador antes de tu confirmación final.
+          </p>
         <% } else { %>
           <p class="aviso" role="status">
             Esta postulación ya fue resuelta («<%= solicitud.estado %>»), por lo que no puede
@@ -100,7 +107,7 @@
             <% } %>
           </p>
 
-          <% if (solicitud.estado === 'Aprobada') { %>
+          <% if (solicitud.estado === 'Aprobada' || solicitud.estado === 'Confirmada por dueño') { %>
             <div class="acciones-confirmacion">
               <a class="boton-enlace" href="/solicitudes/<%= solicitud.codigoSolicitud %>/ficha.pdf">
                 Ficha oficial en PDF

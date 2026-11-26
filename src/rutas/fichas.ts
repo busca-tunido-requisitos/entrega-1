@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type Database from 'better-sqlite3';
 import { buscarSolicitudPorCodigo } from '../dominio/repositorio-solicitudes';
+import { estaSolicitudAprobada } from '../dominio/tipos';
 import { generarFichaPdf } from '../servicios/fichas';
 import { clavePublicaBase64 } from '../servicios/firma';
 
@@ -20,14 +21,17 @@ export function rutasFichas(db: Database.Database): Router {
       return;
     }
 
-    if (detalle.solicitud.estado !== 'Aprobada') {
+    if (!estaSolicitudAprobada(detalle.solicitud.estado)) {
+      const mensajeDetalle =
+        detalle.solicitud.estado === 'Pendiente confirmación dueño'
+          ? 'La reserva aún requiere confirmación final del dueño. Por ahora la postulación está en estado «Pendiente confirmación dueño».'
+          : 'La ficha de reserva en PDF se emite cuando la solicitud está aprobada. ' +
+            'Por ahora la postulación está en estado «' +
+            detalle.solicitud.estado +
+            '».';
       res.status(403).render('solicitud-aviso', {
         titulo: 'La ficha oficial aún no está disponible',
-        mensaje:
-          'La ficha de reserva en PDF se emite cuando la solicitud está aprobada. ' +
-          'Por ahora la postulación está en estado «' +
-          detalle.solicitud.estado +
-          '».',
+        mensaje: mensajeDetalle,
       });
       return;
     }

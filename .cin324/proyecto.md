@@ -52,6 +52,7 @@
 | HU-02 | hecha — validada sin observaciones y archivada | `hu-02-solicitud-reserva` (archivado en `openspec/changes/archive/2026-11-14-hu-02-solicitud-reserva`) | 2026-11-14 | 27/27 tareas y 11/11 pruebas; especificación vigente en `openspec/specs/solicitud-reserva/spec.md`; formulario de postulación con código `SOL-<año>-<secuencial>` y push simulado en `notificacion` |
 | HU-03 | hecha — validada sin observaciones y archivada | `hu-03-resolver-solicitud` (archivado en `openspec/changes/archive/2026-11-14-hu-03-resolver-solicitud`) | 2026-11-14 | 23/23 tareas y 19/19 pruebas; bandeja del dueño con aprobación (cupo bloqueado + ficha `RES-<código>`), rechazo con motivo y alternativas del sector, y expiración a las 48 h; requisitos publicados en `openspec/specs/solicitud-reserva/spec.md` |
 | HU-04 | hecha — validada sin observaciones y archivada | `hu-04-ficha-pdf-y-chat` (archivado en `openspec/changes/archive/2026-11-14-hu-04-ficha-pdf-y-chat`) | 2026-11-14 | 22/22 tareas y 23/23 pruebas; ficha PDF real con QR firmado Ed25519, verificación de llegada (Reservada → Ocupada) y chat de coordinación persistente; requisitos publicados en `openspec/specs/ficha-reserva/` y `openspec/specs/chat-coordinacion/` |
+| HU-05 | hecha — validada y archivada | `ajuste-hu-05-permisos-subarrendador` (archivado en `openspec/changes/archive/2026-11-26-ajuste-hu-05-permisos-subarrendador`) | 2026-11-25 | 12/12 tareas y 28/28 pruebas; doble aprobación (`EST-03`, `DSS-03`, `CU-06`) para pensiones con subarrendador y bandeja `/subarriendo`; requisitos actualizados en `openspec/specs/` |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
@@ -64,4 +65,4 @@
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
-| — | — | — | — |
+| `ajuste-hu-05-permisos-subarrendador` | HU-05 | Evaluación 2: incorporar rol Subarrendador y doble aprobación (`EST-03`, `DSS-03`, `CU-06`) | 2026-11-25 |

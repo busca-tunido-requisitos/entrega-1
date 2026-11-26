@@ -47,14 +47,25 @@ export function aplicarMigraciones(db: Database.Database): void {
 
   const registrar = db.prepare('INSERT INTO schema_migrations (nombre) VALUES (?)');
 
-  for (const archivo of archivos) {
-    if (aplicadas.has(archivo)) continue;
+  const pendientes = archivos.filter((archivo) => !aplicadas.has(archivo));
+  if (pendientes.length === 0) return;
 
-    const sql = fs.readFileSync(path.join(DIRECTORIO_MIGRACIONES, archivo), 'utf8');
-    const aplicar = db.transaction(() => {
-      db.exec(sql);
-      registrar.run(archivo);
-    });
-    aplicar();
+  db.pragma('foreign_keys = OFF');
+  try {
+    for (const archivo of pendientes) {
+      const sql = fs.readFileSync(path.join(DIRECTORIO_MIGRACIONES, archivo), 'utf8');
+      const aplicar = db.transaction(() => {
+        db.exec(sql);
+        registrar.run(archivo);
+      });
+      aplicar();
+    }
+  } finally {
+    db.pragma('foreign_keys = ON');
+  }
+
+  const erroresFk = db.pragma('foreign_key_check') as unknown[];
+  if (erroresFk.length > 0) {
+    throw new Error('Error de integridad referencial tras aplicar las migraciones.');
   }
 }

@@ -35,11 +35,15 @@ export function rutasBandeja(
     }
 
     const expiradas = await expirarSolicitudesVencidas(db, opciones.servicioPush);
-    const { pendientes, resueltas } = listarSolicitudesDelDueno(db, dueno.id);
+    const { pendientes, esperandoSubarrendador, resueltas } = listarSolicitudesDelDueno(
+      db,
+      dueno.id,
+    );
 
     res.render('bandeja', {
       dueno,
       pendientes,
+      esperandoSubarrendador,
       resueltas,
       expiradas,
       aviso: typeof req.query.aviso === 'string' ? req.query.aviso : null,

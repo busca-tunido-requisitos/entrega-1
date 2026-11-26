@@ -26,6 +26,7 @@ interface FilaSolicitud {
   fecha_envio: string;
   estado: EstadoSolicitud;
   motivo_rechazo: string | null;
+  acuerdo_subarriendo: number | null;
 }
 
 interface FilaPersona {
@@ -62,6 +63,8 @@ interface FilaPension {
   permite_visitas: number;
   permite_mascotas: number;
   hora_toque_queda: string | null;
+  persona_dueno_id?: number | null;
+  persona_subarrendador_id?: number | null;
 }
 
 interface FilaFicha {
@@ -112,6 +115,8 @@ function aPension(fila: FilaPension): Pension {
     permiteVisitas: fila.permite_visitas === 1,
     permiteMascotas: fila.permite_mascotas === 1,
     horaToqueQueda: fila.hora_toque_queda,
+    personaDuenoId: fila.persona_dueno_id ?? null,
+    personaSubarrendadorId: fila.persona_subarrendador_id ?? null,
     habitaciones: [],
   };
 }
@@ -128,6 +133,8 @@ function aSolicitud(fila: FilaSolicitud): SolicitudReserva {
     fechaEnvio: fila.fecha_envio,
     estado: fila.estado,
     motivoRechazo: fila.motivo_rechazo,
+    acuerdoSubarriendo:
+      fila.acuerdo_subarriendo === null ? null : fila.acuerdo_subarriendo === 1,
   };
 }
 
@@ -150,10 +157,28 @@ export function obtenerDuenoDemo(db: Database.Database): Persona | null {
   return fila ? aPersona(fila) : null;
 }
 
+export function obtenerSubarrendadorDemo(db: Database.Database): Persona | null {
+  const fila = db
+    .prepare(
+      `SELECT p.id, p.nombre_completo, p.correo_electronico, p.telefono,
+              p.correo_institucional, p.correo_institucional_verificado,
+              p.universidad, p.carrera
+         FROM persona p
+        WHERE EXISTS (
+          SELECT 1 FROM pension pe WHERE pe.persona_subarrendador_id = p.id
+        )
+        ORDER BY p.id
+        LIMIT 1`,
+    )
+    .get() as FilaPersona | undefined;
+
+  return fila ? aPersona(fila) : null;
+}
+
 const CONSULTA_DETALLE = `
   SELECT s.id AS s_id, s.codigo_solicitud, s.persona_id, s.habitacion_id,
          s.fecha_llegada_estimada, s.duracion_estadia_meses, s.mensaje_presentacion,
-         s.fecha_envio, s.estado, s.motivo_rechazo,
+         s.fecha_envio, s.estado, s.motivo_rechazo, s.acuerdo_subarriendo,
          p.id AS p_id, p.nombre_completo, p.correo_electronico, p.telefono,
          p.correo_institucional, p.correo_institucional_verificado,
          p.universidad, p.carrera,
@@ -162,7 +187,8 @@ const CONSULTA_DETALLE = `
          h.fecha_inicio_admision, h.fecha_fin_admision,
          pe.id AS pe_id, pe.nombre_comercial, pe.direccion, pe.comuna,
          pe.latitud, pe.longitud, pe.servicios_incluidos, pe.permite_visitas,
-         pe.permite_mascotas, pe.hora_toque_queda
+         pe.permite_mascotas, pe.hora_toque_queda,
+         pe.persona_dueno_id, pe.persona_subarrendador_id
     FROM solicitud_reserva s
     JOIN persona p    ON p.id = s.persona_id
     JOIN habitacion h ON h.id = s.habitacion_id
@@ -197,6 +223,8 @@ interface FilaDetalle extends FilaSolicitud {
   permite_visitas: number;
   permite_mascotas: number;
   hora_toque_queda: string | null;
+  persona_dueno_id: number | null;
+  persona_subarrendador_id: number | null;
 }
 
 function aDetalle(fila: FilaDetalle): DetalleSolicitud {
@@ -234,6 +262,8 @@ function aDetalle(fila: FilaDetalle): DetalleSolicitud {
       permite_visitas: fila.permite_visitas,
       permite_mascotas: fila.permite_mascotas,
       hora_toque_queda: fila.hora_toque_queda,
+      persona_dueno_id: fila.persona_dueno_id,
+      persona_subarrendador_id: fila.persona_subarrendador_id,
     }),
   };
 }
@@ -242,7 +272,11 @@ function aDetalle(fila: FilaDetalle): DetalleSolicitud {
 export function listarSolicitudesDelDueno(
   db: Database.Database,
   duenoId: number,
-): { pendientes: DetalleSolicitud[]; resueltas: DetalleSolicitud[] } {
+): {
+  pendientes: DetalleSolicitud[];
+  esperandoSubarrendador: DetalleSolicitud[];
+  resueltas: DetalleSolicitud[];
+} {
   const filas = db
     .prepare(
       `${CONSULTA_DETALLE} WHERE pe.persona_dueno_id = ? ORDER BY s.fecha_envio DESC`,
@@ -250,18 +284,65 @@ export function listarSolicitudesDelDueno(
     .all(duenoId) as FilaDetalle[];
 
   const pendientes: DetalleSolicitud[] = [];
+  const esperandoSubarrendador: DetalleSolicitud[] = [];
   const resueltas: DetalleSolicitud[] = [];
+
+  for (const fila of filas) {
+    const detalle = aDetalle(fila);
+    const tieneSubarrendador = detalle.pension.personaSubarrendadorId != null;
+
+    if (
+      detalle.solicitud.estado === 'Pendiente confirmación dueño' ||
+      (detalle.solicitud.estado === 'En revisión' && !tieneSubarrendador)
+    ) {
+      pendientes.push(detalle);
+    } else if (detalle.solicitud.estado === 'En revisión' && tieneSubarrendador) {
+      esperandoSubarrendador.push(detalle);
+    } else {
+      resueltas.push(detalle);
+    }
+  }
+
+  return { pendientes, esperandoSubarrendador, resueltas };
+}
+
+export function listarSolicitudesDelSubarrendador(
+  db: Database.Database,
+  subarrendadorId: number,
+): { pendientes: DetalleSolicitud[]; evaluadas: DetalleSolicitud[] } {
+  const filas = db
+    .prepare(
+      `${CONSULTA_DETALLE} WHERE pe.persona_subarrendador_id = ? ORDER BY s.fecha_envio DESC`,
+    )
+    .all(subarrendadorId) as FilaDetalle[];
+
+  const pendientes: DetalleSolicitud[] = [];
+  const evaluadas: DetalleSolicitud[] = [];
 
   for (const fila of filas) {
     const detalle = aDetalle(fila);
     if (detalle.solicitud.estado === 'En revisión') {
       pendientes.push(detalle);
     } else {
-      resueltas.push(detalle);
+      evaluadas.push(detalle);
     }
   }
 
-  return { pendientes, resueltas };
+  return { pendientes, evaluadas };
+}
+
+export function buscarSolicitudDelSubarrendador(
+  db: Database.Database,
+  codigo: string,
+  subarrendadorId: number,
+): DetalleSolicitud | null {
+  const fila = db
+    .prepare(
+      `${CONSULTA_DETALLE} WHERE s.codigo_solicitud = ? AND pe.persona_subarrendador_id = ?`,
+    )
+    .get(codigo, subarrendadorId) as FilaDetalle | undefined;
+
+  return fila ? aDetalle(fila) : null;
 }
 
 /** Buscar una postulación del dueño por su código. */
@@ -320,13 +401,25 @@ export function actualizarEstadoSolicitud(
   solicitudId: number,
   estado: EstadoSolicitud,
   motivoRechazo: string | null = null,
+  acuerdoSubarriendo?: boolean | null,
 ): void {
+  const acuerdoSql =
+    acuerdoSubarriendo === undefined ? null : acuerdoSubarriendo === null ? null : acuerdoSubarriendo ? 1 : 0;
+
   db.prepare(
     `UPDATE solicitud_reserva
         SET estado = ?,
-            motivo_rechazo = CASE WHEN ? IS NULL THEN motivo_rechazo ELSE ? END
+            motivo_rechazo = CASE WHEN ? IS NULL THEN motivo_rechazo ELSE ? END,
+            acuerdo_subarriendo = CASE WHEN ? = 0 THEN acuerdo_subarriendo ELSE ? END
       WHERE id = ?`,
-  ).run(estado, motivoRechazo, motivoRechazo, solicitudId);
+  ).run(
+    estado,
+    motivoRechazo,
+    motivoRechazo,
+    acuerdoSubarriendo === undefined ? 0 : 1,
+    acuerdoSql,
+    solicitudId,
+  );
 }
 
 /** Cambiar el estado de la habitación (`Disponible` → `Reservada`). */
@@ -394,9 +487,9 @@ export function listarSolicitudesVencidas(
     .prepare(
       `SELECT id, codigo_solicitud, persona_id, habitacion_id, fecha_llegada_estimada,
               duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado,
-              motivo_rechazo
+              motivo_rechazo, acuerdo_subarriendo
          FROM solicitud_reserva
-        WHERE estado = 'En revisión'
+        WHERE estado IN ('En revisión', 'Pendiente confirmación dueño')
           AND fecha_envio < ?
         ORDER BY fecha_envio`,
     )

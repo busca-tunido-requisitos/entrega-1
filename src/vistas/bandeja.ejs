@@ -12,6 +12,7 @@
         <h1>BuscaTuNido</h1>
         <p>Bandeja de postulaciones · <%= dueno.nombreCompleto %></p>
       </div>
+      <a class="volver" href="/subarriendo">Bandeja del subarrendador</a>
       <a class="volver" href="/catalogo">← Volver al catálogo</a>
     </header>
 
@@ -68,6 +69,28 @@
               <p class="postulacion-mensaje"><%= detalle.solicitud.mensajePresentacion %></p>
               <a class="boton-enlace" href="/bandeja/<%= detalle.solicitud.codigoSolicitud %>">
                 Revisar y resolver
+              </a>
+            </li>
+            <% }) %>
+          </ul>
+        <% } %>
+
+        <% if (typeof esperandoSubarrendador !== 'undefined' && esperandoSubarrendador.length > 0) { %>
+          <h2 class="subtitulo">Esperando pre-aprobación del subarrendador</h2>
+          <ul class="postulaciones resueltas">
+            <% esperandoSubarrendador.forEach(function (detalle) { %>
+            <li class="postulacion">
+              <div class="postulacion-cabecera">
+                <h3><%= detalle.persona.nombreCompleto %></h3>
+                <span class="chip"><%= detalle.solicitud.estado %></span>
+              </div>
+              <p class="postulacion-datos">
+                <%= detalle.habitacion.identificadorHabitacion %> en
+                <%= detalle.pension.nombreComercial %> ·
+                enviada el <%= formatearFechaHora(detalle.solicitud.fechaEnvio) %>
+              </p>
+              <a class="boton-enlace secundario" href="/bandeja/<%= detalle.solicitud.codigoSolicitud %>">
+                Ver detalle
               </a>
             </li>
             <% }) %>

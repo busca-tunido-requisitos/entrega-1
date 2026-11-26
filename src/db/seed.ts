@@ -217,6 +217,15 @@ const DUENO_DEMO = {
   carrera: null,
 };
 
+const SUBARRENDADOR_DEMO = {
+  nombreCompleto: 'Matías Herrera Vidal',
+  correoElectronico: 'subarrendador@buscatunido.cl',
+  telefono: '+56 9 2222 2222',
+  correoInstitucional: 'matias.herrera@alumnos.uv.cl',
+  universidad: 'Universidad de Valparaíso',
+  carrera: 'Ingeniería Comercial',
+};
+
 /**
  * Semestre académico en curso: enero–junio → 01-01 a 07-15; julio–diciembre →
  * 07-16 a 12-31. Las habitaciones admiten arriendos solo en ese período.
@@ -306,6 +315,13 @@ export function sembrarDatos(db: Database.Database): void {
      WHERE persona_dueno_id IS NULL
   `);
 
+  const asignarSubarrendador = db.prepare(`
+    UPDATE pension
+       SET persona_subarrendador_id = (SELECT id FROM persona WHERE correo_institucional = ?)
+     WHERE nombre_comercial = 'Pensión Brasil'
+       AND persona_subarrendador_id IS NULL
+  `);
+
   const carga = db.transaction(() => {
     for (const sede of SEDES) {
       upsertSede.run(sede);
@@ -339,6 +355,9 @@ export function sembrarDatos(db: Database.Database): void {
     // pensiones de ejemplo mediante la asociación `administra`.
     insertarPerfilDemo.run(DUENO_DEMO);
     asignarDueno.run(DUENO_DEMO.correoInstitucional);
+
+    insertarPerfilDemo.run(SUBARRENDADOR_DEMO);
+    asignarSubarrendador.run(SUBARRENDADOR_DEMO.correoInstitucional);
 
     // Comprobación de que las sedes quedaron cargadas (evita silencios si se edita la lista).
     for (const sede of SEDES) {

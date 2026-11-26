@@ -5,10 +5,12 @@ import {
   insertarFichaReserva,
   listarAlternativas,
   listarSolicitudesVencidas,
+  obtenerDuenoDemo,
 } from '../dominio/repositorio-resoluciones';
 import { buscarSolicitudPorCodigo } from '../dominio/repositorio-solicitudes';
 import type {
   AlternativaPension,
+  EstadoSolicitud,
   FichaReserva,
   SolicitudReserva,
 } from '../dominio/tipos';
@@ -43,7 +45,8 @@ export function plazoVencido(fechaEnvio: string, ahora: Date): boolean {
 }
 
 /**
- * Aprobar una postulación: la solicitud pasa a `Aprobada`, la habitación a
+ * Aprobar una postulación: la solicitud pasa a `Aprobada` (o `Confirmada por dueño`
+ * cuando existe subarrendador y ya pre-aprobó en `EST-03`), la habitación a
  * `Reservada` (cupo bloqueado), se emite la `FichaReserva` y se notifica al
  * postulante con el código de reserva.
  */
@@ -60,12 +63,36 @@ export async function aprobarSolicitud(
   }
 
   const solicitud = detalle.solicitud;
+  const tieneSubarrendador = detalle.pension.personaSubarrendadorId != null;
 
-  if (solicitud.estado !== 'En revisión') {
+  if (tieneSubarrendador && solicitud.estado === 'En revisión') {
+    return {
+      ok: false,
+      errores: {
+        solicitud:
+          'Esta pensión cuenta con subarrendador: requiere su pre-aprobación antes de la confirmación final del dueño.',
+      },
+    };
+  }
+
+  const estadoEsperado: EstadoSolicitud = tieneSubarrendador
+    ? 'Pendiente confirmación dueño'
+    : 'En revisión';
+
+  if (solicitud.estado !== estadoEsperado) {
     return {
       ok: false,
       errores: {
         solicitud: `La solicitud ya está en estado «${solicitud.estado}» y no se puede volver a resolver.`,
+      },
+    };
+  }
+
+  if (tieneSubarrendador && solicitud.acuerdoSubarriendo !== true) {
+    return {
+      ok: false,
+      errores: {
+        solicitud: 'Falta el acuerdo positivo del subarrendador para confirmar la reserva.',
       },
     };
   }
@@ -91,9 +118,10 @@ export async function aprobarSolicitud(
   }
 
   const fechaEmision = formatearFechaHoraSqlite(ahora);
+  const estadoFinal: EstadoSolicitud = tieneSubarrendador ? 'Confirmada por dueño' : 'Aprobada';
 
   const registrar = db.transaction(() => {
-    actualizarEstadoSolicitud(db, solicitud.id, 'Aprobada');
+    actualizarEstadoSolicitud(db, solicitud.id, estadoFinal);
     actualizarEstadoHabitacion(db, detalle.habitacion.id, 'Reservada');
     return insertarFichaReserva(db, solicitud.id, solicitud.codigoSolicitud, fechaEmision);
   });
@@ -115,9 +143,9 @@ export async function aprobarSolicitud(
 
   return {
     ok: true,
-    solicitud: { ...solicitud, estado: 'Aprobada', motivoRechazo: null },
+    solicitud: { ...solicitud, estado: estadoFinal, motivoRechazo: null },
     ficha,
-    mensaje: `Solicitud aprobada. Cupo bloqueado y ficha ${ficha.codigoReserva} emitida.`,
+    mensaje: `Solicitud ${estadoFinal.toLowerCase()}. Cupo bloqueado y ficha ${ficha.codigoReserva} emitida.`,
   };
 }
 
@@ -141,8 +169,12 @@ export async function rechazarSolicitud(
 
   const solicitud = detalle.solicitud;
   const motivoLimpio = motivo.trim();
+  const tieneSubarrendador = detalle.pension.personaSubarrendadorId != null;
+  const estadoEsperado: EstadoSolicitud = tieneSubarrendador
+    ? 'Pendiente confirmación dueño'
+    : 'En revisión';
 
-  if (solicitud.estado !== 'En revisión') {
+  if (solicitud.estado !== estadoEsperado) {
     return {
       ok: false,
       errores: {
@@ -204,6 +236,184 @@ export async function rechazarSolicitud(
     solicitud: { ...solicitud, estado: 'Rechazada', motivoRechazo: motivoLimpio },
     alternativas,
     mensaje: 'Solicitud rechazada. La habitación sigue disponible para otros postulantes.',
+  };
+}
+
+export async function preAprobarPorSubarrendador(
+  db: Database.Database,
+  push: ServicioPush,
+  codigoSolicitud: string,
+  ahora: Date = new Date(),
+): Promise<ResultadoResolucion> {
+  const detalle = buscarSolicitudPorCodigo(db, codigoSolicitud);
+  if (!detalle) {
+    return { ok: false, errores: { solicitud: 'La solicitud no existe.' } };
+  }
+
+  const solicitud = detalle.solicitud;
+  if (detalle.pension.personaSubarrendadorId == null) {
+    return {
+      ok: false,
+      errores: { solicitud: 'La pensión asociada no cuenta con un subarrendador asignado.' },
+    };
+  }
+
+  if (solicitud.estado !== 'En revisión') {
+    return {
+      ok: false,
+      errores: {
+        solicitud: `La solicitud ya está en estado «${solicitud.estado}» y no puede pre-aprobarse.`,
+      },
+    };
+  }
+
+  if (plazoVencido(solicitud.fechaEnvio, ahora)) {
+    return {
+      ok: false,
+      errores: {
+        solicitud: 'La solicitud superó el plazo de 48 horas desde su envío.',
+      },
+    };
+  }
+
+  if (detalle.habitacion.estadoDisponibilidad !== 'Disponible') {
+    return {
+      ok: false,
+      errores: {
+        habitacion: 'La habitación ya no está disponible para reservar.',
+      },
+    };
+  }
+
+  const registrar = db.transaction(() => {
+    actualizarEstadoSolicitud(db, solicitud.id, 'Pendiente confirmación dueño', null, true);
+  });
+  registrar();
+
+  const dueno = obtenerDuenoDemo(db);
+  try {
+    await push.enviar({
+      solicitudId: solicitud.id,
+      destinatario: dueno?.correoElectronico ?? 'dueno@buscatunido.cl',
+      titulo: 'Pre-aprobación del subarrendador',
+      cuerpo:
+        `El subarrendador pre-aprobó la solicitud ${solicitud.codigoSolicitud} para ` +
+        `${detalle.pension.nombreComercial} (${detalle.habitacion.identificadorHabitacion}). ` +
+        'Requiere tu confirmación final.',
+    });
+  } catch (error) {
+    console.error('No se pudo despachar la notificación push simulada:', error);
+  }
+
+  return {
+    ok: true,
+    solicitud: {
+      ...solicitud,
+      estado: 'Pendiente confirmación dueño',
+      acuerdoSubarriendo: true,
+    },
+    mensaje:
+      'Pre-aprobación registrada. Se notificó al dueño para la confirmación final del arriendo.',
+  };
+}
+
+export async function rechazarPorSubarrendador(
+  db: Database.Database,
+  push: ServicioPush,
+  codigoSolicitud: string,
+  motivo: string,
+  ahora: Date = new Date(),
+): Promise<ResultadoResolucion> {
+  const detalle = buscarSolicitudPorCodigo(db, codigoSolicitud);
+  if (!detalle) {
+    return { ok: false, errores: { solicitud: 'La solicitud no existe.' } };
+  }
+
+  const solicitud = detalle.solicitud;
+  const motivoLimpio = motivo.trim();
+
+  if (detalle.pension.personaSubarrendadorId == null) {
+    return {
+      ok: false,
+      errores: { solicitud: 'La pensión asociada no cuenta con un subarrendador asignado.' },
+    };
+  }
+
+  if (solicitud.estado !== 'En revisión') {
+    return {
+      ok: false,
+      errores: {
+        solicitud: `La solicitud ya está en estado «${solicitud.estado}» y no puede rechazarse.`,
+      },
+    };
+  }
+
+  if (plazoVencido(solicitud.fechaEnvio, ahora)) {
+    return {
+      ok: false,
+      errores: {
+        solicitud: 'La solicitud superó el plazo de 48 horas desde su envío.',
+      },
+    };
+  }
+
+  if (motivoLimpio === '') {
+    return {
+      ok: false,
+      errores: { motivo: 'Indica el motivo del rechazo del subarrendador.' },
+    };
+  }
+
+  const registrar = db.transaction(() => {
+    actualizarEstadoSolicitud(db, solicitud.id, 'Rechazada', motivoLimpio, false);
+  });
+  registrar();
+
+  const alternativas = listarAlternativas(db, detalle.habitacion.id);
+  const listaAlternativas =
+    alternativas.length > 0
+      ? alternativas
+          .map(
+            (alternativa) =>
+              `${alternativa.pensionNombre} (${alternativa.comuna}), habitación ` +
+              `${alternativa.identificadorHabitacion} a $${alternativa.precioMensual.toLocaleString('es-CL')}`,
+          )
+          .join('; ')
+      : 'No hay otras habitaciones disponibles en el sector por ahora.';
+
+  const dueno = obtenerDuenoDemo(db);
+  try {
+    await push.enviar({
+      solicitudId: solicitud.id,
+      destinatario: dueno?.correoElectronico ?? 'dueno@buscatunido.cl',
+      titulo: 'Decisión del subarrendador: rechazo',
+      cuerpo:
+        `El subarrendador rechazó la solicitud ${solicitud.codigoSolicitud} para ` +
+        `${detalle.pension.nombreComercial}. Motivo: ${motivoLimpio}.`,
+    });
+
+    await push.enviar({
+      solicitudId: solicitud.id,
+      destinatario: detalle.persona.correoElectronico,
+      titulo: 'Solicitud rechazada',
+      cuerpo:
+        `Tu solicitud ${solicitud.codigoSolicitud} fue rechazada. Motivo: ${motivoLimpio}. ` +
+        `Alternativas en el mismo sector: ${listaAlternativas}`,
+    });
+  } catch (error) {
+    console.error('No se pudo despachar la notificación push simulada:', error);
+  }
+
+  return {
+    ok: true,
+    solicitud: {
+      ...solicitud,
+      estado: 'Rechazada',
+      motivoRechazo: motivoLimpio,
+      acuerdoSubarriendo: false,
+    },
+    alternativas,
+    mensaje: 'Solicitud rechazada y decisión notificada al dueño y al postulante.',
   };
 }
 

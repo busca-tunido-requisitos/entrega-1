@@ -6,6 +6,7 @@ import { rutasCatalogo } from './rutas/catalogo';
 import { rutasChat } from './rutas/chat';
 import { rutasFichas } from './rutas/fichas';
 import { rutasSolicitudes } from './rutas/solicitudes';
+import { rutasSubarriendo } from './rutas/subarriendo';
 import { rutasVerificacion } from './rutas/verificacion';
 import { ServicioPushSqlite, type ServicioPush } from './servicios/push';
 
@@ -36,6 +37,11 @@ export function crearApp(db: Database.Database, opciones: OpcionesCrearApp = {})
   );
   app.use(
     rutasBandeja(db, {
+      servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
+    }),
+  );
+  app.use(
+    rutasSubarriendo(db, {
       servicioPush: opciones.servicioPush ?? new ServicioPushSqlite(db),
     }),
   );

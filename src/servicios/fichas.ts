@@ -9,7 +9,7 @@ import {
   obtenerFichaDeSolicitud,
 } from '../dominio/repositorio-resoluciones';
 import { buscarSolicitudPorCodigo, type DetalleSolicitud } from '../dominio/repositorio-solicitudes';
-import type { FichaReserva } from '../dominio/tipos';
+import { estaSolicitudAprobada, type FichaReserva } from '../dominio/tipos';
 import { firmarFicha, verificarFirma } from './firma';
 
 /**
@@ -178,7 +178,7 @@ export function registrarLlegada(
     return { ok: false, mensaje: 'La reserva asociada a la ficha no existe.' };
   }
 
-  if (detalle.solicitud.estado !== 'Aprobada') {
+  if (!estaSolicitudAprobada(detalle.solicitud.estado)) {
     return {
       ok: false,
       mensaje: 'La reserva no está aprobada, por lo que no se puede registrar la llegada.',

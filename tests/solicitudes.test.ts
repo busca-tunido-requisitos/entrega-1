@@ -255,8 +255,8 @@ describe('HU-02 · Envío de postulación formal de reserva', () => {
 
     const personas = db.prepare('SELECT COUNT(*) AS total FROM persona').get() as Conteo;
     const habitaciones = db.prepare('SELECT COUNT(*) AS total FROM habitacion').get() as Conteo;
-    // Perfiles de demostración: estudiante (HU-02) y dueño de ↑
-    expect(personas.total).toBe(2);
+    // Perfiles de demostración: estudiante (HU-02), dueño (HU-03) y subarrendador (HU-05).
+    expect(personas.total).toBe(3);
     expect(habitaciones.total).toBe(17);
 
     const rangos = db

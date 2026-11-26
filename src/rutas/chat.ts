@@ -6,6 +6,7 @@ import {
   chatHabilitado,
   crearMensajeChat,
   listarMensajesChat,
+  mensajeChatRestringido,
   MENSAJE_CHAT_RESTRINGIDO,
   participantesDelChat,
 } from '../servicios/chat';
@@ -29,7 +30,7 @@ export function rutasChat(db: Database.Database): Router {
     if (!chatHabilitado(detalle)) {
       res.status(403).render('solicitud-aviso', {
         titulo: 'Chat no habilitado',
-        mensaje: MENSAJE_CHAT_RESTRINGIDO,
+        mensaje: mensajeChatRestringido(detalle),
       });
       return;
     }
@@ -62,7 +63,7 @@ export function rutasChat(db: Database.Database): Router {
     if (!chatHabilitado(detalle)) {
       res.status(403).render('solicitud-aviso', {
         titulo: 'Chat no habilitado',
-        mensaje: MENSAJE_CHAT_RESTRINGIDO,
+        mensaje: mensajeChatRestringido(detalle),
       });
       return;
     }
@@ -94,7 +95,10 @@ export function rutasChat(db: Database.Database): Router {
     const detalle = buscarSolicitudPorCodigo(db, codigo);
 
     if (!detalle || !chatHabilitado(detalle)) {
-      res.status(403).json({ mensajes: [], error: MENSAJE_CHAT_RESTRINGIDO });
+      res.status(403).json({
+        mensajes: [],
+        error: detalle ? mensajeChatRestringido(detalle) : MENSAJE_CHAT_RESTRINGIDO,
+      });
       return;
     }
 

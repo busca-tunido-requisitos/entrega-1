@@ -23,6 +23,8 @@ interface FilaPension {
   permite_visitas: number;
   permite_mascotas: number;
   hora_toque_queda: string | null;
+  persona_dueno_id?: number | null;
+  persona_subarrendador_id?: number | null;
 }
 
 interface FilaHabitacion {
@@ -59,6 +61,7 @@ interface FilaSolicitud {
   fecha_envio: string;
   estado: SolicitudReserva['estado'];
   motivo_rechazo: string | null;
+  acuerdo_subarriendo: number | null;
 }
 
 interface FilaNotificacion {
@@ -83,6 +86,8 @@ function aPension(fila: FilaPension): Pension {
     permiteVisitas: fila.permite_visitas === 1,
     permiteMascotas: fila.permite_mascotas === 1,
     horaToqueQueda: fila.hora_toque_queda,
+    personaDuenoId: fila.persona_dueno_id ?? null,
+    personaSubarrendadorId: fila.persona_subarrendador_id ?? null,
     habitaciones: [],
   };
 }
@@ -126,6 +131,8 @@ function aSolicitud(fila: FilaSolicitud): SolicitudReserva {
     fechaEnvio: fila.fecha_envio,
     estado: fila.estado,
     motivoRechazo: fila.motivo_rechazo,
+    acuerdoSubarriendo:
+      fila.acuerdo_subarriendo === null ? null : fila.acuerdo_subarriendo === 1,
   };
 }
 
@@ -149,7 +156,8 @@ export function buscarHabitacionConPension(
   const pensionFila = db
     .prepare(
       `SELECT id, nombre_comercial, direccion, comuna, latitud, longitud,
-              servicios_incluidos, permite_visitas, permite_mascotas, hora_toque_queda
+              servicios_incluidos, permite_visitas, permite_mascotas, hora_toque_queda,
+              persona_dueno_id, persona_subarrendador_id
          FROM pension
         WHERE id = ?`,
     )
@@ -237,7 +245,7 @@ export function insertarSolicitud(
       .prepare(
         `SELECT id, codigo_solicitud, persona_id, habitacion_id, fecha_llegada_estimada,
                 duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado,
-                motivo_rechazo
+                motivo_rechazo, acuerdo_subarriendo
            FROM solicitud_reserva
           WHERE id = ?`,
       )
@@ -267,7 +275,7 @@ export function buscarSolicitudPorCodigo(
     .prepare(
       `SELECT id, codigo_solicitud, persona_id, habitacion_id, fecha_llegada_estimada,
               duracion_estadia_meses, mensaje_presentacion, fecha_envio, estado,
-              motivo_rechazo
+              motivo_rechazo, acuerdo_subarriendo
          FROM solicitud_reserva
         WHERE codigo_solicitud = ?`,
     )

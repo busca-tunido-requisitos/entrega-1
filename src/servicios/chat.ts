@@ -7,6 +7,7 @@ import {
   type ParticipanteChat,
 } from '../dominio/repositorio-chat';
 import type { DetalleSolicitud } from '../dominio/repositorio-solicitudes';
+import { estaSolicitudAprobada } from '../dominio/tipos';
 import { formatearFechaHoraSqlite } from './solicitudes';
 
 /**
@@ -17,6 +18,13 @@ import { formatearFechaHoraSqlite } from './solicitudes';
 export const MENSAJE_CHAT_RESTRINGIDO =
   'El chat se habilita exclusivamente una vez confirmada y aprobada la reserva.';
 
+export function mensajeChatRestringido(detalle: DetalleSolicitud): string {
+  if (detalle.solicitud.estado === 'Pendiente confirmación dueño') {
+    return `${MENSAJE_CHAT_RESTRINGIDO} La reserva aún requiere confirmación final del dueño.`;
+  }
+  return MENSAJE_CHAT_RESTRINGIDO;
+}
+
 export interface ResultadoMensaje {
   ok: boolean;
   mensaje?: MensajeChat;
@@ -25,7 +33,7 @@ export interface ResultadoMensaje {
 
 /** El chat solo existe con la reserva aprobada. */
 export function chatHabilitado(detalle: DetalleSolicitud): boolean {
-  return detalle.solicitud.estado === 'Aprobada';
+  return estaSolicitudAprobada(detalle.solicitud.estado);
 }
 
 /** Participantes reales del canal de una solicitud. */
@@ -45,7 +53,7 @@ export function crearMensajeChat(
   ahora: Date = new Date(),
 ): ResultadoMensaje {
   if (!chatHabilitado(detalle)) {
-    return { ok: false, errores: { chat: MENSAJE_CHAT_RESTRINGIDO } };
+    return { ok: false, errores: { chat: mensajeChatRestringido(detalle) } };
   }
 
   const participantes = obtenerParticipantes(db, detalle.solicitud.id);

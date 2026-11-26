@@ -7,7 +7,7 @@ import type { Persona } from './tipos';
  * `envia` (Persona 1 – 0..* MensajeChat).
  */
 
-export type RolChat = 'postulante' | 'arrendador';
+export type RolChat = 'postulante' | 'arrendador' | 'subarrendador';
 
 export interface ParticipanteChat {
   persona: Persona;
@@ -81,9 +81,18 @@ export function obtenerParticipantes(
          JOIN habitacion h ON h.id = s.habitacion_id
          JOIN pension pe ON pe.id = h.pension_id
          JOIN persona p ON p.id = pe.persona_dueno_id
-        WHERE s.id = ?`,
+        WHERE s.id = ?
+       UNION ALL
+       SELECT p.id, p.nombre_completo, p.correo_electronico, p.telefono,
+              p.correo_institucional, p.correo_institucional_verificado,
+              p.universidad, p.carrera, 'subarrendador' AS rol
+         FROM solicitud_reserva s
+         JOIN habitacion h ON h.id = s.habitacion_id
+         JOIN pension pe ON pe.id = h.pension_id
+         JOIN persona p ON p.id = pe.persona_subarrendador_id
+        WHERE s.id = ? AND pe.persona_subarrendador_id IS NOT NULL`,
     )
-    .all(solicitudId, solicitudId) as (FilaPersona & { rol: RolChat })[];
+    .all(solicitudId, solicitudId, solicitudId) as (FilaPersona & { rol: RolChat })[];
 
   return filas.map((fila) => ({
     persona: aPersona(fila),
