@@ -1,0 +1,43 @@
+@startuml
+title DSS-03 · Resolución de postulación de reserva con subarrendador
+autonumber
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam titleFontSize 18
+skinparam titleFontColor #16324F
+
+actor ":Subarrendador" as Subarrendador
+participant ":BuscaTuNido" as Sistema
+participant ":ServicioPush" as Push
+actor ":Dueño" as Dueno
+actor ":Estudiante" as Estudiante
+
+Subarrendador -> Sistema : abrirBandejaSubarriendo()
+Sistema --> Subarrendador : mostrarDetalleSolicitud(estudiante, fechas, mensaje)
+
+alt Escenario Principal: Subarrendador pre-aprueba y Dueño confirma
+    Subarrendador -> Sistema : preAprobarSolicitud(codigoSolicitud)
+    Sistema -> Sistema : registrarAcuerdoSubarriendo(true)
+    Sistema -> Push : notificarDecisionAlDueno(duenoId, codigoSolicitud)
+    Push --> Dueno : alertarPreAprobacionSubarrendador(codigoSolicitud)
+    Dueno -> Sistema : confirmarReservaSubarriendo(codigoSolicitud)
+    Sistema -> Sistema : bloquearCupoHabitacion()
+    Sistema -> Push : despacharNotificacionAprobacion(estudianteId, codigoReserva)
+    Push --> Estudiante : notificarReservaAprobada(codigoReserva)
+    Sistema --> Dueno : confirmarAprobacionYCupoBloqueado()
+else Escenario Alternativo 1: Subarrendador rechaza
+    Subarrendador -> Sistema : rechazarPorSubarrendador(codigoSolicitud, motivo)
+    Sistema -> Sistema : registrarRechazoYBuscarAlternativas(sector, presupuesto)
+    Sistema -> Push : notificarDecisionAlDueno(duenoId, codigoSolicitud)
+    Push --> Dueno : alertarRechazoSubarrendador(codigoSolicitud)
+    Sistema -> Push : despacharNotificacionRechazoConAlternativas(estudianteId)
+    Push --> Estudiante : notificarRechazoYSugerirPensiones(listaAlternativas)
+    Sistema --> Subarrendador : confirmarRechazoYHabitacionDisponible()
+else Escenario Alternativo 2: Dueño rechaza confirmación
+    Dueno -> Sistema : rechazarConfirmacion(codigoSolicitud, motivo)
+    Sistema -> Sistema : registrarRechazoYBuscarAlternativas(sector, presupuesto)
+    Sistema -> Push : despacharNotificacionRechazoConAlternativas(estudianteId)
+    Push --> Estudiante : notificarRechazoYSugerirPensiones(listaAlternativas)
+    Sistema --> Dueno : confirmarRechazoYHabitacionDisponible()
+end
+@enduml

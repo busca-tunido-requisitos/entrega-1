@@ -1,0 +1,37 @@
+@startuml
+title EST-03 · Ciclo de vida de Reserva Subarriendo
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam titleFontSize 22
+skinparam titleFontColor #16324F
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam ArrowColor #64748B
+skinparam ArrowFontColor #334155
+skinparam ArrowFontSize 12
+skinparam roundcorner 14
+skinparam nodesep 65
+skinparam ranksep 65
+skinparam padding 12
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #7C9CBF
+skinparam stateFontColor #16324F
+hide empty description
+
+state "En revisión" as Revision
+state "Pendiente confirmación dueño" as PendienteDueno #DBEAFE
+state "Confirmada por dueño" as Confirmada #DCFCE7
+state Rechazada #FEE2E2
+state Expirada #F1F5F9
+
+[*] --> Revision : / registrar solicitud
+Revision --> PendienteDueno : aprobar subarrendador
+Revision --> Rechazada : rechazar
+Revision --> Expirada : pasan 48 horas
+PendienteDueno --> Confirmada : confirmar dueño [máximo de 48 horas]
+PendienteDueno --> Rechazada : rechazada por dueño
+PendienteDueno --> Expirada : luego de 48 horas
+Confirmada --> [*]
+Rechazada --> [*]
+Expirada --> [*]
+@enduml

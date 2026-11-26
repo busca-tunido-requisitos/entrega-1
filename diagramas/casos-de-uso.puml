@@ -30,12 +30,14 @@ skinparam rectangleFontColor #16324F
 left to right direction
 actor Estudiante
 actor "Dueño de pensión" as Dueno
+actor Subarrendador
 rectangle "BuscaTuNido" {
  usecase "CU-01\nBuscar alojamiento" as CU01
  usecase "CU-02\nSolicitar reserva" as CU02
  usecase "CU-04\nObtener comprobante" as CU04
  usecase "CU-05\nCoordinar llegada" as CU05
  usecase "CU-03\nResolver solicitud" as CU03
+ usecase "CU-06\nPre-evaluar solicitud\nde subarriendo" as CU06
 }
 actor "Servicio Push\n(FCM)" as Push <<externo>>
 actor "Servicio de firma QR" as QR <<externo>>
@@ -45,7 +47,10 @@ Estudiante --> CU04
 Estudiante --> CU05
 Dueno --> CU05
 Dueno --> CU03
+Subarrendador --> CU05
+Subarrendador --> CU06
 CU02 --> Push
 CU03 --> Push
+CU06 --> Push
 CU04 --> QR
 @enduml

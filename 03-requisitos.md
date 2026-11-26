@@ -14,6 +14,7 @@
 | **RP-08** | El sistema debe habilitar un canal de chat directo integrado entre el estudiante y el dueño tras confirmarse la reserva para coordinar la llegada presencial. | Funcional | [`ACT-TOBE-11`](./02-rediseno-to-be.md#act-tobe-11--recibir-confirmación-y-coordinar-llegada-por-chat) |
 | **RP-09** | La interfaz de usuario debe implementar un diseño responsive mobile-first con áreas táctiles mínimas de 48×48 px para botones y acciones de aprobación/rechazo. | No funcional (Usabilidad) | [`ACT-TOBE-05`](./02-rediseno-to-be.md#act-tobe-05--revisar-solicitud-y-perfil-en-la-app) |
 | **RP-10** | El backend debe procesar y responder las consultas de catálogo y envío de notificaciones push en un tiempo inferior a 400 ms en el percentil 95. | No funcional (Rendimiento) | [`ACT-TOBE-02`](./02-rediseno-to-be.md#act-tobe-02--consultar-y-cargar-catálogo-en-tiempo-real) y [`ACT-TOBE-04`](./02-rediseno-to-be.md#act-tobe-04--generar-notificación-push-de-solicitud) |
+| **RP-11** | El sistema debe permitir que un subarrendador autorizado pre-evalúe (pre-apruebe o rechace) solicitudes de arriendo notificando su decisión al dueño por push, y exigir la confirmación final del dueño para aprobar la reserva y bloquear la habitación. | Funcional | [`ACT-TOBE-05`](./02-rediseno-to-be.md#act-tobe-05--revisar-solicitud-y-perfil-en-la-app), [`ACT-TOBE-06`](./02-rediseno-to-be.md#act-tobe-06--rechazar-solicitud) y [`ACT-TOBE-09`](./02-rediseno-to-be.md#act-tobe-09--aprobar-solicitud-de-reserva) |
 
 ---
 

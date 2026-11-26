@@ -48,23 +48,28 @@ Archivo fuente: [est-02.puml](./diagramas/est-02.puml)
 
 Reservada significa que el cupo está comprometido; Ocupada, que el estudiante ya llegó. Aprobar corresponde a `aprobarSolicitudReserva` en DSS-01; la validación del QR se relaciona con DSS-02. Publicación, registro de salida y baja completan el ciclo propuesto y requieren validación del equipo, pues no están desarrollados en esas secuencias.
 
-## EST-03 — Ciclo de vida de Reserva Subarriendo
+## EST-03 — Ciclo de vida de SolicitudReserva con subarrendador
 
 - Clase: [SolicitudReserva](./08-modelo-dominio.md).
-- Secuencia relacionada: [DSS-03](./10-diagramas-secuencia.md).
+- Secuencia relacionada: [DSS-03](./10-diagramas-secuencia.md#dss-03--resolución-de-postulación-de-reserva-con-subarrendador).
 
-![EST-03: Solicitud de reserva subarriendo](./diagramas/est-03.jpg)
+![EST-03: Ciclo de vida de SolicitudReserva con subarrendador](./diagramas/est-03.png)
+
+Archivo fuente: [est-03.puml](./diagramas/est-03.puml)
 
 ### Tabla de transiciones
 
 | Origen | Evento | Guarda | Acción | Destino |
 |--------|--------|--------|--------|---------|
-| Inicio | Creación tras enviar una solicitud válida | — | Registrar solicitud y notificar al subarrendador | En revisión |
-| En revisión | Aprobar | _ | esperar al subarrendador | Aprobada |
-| En revisión | Esperar al dueño | — | Registrar solicitud y notificar al dueño | En revisión |
-| En revisión | Aprobar | Habitación disponible y menos de 48 h desde el envío | Bloquear cupo y notificar aprobación | Aprobada |
-| En revisión | Rechazar | Menos de 48 h desde el envío | Registrar motivo y notificar con alternativas | Rechazada |
+| Inicio | Creación tras enviar una solicitud válida | — | Registrar solicitud (`acuerdoSubarriendo = null`) y notificar al subarrendador | En revisión |
+| En revisión | Pre-aprobar (subarrendador) | Habitación `Disponible` y menos de 48 h desde el envío | Registrar `acuerdoSubarriendo = true` y notificar pre-aprobación al dueño | Pendiente confirmación dueño |
+| En revisión | Rechazar (subarrendador) | Menos de 48 h desde el envío | Registrar `acuerdoSubarriendo = false`, motivo, notificar al dueño y al estudiante con alternativas | Rechazada |
 | En revisión | after (48 h) | — | Notificar expiración | Expirada |
-| Aprobada | Finalización | — | — | Fin |
+| Pendiente confirmación dueño | Confirmar (dueño) | Habitación `Disponible`, `acuerdoSubarriendo = true` y menos de 48 h desde pre-aprobación | Bloquear cupo (`Reservada`), emitir ficha y notificar aprobación al estudiante | Confirmada por dueño |
+| Pendiente confirmación dueño | Rechazar (dueño) | Menos de 48 h desde pre-aprobación | Registrar motivo y notificar rechazo con alternativas al estudiante | Rechazada |
+| Pendiente confirmación dueño | after (48 h) | — | Notificar expiración | Expirada |
+| Confirmada por dueño | Finalización | — | — | Fin |
 | Rechazada | Finalización | — | — | Fin |
 | Expirada | Finalización | — | — | Fin |
+
+`Confirmada por dueño` equivale a `Aprobada` de `EST-01` para habilitar el bloqueo de la habitación (`Disponible → Reservada` en `EST-02`), la emisión de `FichaReserva` y el acceso a `MensajeChat`. Mientras permanezca en `Pendiente confirmación dueño`, el cupo continúa `Disponible` y no se habilitan ni la ficha ni el chat.

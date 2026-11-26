@@ -87,3 +87,35 @@ Característica: Confirmación de reserva y coordinación de llegada
     Entonces el acceso al canal de comunicación se restringe
     Y se le informa que el chat se habilita exclusivamente una vez confirmada y aprobada la reserva
 ```
+
+---
+
+## HU-05 — Permisos de subarrendador
+Historia: Como subarrendador, quiero pre-aprobar o rechazar las solicitudes de arriendo de los postulantes para la habitación que subarriendo, para participar en la evaluación de residentes con validación final del dueño de la pensión.
+
+```gherkin
+Característica: Doble aprobación de postulación entre subarrendador y dueño
+
+  Escenario: Doble aprobación exitosa por subarrendador y dueño
+    Dado que existe una solicitud de reserva en estado "En revisión" para una pensión con subarrendador autorizado y habitación "Disponible"
+    Cuando el subarrendador pre-aprueba la solicitud
+    Entonces la solicitud pasa a estado "Pendiente confirmación dueño" con acuerdoSubarriendo registrado
+    Y se despacha una notificación push al dueño informando la pre-aprobación
+    Y cuando el dueño confirma la solicitud dentro del plazo de 48 horas
+    Entonces la solicitud pasa a estado "Confirmada por dueño"
+    Y la habitación pasa a estado "Reservada" quedando bloqueada para nuevas solicitudes en el catálogo
+    Y se emite la ficha oficial de reserva y se notifica la confirmación al estudiante
+
+  Escenario: Rechazo de postulación por el subarrendador o por el dueño
+    Dado que existe una solicitud de reserva en estado "En revisión" o "Pendiente confirmación dueño"
+    Cuando el subarrendador o el dueño rechaza la postulación indicando el motivo
+    Entonces la solicitud pasa a estado "Rechazada"
+    Y la habitación se mantiene en estado "Disponible" para otros postulantes
+    Y se notifica el rechazo al estudiante junto a alternativas del sector y se informa al dueño
+
+  Escenario: Restricción de ficha y chat mientras falta confirmación del dueño
+    Dado que el subarrendador pre-aprobó una solicitud pero esta sigue en estado "Pendiente confirmación dueño"
+    Cuando el estudiante intenta descargar la ficha oficial en PDF o abrir el chat de coordinación
+    Entonces el sistema impide el acceso y mantiene la habitación en estado "Disponible"
+    Y informa que la reserva aún requiere confirmación final del dueño
+```

@@ -34,10 +34,18 @@ Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02.puml)
 
 ---
 
-## DSS-03 — Resolución de postulación de reserva para un subarrendador (Aprobación / Rechazo)
+## DSS-03 — Resolución de postulación de reserva con subarrendador
 
-- **Caso de uso:** [`CU-06`](./09-casos-de-uso.md)
-- **Historia:** [`HU-05`]()
+- **Casos de uso:** [`CU-06`](./09-casos-de-uso.md) y [`CU-03`](./09-casos-de-uso.md)
+- **Historia:** [`HU-05`](./04-historias-usuario.md#hu-05--permisos-de-subarrendador)
 - **Sistemas externos que participan:** Servicio Push (Firebase Cloud Messaging - FCM)
 
-![DSS-01](./diagramas/dss-03.jpg)
+![DSS-03](./diagramas/dss-03.png)
+
+Archivo fuente: [`./diagramas/dss-03.puml`](./diagramas/dss-03.puml)
+
+**Variantes representadas:**
+- **Fragmento combinado `alt` (Doble aprobación entre subarrendador y dueño):**
+  - **Rama Escenario Principal (Doble aprobación):** El subarrendador pre-aprueba la postulación (`preAprobarSolicitud`); el sistema registra `acuerdoSubarriendo = true`, cambia la solicitud a `Pendiente confirmación dueño` sin bloquear todavía la habitación y notifica al dueño vía FCM; al confirmar el dueño (`confirmarReservaSubarriendo`), el sistema bloquea la habitación (`Reservada`), emite la ficha y notifica al estudiante.
+  - **Rama Escenario Alternativo 1 (Rechazo del subarrendador):** El subarrendador rechaza la solicitud; el sistema registra el rechazo (`Rechazada`), mantiene la habitación `Disponible`, notifica la decisión al dueño y envía al estudiante las alternativas disponibles vía FCM.
+  - **Rama Escenario Alternativo 2 (Rechazo del dueño en confirmación):** El dueño rechaza una solicitud previamente pre-aprobada; el sistema la marca `Rechazada`, mantiene la habitación `Disponible` y despacha la notificación con alternativas al estudiante vía FCM.

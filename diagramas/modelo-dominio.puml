@@ -66,6 +66,7 @@ class MensajeChat {
   leido
 }
 Persona "1" -right- "0..*" Pension : administra
+Persona "0..1" -- "0..*" Pension : subarrienda
 Pension "1" -down- "1..*" Habitacion : contiene
 Persona "1" -down- "0..*" SolicitudReserva : presenta
 SolicitudReserva "0..*" -right- "1" Habitacion : solicita

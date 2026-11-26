@@ -50,11 +50,13 @@ para acordar los detalles de mi viaje, hora de llegada y entrega de la habitaci�
 - **CA1:** Una vez aprobada la postulación, el sistema debe habilitar un botón para descargar la ficha oficial de reserva en PDF con su código de verificación.
 - **CA2:** La pantalla de confirmación debe activar un chat bidireccional exclusivo entre el estudiante y el arrendador para coordinar la llegada presencial.
 
-## HU-05 - Permisos de subarrendador
-Como subarrendador,
-quiero tener los permisos para aprobar o rechazar solicitudes de arriendo de los postulantes
+## HU-05 — Permisos de subarrendador
+Como subarrendador,  
+quiero pre-aprobar o rechazar las solicitudes de arriendo de los postulantes para la habitación que subarriendo,  
+para participar en la evaluación de residentes con validación final del dueño de la pensión.
+
 **Actividad TO-BE asociada:** [`ACT-TOBE-05`](./02-rediseno-to-be.md#act-tobe-05--revisar-solicitud-y-perfil-en-la-app), [`ACT-TOBE-06`](./02-rediseno-to-be.md#act-tobe-06--rechazar-solicitud) y [`ACT-TOBE-09`](./02-rediseno-to-be.md#act-tobe-09--aprobar-solicitud-de-reserva)
 
 **Criterios de aceptación:**
-- **CA1:** Una vez tomada la decisión, el sistema debe notificar la decisión al dueño.
-- **CA2:** Para que la solicitud sea aprobada, dueño y subarrendador deben de haber aprobado esta solicitud.
+- **CA1:** Una vez que el subarrendador toma su decisión (pre-aprobar o rechazar) sobre una solicitud `En revisión`, el sistema debe registrar el `acuerdoSubarriendo` y notificar la decisión al dueño mediante push; si el subarrendador rechaza, la solicitud pasa a `Rechazada` y la habitación se mantiene `Disponible`.
+- **CA2:** Si el subarrendador pre-aprueba, la solicitud pasa a `Pendiente confirmación dueño` sin bloquear la habitación; solo cuando tanto el subarrendador como el dueño aprueban (`Confirmada por dueño`), la habitación pasa a `Reservada` y se habilitan la ficha PDF y el chat.
